@@ -30,9 +30,11 @@ module Platforms
       end
 
       def issue_comments(*args)
-        response = @connection.issue_comments(*args)
-        issue_comments = Platforms::Github::IssueCommentsGateway.new(response)
-        IssueComments.new(issue_comments.to_h)
+        response_list = @connection.issue_comments(*args)
+        response_list.map do |item|
+          issue_comments = Platforms::Github::IssueCommentGateway.new(item)
+          IssueComment.new(issue_comments.to_h)
+        end
       end
 
       # @param args [Platforms::Github::PullRequestArgs]

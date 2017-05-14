@@ -6,14 +6,23 @@ unless RUBY_VERSION == '2.4.0'
 end
 
 require 'thor'
+require 'byebug'
 
 Dir.glob(File.expand_path "../../lib/**/*.rb", __FILE__).each { |file| load file }
 
 class GundamCli < Thor
-  desc 'pr', 'creates pull request'
-  def pr
+  desc 'pr', 'Create pull request'
+  def create_pull_request
     CreatePullRequestCommand.new.run
   end
+
+  desc 'ic', 'Get issue comments'
+  def get_issue_comments
+    GetIssueCommentsCommand.new.run
+  end
+
+  map pr: :create_pull_request
+  map ic: :get_issue_comments
 end
 
 GundamCli.start(ARGV)

@@ -13,6 +13,10 @@ module Platforms
         @connection.issue(*args)
       end
 
+      def issue_comments(*args)
+        @connection.issue_comments(*args)
+      end
+
       def repository(*args)
         @connection.repository(*args)
       end
