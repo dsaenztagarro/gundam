@@ -5,17 +5,17 @@ class CreatePullRequestCommand < Command
     local_repo = LocalRepository.current
     client     = local_repo.platform_client
 
-    platform_repo = spin "Find repo" do
+    platform_repo = @spinner.spin "Find repo" do
       client.repository(local_repo.repository_name)
     end
 
     options = default_profile.pull_request_options(local_repo, platform_repo, client)
 
-    pull_request = spin "Create PR" do
+    pull_request = @spinner.spin "Create PR" do
       client.create_pull_request(options)
     end
 
-    spin "Save to clipboard" do
+    @spinner.spin "Save to clipboard" do
       `echo #{pull_request.html_url} | pbcopy`
     end
 

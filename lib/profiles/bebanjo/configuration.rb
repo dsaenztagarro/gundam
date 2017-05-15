@@ -1,7 +1,9 @@
 module Profiles
   module Bebanjo
     class Configuration
-      include TTYHelper
+      def initialize(spinner)
+        @spinner = spinner
+      end
 
       # @param git_repo [Git::Repository]
       # @param github_repo [Github::Repository]
@@ -11,7 +13,7 @@ module Profiles
         branch_name = git_repo.current_branch
         issue_id    = branch_name.to_i
 
-        issue = spin "Find issue" do
+        issue = @spinner.spin "Find issue" do
           client.issue(platform_repo.name, issue_id)
         end
 
