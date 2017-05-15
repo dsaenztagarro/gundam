@@ -2,11 +2,10 @@
 
 unless RUBY_VERSION == '2.4.0'
   puts "Run first 'rvm wrapper ruby-2.4.0'"
-  return
+  exit
 end
 
 require 'thor'
-require 'byebug'
 
 Dir.glob(File.expand_path "../../lib/**/*.rb", __FILE__).each { |file| load file }
 
