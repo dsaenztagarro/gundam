@@ -1,10 +1,14 @@
 source 'https://rubygems.org'
 
-gem 'thor'
 gem 'octokit'
+gem 'thor'
 gem 'tty-spinner'
 
-group :development, :test do
-  gem 'byebug'
+group :test do
+  gem 'coveralls', require: false
   gem 'rspec'
+end
+
+group :development do
+  gem 'byebug'
 end
