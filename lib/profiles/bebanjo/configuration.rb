@@ -8,7 +8,7 @@ module Profiles
       # @param git_repo [Git::Repository]
       # @param github_repo [Github::Repository]
       # @param client [Github::Client]
-      # @return [PullRequestArgs]
+      # @return [Hash]
       def pull_request_options(git_repo, platform_repo, client)
         branch_name = git_repo.current_branch
         issue_id    = branch_name.to_i
