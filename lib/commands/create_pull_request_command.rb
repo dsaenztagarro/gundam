@@ -2,7 +2,7 @@ require_relative 'command'
 
 class CreatePullRequestCommand < Command
   def run
-    local_repo = LocalRepository.current
+    local_repo = LocalRepository.at(@base_dir)
     client     = local_repo.platform_client
 
     platform_repo = @spinner.spin "Find repo" do

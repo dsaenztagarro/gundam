@@ -4,9 +4,8 @@ require 'yaml'
 module Platforms
   module Github
     class Connection
-      def initialize
-        @connection = Octokit::Client.new login: github_access_token,
-                                          password: 'x-oauth-basic'
+      def initialize(connection: ConnectionFactory.new_connection)
+        @connection = connection
       end
 
       def issue(*args)
@@ -25,24 +24,6 @@ module Platforms
         @connection.create_pull_request(*args)
       rescue Octokit::Error => error
         raise Platforms::CreatePullRequestError
-      end
-
-      private
-
-      def github_access_token
-        config['github']['personal_access_token']
-      end
-
-      def github_user
-        config['github']['user']
-      end
-
-      def github_password
-        config['github']['password']
-      end
-
-      def config
-        @config ||= YAML.load_file(File.expand_path '~/.gundam.yml')
       end
     end
   end

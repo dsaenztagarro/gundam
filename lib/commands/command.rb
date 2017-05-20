@@ -1,5 +1,6 @@
 class Command
-  def initialize(spinner = SpinnerWrapper.new)
+  def initialize(base_dir: Dir.pwd, spinner: SpinnerWrapper.new)
+    @base_dir = base_dir
     @spinner = spinner
   end
 
