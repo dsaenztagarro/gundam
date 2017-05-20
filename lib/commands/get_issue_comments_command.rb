@@ -2,7 +2,7 @@ require_relative 'command'
 
 class GetIssueCommentsCommand < Command
   def run
-    local_repo = LocalRepository.current
+    local_repo = LocalRepository.at(@base_dir)
     client     = local_repo.platform_client
 
     repo = local_repo.repository_name
