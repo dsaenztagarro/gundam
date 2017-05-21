@@ -1,3 +1,6 @@
+require 'octokit'
+require 'yaml'
+
 module Platforms
   module Github
     class ConnectionFactory
