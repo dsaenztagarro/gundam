@@ -19,8 +19,8 @@ class CreatePullRequestCommand < Command
       `echo #{pull_request.html_url} | pbcopy`
     end
 
-    puts "\n #{pull_request.html_url}"
+    puts pull_request.html_url
   rescue Platforms::CreatePullRequestError => error
-    puts "\n#{error.cause.message}"
+    puts error.cause.message
   end
 end

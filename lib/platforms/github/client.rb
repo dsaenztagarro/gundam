@@ -16,6 +16,9 @@ module Platforms
         Issue.new(issue.to_h)
       end
 
+      # @param repo [String]
+      # @param number [Fixnum]
+      # @return [Array<IssueComment>]
       def issue_comments(*args)
         response_list = @connection.issue_comments(*args)
         response_list.map do |item|
@@ -36,7 +39,7 @@ module Platforms
 			# @option opts [String] :repo The repository name
 			# @option opts [String] :base The target branch
 			# @option opts [String] :head The source branch
-			# @option opts [String] :title The title of the pull request 
+			# @option opts [String] :title The title of the pull request
 			# @option opts [String] :body The body of the pull request
       # @return [PullRequest]
       def create_pull_request(repo:, base:, head:, title:, body:)
