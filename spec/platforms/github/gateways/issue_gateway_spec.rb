@@ -7,7 +7,8 @@ describe Platforms::Github::IssueGateway do
   describe '#to_h' do
     it 'returns true' do
       expect(subject.to_h).to eq({
-        title: "Found a bug"
+        title: 'Found a bug',
+        body: "I'm having a problem with this."
       })
     end
   end

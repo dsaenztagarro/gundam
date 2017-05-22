@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'octokit'
+gem 'pastel'
 gem 'thor'
 gem 'tty-spinner'
 
