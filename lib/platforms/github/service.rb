@@ -2,7 +2,7 @@ require_relative 'gateways/gateway'
 
 module Platforms
   module Github
-    class Client
+    class Service
       def initialize(connection = Platforms::Github::Connection.new)
         @connection = connection
       end

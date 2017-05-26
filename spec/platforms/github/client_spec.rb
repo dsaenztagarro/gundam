@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Platforms::Github::Client do
+describe Platforms::Github::Service do
   include GithubHelper
 
   let(:connection) { double('Platforms::Github::Connection') }

@@ -28,7 +28,7 @@ module Git
     end
 
     def platform_client
-      client_klass_name = "Platforms::#{platform_constant_name}::Client"
+      client_klass_name = "Platforms::#{platform_constant_name}::Service"
       client_klass = Kernel.const_get(client_klass_name)
       client_klass.new
     end
