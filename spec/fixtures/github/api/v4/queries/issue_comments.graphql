@@ -1,0 +1,19 @@
+query {
+  repositoryOwner(login: "github") {
+    repository(name: "octocat") {
+      issue(number: 1) {
+        bodyText
+        comments (last: 10) {
+         nodes {
+           id
+           author {
+             login
+           }
+           bodyText
+           publishedAt
+         }
+        }
+      }
+    }
+  }
+}
