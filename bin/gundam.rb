@@ -4,9 +4,15 @@ unless RUBY_VERSION == '2.4.0'
 end
 
 require 'thor'
-require 'byebug'
+require 'yaml'
 
 Dir.glob(File.expand_path "../../lib/**/*.rb", __FILE__).each { |file| load file }
+
+config = YAML.load_file(File.expand_path '~/.gundam.yml')
+
+Gundam.configure do |c|
+  c.github_access_token = config['github']['personal_access_token']
+end
 
 class GundamCli < Thor
   desc 'cpr', 'Create pull request'

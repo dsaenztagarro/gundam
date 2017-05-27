@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Platforms::Github::RepositoryGateway do
-  let(:resource) { github_api_v3_resource :get_repository }
+describe Platforms::Github::API::V3::RepositoryGateway do
+  let(:resource) { github_api_v3_response :get_repository }
   let(:subject)  { described_class.new(resource) }
 
   describe '#to_h' do

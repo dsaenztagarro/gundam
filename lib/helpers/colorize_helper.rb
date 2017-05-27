@@ -9,6 +9,10 @@ module ColorizeHelper
     pastel.blue(text)
   end
 
+  def green(text)
+    pastel.green(text)
+  end
+
   def red(text)
     pastel.red(text)
   end
