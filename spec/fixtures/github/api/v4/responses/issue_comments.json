@@ -1,0 +1,31 @@
+{
+  "data": {
+    "repositoryOwner": {
+      "repository": {
+        "issue": {
+          "bodyText": "Add implementation for GetIssueCommentsCommand",
+          "comments": {
+            "nodes": [
+              {
+                "id": "MDEyOklzc3VlQ29tbWVudDMwNDM5NjQ5NA==",
+                "author": {
+                  "login": "octocat"
+                },
+                "bodyText": "Hello world",
+                "publishedAt": "2011-04-14T16:00:49Z"
+              },
+              {
+                "id": "MDEyOklzc3VlQ29tbWVudDMwNDM5NjQ5OQ==",
+                "author": {
+                  "login": "tron"
+                },
+                "bodyText": "Good bye",
+                "publishedAt": "2017-05-26T21:57:31Z"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

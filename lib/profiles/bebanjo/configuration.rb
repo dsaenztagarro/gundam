@@ -7,14 +7,14 @@ module Profiles
 
       # @param git_repo [Git::Repository]
       # @param github_repo [Github::Repository]
-      # @param client [Github::Client]
+      # @param service [Github::Service]
       # @return [Hash]
-      def pull_request_options(git_repo, platform_repo, client)
+      def pull_request_options(git_repo, platform_repo, service)
         branch_name = git_repo.current_branch
         issue_id    = branch_name.to_i
 
         issue = @spinner.spin "Find issue" do
-          client.issue(platform_repo.name, issue_id)
+          service.issue(platform_repo.name, issue_id)
         end
 
         { repo: platform_repo.name,
