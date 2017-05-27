@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Platforms::Github::IssueGateway do
+describe Platforms::Github::API::V3::IssueGateway do
   let(:resource) { github_api_v3_resource :get_issue }
   let(:subject)  { described_class.new(resource) }
 

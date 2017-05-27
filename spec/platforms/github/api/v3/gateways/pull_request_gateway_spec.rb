@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Platforms::Github::PullRequestGateway do
+describe Platforms::Github::API::V3::PullRequestGateway do
   let(:resource) { github_api_v3_resource :create_pull_request }
   let(:subject)  { described_class.new(resource) }
 
