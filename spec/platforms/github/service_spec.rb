@@ -3,13 +3,13 @@ require 'spec_helper'
 describe Platforms::Github::Service do
   include GithubHelper
 
-  let(:connection) { double('Platforms::Github::Connection') }
-  let(:subject)    { described_class.new(connection) }
+  let(:connector) { double('Platforms::Github::RestApiV3::Connector') }
+  let(:subject)   { described_class.new(connector) }
 
   describe '#issue' do
     it 'returns the Issue' do
       api_response = github_api_v3_resource :get_issue
-      allow(connection).to receive(:issue).with('octocat/Hello-World', 1296269).and_return(api_response)
+      allow(connector).to receive(:issue).with('octocat/Hello-World', 1296269).and_return(api_response)
 
       result = subject.issue('octocat/Hello-World', 1296269)
 
@@ -21,7 +21,7 @@ describe Platforms::Github::Service do
   describe '#issue_comments' do
     it 'returns a list of IssueComment' do
       api_response = github_api_v3_resource :get_issue_comments
-      allow(connection).to receive(:issue_comments).with('octocat/Hello-World', 1296269).and_return(api_response)
+      allow(connector).to receive(:issue_comments).with('octocat/Hello-World', 1296269).and_return(api_response)
 
       result = subject.issue_comments('octocat/Hello-World', 1296269)
 
@@ -41,7 +41,7 @@ describe Platforms::Github::Service do
   describe '#repository' do
     it 'returns the Repository' do
       api_response = github_api_v3_resource :get_repository
-      allow(connection).to receive(:repository)
+      allow(connector).to receive(:repository)
 				.with('octocat/Hello-World').and_return(api_response)
 
       result = subject.repository('octocat/Hello-World')
@@ -61,7 +61,7 @@ describe Platforms::Github::Service do
 
     it 'returns the created PullRequest' do
       api_response = github_api_v3_resource :create_pull_request
-      allow(connection).to receive(:create_pull_request)
+      allow(connector).to receive(:create_pull_request)
 				.with(repo, base, head, title, body).and_return(api_response)
 
       result = subject.create_pull_request(
