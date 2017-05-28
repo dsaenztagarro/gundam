@@ -6,6 +6,7 @@ gem 'thor'
 gem 'tty-spinner'
 
 group :test do
+  gem 'simplecov'
   gem 'coveralls', require: false
   gem 'rspec'
   gem 'webmock'
