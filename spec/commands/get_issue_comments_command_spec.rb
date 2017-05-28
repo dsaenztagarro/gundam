@@ -2,21 +2,46 @@ require 'spec_helper'
 
 describe GetIssueCommentsCommand, type: :github do
   describe '#run' do
-    context 'GraphQL API V4' do
-      it 'returns the comments of the issue' do
-        WebMock.disable_net_connect!
-        stub_github_api_v4_request(:issue_comments)
+    context 'when GraphQL API V4' do
+      before { WebMock.disable_net_connect! }
 
-        change_to_git_repo_with_topic_branch do |repo_dir|
-          command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+      context 'and status 200' do
+        before do
+          stub_github_api_v4_request(:issue_comments)
+        end
 
-          expected_output = <<~END
-          \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
-          Hello world
-          \e[36mtron\e[0m \e[34m2017-05-26T21:57:31Z\e[0m
-          Good bye
-          END
-          expect { command.run }.to output(expected_output).to_stdout
+        it 'returns the comments of the issue' do
+          change_to_git_repo_with_topic_branch do |repo_dir|
+            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+
+            expected_output = <<~END
+            \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
+            Hello world
+            \e[36mtron\e[0m \e[34m2017-05-26T21:57:31Z\e[0m
+            Good bye
+            END
+            expect { command.run }.to output(expected_output).to_stdout
+          end
+        end
+      end
+
+      context 'and status 401' do
+        before do
+          stub_github_api_v4_request(:issue_comments, {
+            status: 401,
+            response: "{\"message\":\"Bad credentials\",\"documentation_url\":\"https://developer.github.com/v3\"}"
+          })
+        end
+
+        it 'returns the comments of the issue' do
+          change_to_git_repo_with_topic_branch do |repo_dir|
+            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+
+            expected_output = <<~END
+              \e[31m{\"message\":\"Bad credentials\",\"documentation_url\":\"https://developer.github.com/v3\"}\e[0m
+            END
+            expect { command.run }.to output(expected_output).to_stdout
+          end
         end
       end
     end

@@ -12,6 +12,6 @@ class GetIssueCommentsCommand < Command
     comments = service.issue_comments(repo, number)
     comments.each { |comment| puts IssueCommentDecorator.new(comment) }
   rescue Platforms::Unauthorized => error
-    puts ErrorDecorator.new(error).to_s
+    puts ErrorDecorator.new(error)
   end
 end

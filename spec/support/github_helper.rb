@@ -10,9 +10,11 @@ module GithubHelper
     symbolize(raw_json)
   end
 
-  def stub_github_api_v4_request(resource)
+  def stub_github_api_v4_request(resource, options = {})
     query    = github_api_v4_query(resource)
-    response = github_api_v4_response(resource)
+    status   = options[:status] || 200
+    response = options[:response] || github_api_v4_response(resource)
+
     stub_request(:post, "https://api.github.com/graphql").with(
         body: { query: query }.to_json,
         headers: {
@@ -20,7 +22,7 @@ module GithubHelper
           'Content-Type'  => 'application/json',
           'User-Agent'    => 'Gundam GraphQL Connector'
         }
-      ).to_return(status: 200, body: response, headers: {})
+      ).to_return(status: status, body: response, headers: {})
   end
 
   private

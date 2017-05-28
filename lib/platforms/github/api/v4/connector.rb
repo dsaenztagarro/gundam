@@ -26,7 +26,7 @@ module Platforms
 
             case response
             when Net::HTTPOK then JSON.parse(response.body)
-            when Net::HTTPUnauthorized then raise Platforms::UnauthorizedError, response.body
+            when Net::HTTPUnauthorized then raise Platforms::Unauthorized, response.body
             end
           end
         end
