@@ -10,8 +10,5 @@ group :test do
   gem 'coveralls', require: false
   gem 'rspec'
   gem 'webmock'
-end
-
-group :development do
   gem 'byebug'
 end
