@@ -1,8 +1,6 @@
-require_relative '../helpers/colorize_helper'
+require_relative 'decorator'
 
-class IssueCommentDecorator < SimpleDelegator
-  include ColorizeHelper
-
+class IssueCommentDecorator < Decorator
   def to_s
     <<~END
     #{cyan(user_login)} #{blue(updated_at)}

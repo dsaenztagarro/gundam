@@ -3,7 +3,7 @@ require_relative 'command'
 class CreatePullRequestCommand < Command
   def run
     local_repo = LocalRepository.at(@base_dir)
-    service = PlatformServiceFactory.new.
+    service = PlatformServiceFactory.
       with_platform(local_repo.platform_constant_name).build
 
     platform_repo = @spinner.spin "Find repo" do
