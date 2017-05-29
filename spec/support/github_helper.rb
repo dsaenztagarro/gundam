@@ -1,11 +1,47 @@
 module GithubHelper
-  def github_api_v3_resource(resource)
-    fixture_path = File.expand_path("../../fixtures/github_api_v3/#{resource}.json", __FILE__)
-    raw_json = JSON.parse(File.read fixture_path)
+  API_FIXTURES_PATH = '../../fixtures/github/api'
+
+  def github_api_v3_response(resource)
+    fixture_path = File.expand_path(
+      "#{API_FIXTURES_PATH}/v3/responses/#{resource}.json", __FILE__)
+    raw_response = File.read(fixture_path)
+    response = squish(raw_response)
+    raw_json = JSON.parse(response)
     symbolize(raw_json)
   end
 
+  def stub_github_api_v4_request(resource, options = {})
+    query    = github_api_v4_query(resource)
+    status   = options[:status] || 200
+    response = options[:response] || github_api_v4_response(resource)
+
+    stub_request(:post, "https://api.github.com/graphql").with(
+        body: { query: query }.to_json,
+        headers: {
+          'Authorization' => "bearer #{Gundam.github_access_token}",
+          'Content-Type'  => 'application/json',
+          'User-Agent'    => 'Gundam GraphQL Connector'
+        }
+      ).to_return(status: status, body: response, headers: {})
+  end
+
   private
+
+  # @return [String] a GraphQL query
+  def github_api_v4_query(query)
+    fixture_path = File.expand_path(
+      "#{API_FIXTURES_PATH}/v4/queries/#{query}.graphql", __FILE__)
+    query = File.read fixture_path
+    squish(query)
+  end
+
+  # @return [String] a json response
+  def github_api_v4_response(query)
+    fixture_path = File.expand_path(
+      "#{API_FIXTURES_PATH}/v4/responses/#{query}.json", __FILE__)
+    response = File.read fixture_path
+    squish(response)
+  end
 
   # Standalone method
   def symbolize(obj)
@@ -18,6 +54,10 @@ module GithubHelper
     end if obj.is_a? Array
 
     obj
+  end
+
+  def squish(response)
+    response.tr("\n", ' ').squeeze(' ')
   end
 end
 
