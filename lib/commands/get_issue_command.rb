@@ -6,9 +6,8 @@ class GetIssueCommand < Command
     service = PlatformServiceFactory.
       with_platform(local_repo.platform_constant_name).build
 
-    repo = local_repo.repository_name
     number = local_repo.current_branch.to_i
-    issue = service.issue(repo, number)
+    issue = service.issue(local_repo.full_name, number)
     puts IssueDecorator.new(issue).to_s
   end
 end

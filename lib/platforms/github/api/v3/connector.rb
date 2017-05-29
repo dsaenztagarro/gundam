@@ -1,5 +1,5 @@
 require 'octokit'
-require_relative 'gateways/gateway'
+require_relative 'gateways/base'
 
 module Platforms
   module Github
@@ -16,16 +16,26 @@ module Platforms
           # @return [IssueGateway]
           def issue(repo, number)
             response = @client.issue(repo, number)
-            Platforms::Github::API::V3::IssueGateway.new(response)
+            Platforms::Github::API::V3::Gateways::IssueGateway.new(response)
           end
 
           # @param repo [String]
           # @param number [Fixnum]
           # @return [IssueCommentGateway]
           def issue_comments(repo, number)
-            response_list = @client.issue_comments(repo, number)
-            response_list.map do |item|
-              Platforms::Github::API::V3::IssueCommentGateway.new(item)
+            list = @client.issue_comments(repo, number)
+            list.map do |item|
+              Platforms::Github::API::V3::Gateways::IssueCommentGateway.new(item)
+            end
+          end
+
+          # @param repo [String]
+          # @param number [Fixnum]
+          # @return [PullRequestGateway]
+          def pull_requests(repo, options = {})
+            list = @client.pull_requests(repo, options)
+            list.map do |pull_request|
+              Platforms::Github::API::V3::Gateways::PullRequestGateway.new(pull_request)
             end
           end
 
@@ -33,7 +43,7 @@ module Platforms
           # @return [RepositoryGateway]
           def repository(repo)
             response = @client.repository(repo)
-            Platforms::Github::API::V3::RepositoryGateway.new(response)
+            Platforms::Github::API::V3::Gateways::RepositoryGateway.new(response)
           rescue Octokit::Unauthorized
             raise Platforms::Unauthorized
           end
@@ -46,7 +56,7 @@ module Platforms
           # @return [Saywer::Resource]
           def create_pull_request(repo, base, head, title, body)
             response = @client.create_pull_request(repo, base, head, title, body)
-            Platforms::Github::API::V3::PullRequestGateway.new(response)
+            Platforms::Github::API::V3::Gateways::PullRequestGateway.new(response)
           rescue Octokit::Error
             raise Platforms::CreatePullRequestError
           end

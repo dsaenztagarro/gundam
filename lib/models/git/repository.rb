@@ -11,14 +11,20 @@ module Git
       @log = log
     end
 
-    def repository_name
-      match = /git@(.*):(?<name>.*).git/.match(remote_origin_url)
-      match['name'] if match
+    def platform_hostname
+      remote_attributes['hostname']
     end
 
-    def platform_hostname
-      match = /git@(?<hostname>.*):(.*).git/.match(remote_origin_url)
-      match['hostname'] if match
+    def owner
+      remote_attributes['owner']
+    end
+
+    def name
+      remote_attributes['name']
+    end
+
+    def full_name
+      "#{owner}/#{name}"
     end
 
     def platform_constant_name
@@ -30,14 +36,20 @@ module Git
     # Getters
     #
 
-    def remote_origin_url
-      @remote_origin_url ||=
-        Dir.chdir(dir) { `git config --get remote.origin.url`.chomp }
-    end
-
     def current_branch
       @current_branch ||=
         Dir.chdir(dir) { `git rev-parse --abbrev-ref HEAD`.chomp }
+    end
+
+    private
+
+    def remote_attributes
+      @remote_attributes ||=
+        /git@(?<hostname>.*):(?<owner>.*)\/(?<name>.*).git/.match(remote_origin_url)
+    end
+
+    def remote_origin_url
+      Dir.chdir(dir) { `git config --get remote.origin.url`.chomp }
     end
   end
 end

@@ -14,4 +14,9 @@ end
 
 group :development do
   gem 'pry'
+  gem 'byebug'
+end
+
+group :documentation do
+  gem 'yard'
 end
