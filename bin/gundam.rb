@@ -30,6 +30,11 @@ class GundamCli < Thor
     GetIssueCommentsCommand.new.run
   end
 
+  desc 'gpr', 'Get pull request'
+  def get_pull_request
+    GetPullRequestCommand.new.run
+  end
+
   map cpr: :create_pull_request
   map i: :get_issue
   map gic: :get_issue_comments

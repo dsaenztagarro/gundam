@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Platforms::Github::API::V3::IssueCommentGateway do
+describe Platforms::Github::API::V3::Gateways::IssueCommentGateway do
   let(:resource) { github_api_v3_response :get_issue_comments }
   let(:subject)  { described_class.new(resource.first) }
 

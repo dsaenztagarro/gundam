@@ -3,6 +3,7 @@ GEM
   specs:
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
+    byebug (9.0.6)
     coderay (1.1.1)
     coveralls (0.8.21)
       json (>= 1.8, < 3)
@@ -64,11 +65,13 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
+    yard (0.9.9)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
   coveralls
   octokit
   pastel
@@ -78,6 +81,7 @@ DEPENDENCIES
   thor
   tty-spinner
   webmock
+  yard
 
 BUNDLED WITH
    1.14.6

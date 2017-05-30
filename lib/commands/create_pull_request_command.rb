@@ -7,7 +7,7 @@ class CreatePullRequestCommand < Command
       with_platform(local_repo.platform_constant_name).build
 
     platform_repo = @spinner.spin "Find repo" do
-      service.repository(local_repo.repository_name)
+      service.repository(local_repo.full_name)
     end
 
     options = default_profile.pull_request_options(local_repo, platform_repo, service)
@@ -20,7 +20,7 @@ class CreatePullRequestCommand < Command
       `echo #{pull_request.html_url} | pbcopy`
     end
 
-    puts PullRequestDecorator.new(pull_request)
+    puts PullRequestDecorator.new(pull_request).to_s_on_success_created
 
   rescue Platforms::CreatePullRequestError,
          Platforms::Unauthorized => error

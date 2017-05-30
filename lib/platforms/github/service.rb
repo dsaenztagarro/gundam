@@ -23,6 +23,16 @@ module Platforms
         end
       end
 
+      # @param repo [String]
+      # @param number [Fixnum]
+      # @return [Issue]
+      def pull_requests(repo, options = {})
+        pull_requests = @connector.pull_requests(repo, options)
+        pull_requests.map do |pull_request|
+          PullRequest.new(pull_request.to_h)
+        end
+      end
+
       # @param repo [String] The repository name
       # @return [PlatformRepository]
       def repository(repo)

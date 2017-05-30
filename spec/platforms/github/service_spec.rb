@@ -72,6 +72,10 @@ describe Platforms::Github::Service do
     it 'returns the created PullRequest' do
       response = {
         title: title,
+        number: 1347,
+        created_by: 'octocat',
+        created_at: '2011-01-26T19:01:12Z',
+        updated_at: '2011-01-26T19:01:12Z',
         body: body,
         source_branch: head,
         target_branch: base,
