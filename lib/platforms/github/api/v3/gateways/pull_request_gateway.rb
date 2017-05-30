@@ -9,6 +9,7 @@ module Platforms
                 body: resource[:body],
                 created_at: resource[:created_at],
                 created_by: resource[:user][:login],
+                head_repo_full_name: resource[:head][:repo][:full_name],
                 html_url: resource[:_links][:html][:href],
                 number: resource[:number],
                 source_branch: resource[:head][:ref],

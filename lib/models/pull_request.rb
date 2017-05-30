@@ -3,6 +3,7 @@ class PullRequest
     :body,
     :created_at,
     :created_by,
+    :head_repo_full_name,
     :html_url,
     :number,
     :source_branch,
@@ -14,6 +15,7 @@ class PullRequest
       body:,
       created_at:,
       created_by:,
+      head_repo_full_name:,
       html_url:,
       number:,
       source_branch:,
@@ -24,6 +26,7 @@ class PullRequest
     @body          = body
     @created_at    = created_at
     @created_by    = created_by
+    @head_repo_full_name = head_repo_full_name
     @html_url      = html_url
     @number        = number
     @source_branch = source_branch
