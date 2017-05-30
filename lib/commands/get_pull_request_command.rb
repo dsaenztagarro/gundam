@@ -1,7 +1,9 @@
 require_relative 'command'
 
 class GetPullRequestCommand < Command
-  def run
+  # @param [Hash] opts the options to get a pull request
+  # @option opts [Boolean] :with_comments
+  def run(options = {})
     local_repo = LocalRepository.at(@base_dir)
     service = PlatformServiceFactory.
       with_platform(local_repo.platform_constant_name).
@@ -13,8 +15,15 @@ class GetPullRequestCommand < Command
       head: "#{local_repo.owner}:#{local_repo.current_branch}"
     })
 
-    pull_requests.each do |pull_request|
-      puts PullRequestDecorator.new(pull_request)
+    pull_requests.each do |pr|
+      puts PullRequestDecorator.new(pr)
+
+      if options[:with_comments]
+        comments = service.issue_comments(pr.head_repo_full_name, pr.number)
+        comments.each do |comment|
+          puts IssueCommentDecorator.new(comment)
+        end
+      end
     end
   end
 end

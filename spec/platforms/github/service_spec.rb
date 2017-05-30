@@ -63,6 +63,7 @@ describe Platforms::Github::Service do
 
   describe '#create_pull_request' do
 		let(:repo)  { 'octocat/Hello-World' }
+
 		let(:base)  { 'master' }
 		let(:head)  { 'new-topic' }
 		let(:title) { 'new-feature' }
@@ -71,15 +72,16 @@ describe Platforms::Github::Service do
 
     it 'returns the created PullRequest' do
       response = {
-        title: title,
-        number: 1347,
-        created_by: 'octocat',
-        created_at: '2011-01-26T19:01:12Z',
-        updated_at: '2011-01-26T19:01:12Z',
         body: body,
+        created_at: '2011-01-26T19:01:12Z',
+        created_by: 'octocat',
+        head_repo_full_name: repo,
+        html_url: html_url,
+        number: 1347,
         source_branch: head,
         target_branch: base,
-        html_url: html_url
+        title: title,
+        updated_at: '2011-01-26T19:01:12Z',
       }
 
       allow(connector).to receive(:create_pull_request)
@@ -89,11 +91,12 @@ describe Platforms::Github::Service do
 				repo: repo, base: base, head: head, title: title, body: body)
 
       expect(result).to be_a PullRequest
-      expect(result.title).to eq(title)
       expect(result.body).to eq(body)
+      expect(result.head_repo_full_name).to eq(repo)
+      expect(result.html_url).to eq(html_url)
       expect(result.source_branch).to eq(head)
       expect(result.target_branch).to eq(base)
-      expect(result.html_url).to eq(html_url)
+      expect(result.title).to eq(title)
     end
 	end
 end

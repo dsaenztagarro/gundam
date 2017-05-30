@@ -15,13 +15,19 @@ Gundam.configure do |c|
 end
 
 class GundamCli < Thor
-  desc 'cpr', 'Create pull request'
+  desc 'create_pull_request', 'Create pull request'
   def create_pull_request
     CreatePullRequestCommand.new.run
   end
 
-  desc 'i', 'Get issue'
-  def get_issue
+  option :with_comments, :type => :boolean
+  desc 'gpr', 'Get pull request'
+  def show_pull_request
+    GetPullRequestCommand.new.run(options)
+  end
+
+  desc 'show_issue', 'Get issue'
+  def show_issue
     GetIssueCommand.new.run
   end
 
@@ -29,15 +35,6 @@ class GundamCli < Thor
   def get_issue_comments
     GetIssueCommentsCommand.new.run
   end
-
-  desc 'gpr', 'Get pull request'
-  def get_pull_request
-    GetPullRequestCommand.new.run
-  end
-
-  map cpr: :create_pull_request
-  map i: :get_issue
-  map gic: :get_issue_comments
 end
 
 GundamCli.start(ARGV)
