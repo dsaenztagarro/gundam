@@ -40,6 +40,16 @@ module Platforms
         PlatformRepository.new(gateway.to_h)
       end
 
+      # @param repo [String]
+      # @param sha [String]
+      # @return [Array<CommitStatus>]
+      def statuses(repo, sha)
+        gateways = @connector.statuses(repo, sha)
+        gateways.map do |gateway|
+          CommitStatus.new(gateway.to_h)
+        end
+      end
+
       # @param [Hash] opts the options to create a message with
 			# @option opts [String] :repo The repository name
 			# @option opts [String] :base The target branch

@@ -21,6 +21,7 @@ class GundamCli < Thor
   end
 
   option :with_comments, :type => :boolean
+  option :with_statuses, :type => :boolean
   desc 'gpr', 'Get pull request'
   def show_pull_request
     GetPullRequestCommand.new.run(options)
@@ -34,6 +35,12 @@ class GundamCli < Thor
   desc 'gic', 'Get issue comments'
   def get_issue_comments
     GetIssueCommentsCommand.new.run
+  end
+
+  option :with_comments, :type => :boolean
+  desc 'gpr', 'Get pull request'
+  def get_pull_request
+    GetPullRequestCommand.new.run(options)
   end
 end
 

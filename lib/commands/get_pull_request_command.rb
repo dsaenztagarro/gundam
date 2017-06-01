@@ -24,6 +24,13 @@ class GetPullRequestCommand < Command
           puts IssueCommentDecorator.new(comment)
         end
       end
+
+      if options[:with_statuses]
+        statuses = service.statuses(pr.head_repo_full_name, pr.head_sha)
+        statuses.each do |status|
+          puts CommitStatusDecorator.new(status)
+        end
+      end
     end
   end
 end
