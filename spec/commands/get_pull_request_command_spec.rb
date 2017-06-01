@@ -55,5 +55,31 @@ describe GetPullRequestCommand do
         end
       end
     end
+
+    context 'with statuses' do
+      let(:options) do
+        { with_statuses: true }
+      end
+
+      before do
+        allow(client).to receive(:statuses).
+          with('octocat/Hello-World', '6dcb09b5b57875f334f61aebed695e2e4193db5e').
+          and_return(github_api_v3_response :get_commit_statuses)
+      end
+
+      it 'returns the pull request with commit statuses' do
+        change_to_git_repo_with_topic_branch do |repo_dir|
+          command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+
+          expected_output = <<~END
+            \e[35mnew-feature #1347\e[0m
+            Please pull these awesome changes
+            \e[32msuccess\e[0m \e[36mcontinuous-integration/jenkins\e[0m Build has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
+          END
+
+          expect { command.run(options) }.to output(expected_output).to_stdout
+        end
+      end
+    end
   end
 end

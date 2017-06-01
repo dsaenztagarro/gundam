@@ -11,6 +11,7 @@ describe Platforms::Github::API::V3::Gateways::PullRequestGateway do
         created_at: '2011-01-26T19:01:12Z',
         created_by: 'octocat',
         head_repo_full_name: 'octocat/Hello-World',
+        head_sha: '6dcb09b5b57875f334f61aebed695e2e4193db5e',
         html_url: 'https://github.com/octocat/Hello-World/pull/1347',
         number: 1347,
         source_branch: 'new-topic',

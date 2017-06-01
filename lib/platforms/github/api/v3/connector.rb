@@ -48,6 +48,16 @@ module Platforms
             raise Platforms::Unauthorized
           end
 
+          # @param repo [String]
+          # @param sha [String]
+          # @return [CommitStatus]
+          def statuses(repo, sha)
+            list = @client.statuses(repo, sha)
+            list.map do |status|
+              Platforms::Github::API::V3::Gateways::CommitStatusGateway.new(status.to_h)
+            end
+          end
+
           # @param repo [String] A GitHub repository
           # @param base [String] The branch (or git ref) you want your changes pulled into
           # @param head [String] The branch (or git ref) where your changes are implemented

@@ -64,10 +64,11 @@ describe Platforms::Github::Service do
   describe '#create_pull_request' do
 		let(:repo)  { 'octocat/Hello-World' }
 
-		let(:base)  { 'master' }
-		let(:head)  { 'new-topic' }
-		let(:title) { 'new-feature' }
-		let(:body)  { 'Please pull these awesome changes' }
+		let(:base)     { 'master' }
+		let(:body)     { 'Please pull these awesome changes' }
+		let(:head)     { 'new-topic' }
+		let(:title)    { 'new-feature' }
+    let(:head_sha) { "6dcb09b5b57875f334f61aebed695e2e4193db5e" }
     let(:html_url) { 'https://github.com/github/octocat/pull/27' }
 
     it 'returns the created PullRequest' do
@@ -76,6 +77,7 @@ describe Platforms::Github::Service do
         created_at: '2011-01-26T19:01:12Z',
         created_by: 'octocat',
         head_repo_full_name: repo,
+        head_sha: head_sha,
         html_url: html_url,
         number: 1347,
         source_branch: head,
@@ -93,6 +95,7 @@ describe Platforms::Github::Service do
       expect(result).to be_a PullRequest
       expect(result.body).to eq(body)
       expect(result.head_repo_full_name).to eq(repo)
+      expect(result.head_sha).to eq(head_sha)
       expect(result.html_url).to eq(html_url)
       expect(result.source_branch).to eq(head)
       expect(result.target_branch).to eq(base)

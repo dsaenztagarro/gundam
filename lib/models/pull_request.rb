@@ -4,6 +4,7 @@ class PullRequest
     :created_at,
     :created_by,
     :head_repo_full_name,
+    :head_sha,
     :html_url,
     :number,
     :source_branch,
@@ -16,6 +17,7 @@ class PullRequest
       created_at:,
       created_by:,
       head_repo_full_name:,
+      head_sha:,
       html_url:,
       number:,
       source_branch:,
@@ -27,6 +29,7 @@ class PullRequest
     @created_at    = created_at
     @created_by    = created_by
     @head_repo_full_name = head_repo_full_name
+    @head_sha      = head_sha
     @html_url      = html_url
     @number        = number
     @source_branch = source_branch
