@@ -3,7 +3,11 @@
     "repositoryOwner": {
       "repository": {
         "issue": {
-          "bodyText": "Add implementation for GetIssueCommentsCommand",
+          "title": "Found a bug",
+          "bodyText": "I'm having a problem with this.",
+          "author": {
+            "login": "octocat"
+          },
           "comments": {
             "nodes": [
               {
