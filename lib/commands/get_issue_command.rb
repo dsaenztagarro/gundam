@@ -2,13 +2,15 @@ require_relative 'command'
 
 class GetIssueCommand < Command
   # @param [Hash] opts the options to get a pull request
+  # @option opts [Boolean] :repo The name of the repository
+  # @option opts [Boolean] :number The issue number
   # @option opts [Boolean] :with_comments
   def run(options = {})
     local_repo = LocalRepository.at(@base_dir)
     service = PlatformServiceFactory.
       with_platform(local_repo.platform_constant_name).build
 
-    number = local_repo.current_branch.to_i
+    number = options[:number] || local_repo.current_branch.to_i
 
     issue = service.issue(local_repo.full_name, number)
     puts IssueDecorator.new(issue).to_s

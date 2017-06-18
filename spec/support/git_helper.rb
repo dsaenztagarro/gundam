@@ -1,4 +1,11 @@
 module GitHelper
+  def change_to_git_repo
+    repo_dir = create_git_repo
+    yield(repo_dir) if block_given?
+  ensure
+    FileUtils.remove_entry repo_dir
+  end
+
   def change_to_git_repo_with_topic_branch
     repo_dir = create_git_repo
     create_topic_branch(repo_dir)

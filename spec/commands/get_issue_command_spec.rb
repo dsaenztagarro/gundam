@@ -90,6 +90,25 @@ describe GetIssueCommand do
         end
       end
 
+      context 'with number' do
+        let(:options) do
+          { number: 1 }
+        end
+
+        it 'returns the issue' do
+          change_to_git_repo do |repo_dir|
+            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+
+            expected_output = <<~END
+              \e[31mFound a bug\e[0m
+              I'm having a problem with this.
+            END
+
+            expect { command.run(options) }.to output(expected_output).to_stdout
+          end
+        end
+      end
+
       context 'with comments' do
         let(:options) do
           { with_comments: true }
