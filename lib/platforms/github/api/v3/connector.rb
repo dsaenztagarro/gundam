@@ -29,6 +29,15 @@ module Platforms
             end
           end
 
+
+          # @param repo [String]
+          # @param number [Fixnum]
+          # @return [PullRequestGateway]
+          def pull_request(repo, number)
+            pull = @client.pull_request(repo, number)
+            Platforms::Github::API::V3::Gateways::PullRequestGateway.new(pull)
+          end
+
           # @param repo [String]
           # @param number [Fixnum]
           # @return [PullRequestGateway]

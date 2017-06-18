@@ -20,27 +20,19 @@ class GundamCli < Thor
     CreatePullRequestCommand.new.run
   end
 
+  desc 'gpr', 'Get pull request'
+  option :number, :type => :numeric
   option :with_comments, :type => :boolean
   option :with_statuses, :type => :boolean
-  desc 'gpr', 'Get pull request'
   def show_pull_request
     GetPullRequestCommand.new.run(options)
   end
 
   desc 'show_issue', 'Get issue'
-  def show_issue
-    GetIssueCommand.new.run
-  end
-
-  desc 'gic', 'Get issue comments'
-  def get_issue_comments
-    GetIssueCommentsCommand.new.run
-  end
-
+  option :number, :type => :numeric
   option :with_comments, :type => :boolean
-  desc 'gpr', 'Get pull request'
-  def get_pull_request
-    GetPullRequestCommand.new.run(options)
+  def show_issue
+    GetIssueCommand.new.run(options)
   end
 end
 

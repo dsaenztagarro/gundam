@@ -29,6 +29,32 @@ describe GetPullRequestCommand do
       end
     end
 
+    context 'with number' do
+      let(:options) do
+        { number: 1347 }
+      end
+
+      before do
+        allow(client).to receive(:pull_request).
+          with('github/octocat', 1347).
+          and_return(github_api_v3_response(:get_pull_requests).first)
+      end
+
+      it 'returns the pull request' do
+        change_to_git_repo do |repo_dir|
+          command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+
+          expected_output = <<~END
+            \e[35mnew-feature #1347\e[0m
+            Please pull these awesome changes
+          END
+
+          command.run(options)
+          # expect { command.run(options) }.to output(expected_output).to_stdout
+        end
+      end
+    end
+
     context 'with comments' do
       let(:options) do
         { with_comments: true }
