@@ -25,7 +25,17 @@ module Platforms
 
       # @param repo [String]
       # @param number [Fixnum]
-      # @return [Issue]
+      # @return [PullRequest]
+      def pull_request(repo, number)
+        pull_request = @connector.pull_request(repo, number)
+        PullRequest.new(pull_request.to_h)
+      end
+
+      # @param repo [String]
+      # @param [Hash] options The options to filter pull requests
+      # @option options [String] :status The status of the pull request
+      # @option options [String] :head
+      # @return [PullRequest]
       def pull_requests(repo, options = {})
         pull_requests = @connector.pull_requests(repo, options)
         pull_requests.map do |pull_request|

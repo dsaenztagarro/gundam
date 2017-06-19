@@ -17,6 +17,8 @@ module Platforms
           def issue(repo, number)
             response = @client.issue(repo, number)
             Platforms::Github::API::V3::Gateways::IssueGateway.new(response)
+          rescue Octokit::NotFound
+            raise Platforms::IssueNotFound
           end
 
           # @param repo [String]
@@ -27,6 +29,17 @@ module Platforms
             list.map do |item|
               Platforms::Github::API::V3::Gateways::IssueCommentGateway.new(item)
             end
+          end
+
+
+          # @param repo [String]
+          # @param number [Fixnum]
+          # @return [PullRequestGateway]
+          def pull_request(repo, number)
+            pull = @client.pull_request(repo, number)
+            Platforms::Github::API::V3::Gateways::PullRequestGateway.new(pull)
+          rescue Octokit::NotFound
+            raise Platforms::PullRequestNotFound
           end
 
           # @param repo [String]

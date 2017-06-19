@@ -15,32 +15,24 @@ Gundam.configure do |c|
 end
 
 class GundamCli < Thor
-  desc 'create_pull_request', 'Create pull request'
-  def create_pull_request
+  desc 'create_pull', 'Create pull request'
+  def create_pull
     CreatePullRequestCommand.new.run
   end
 
+  desc 'show_pull', 'Get pull request'
+  option :number, :type => :numeric
   option :with_comments, :type => :boolean
   option :with_statuses, :type => :boolean
-  desc 'gpr', 'Get pull request'
-  def show_pull_request
+  def show_pull
     GetPullRequestCommand.new.run(options)
   end
 
   desc 'show_issue', 'Get issue'
-  def show_issue
-    GetIssueCommand.new.run
-  end
-
-  desc 'gic', 'Get issue comments'
-  def get_issue_comments
-    GetIssueCommentsCommand.new.run
-  end
-
+  option :number, :type => :numeric
   option :with_comments, :type => :boolean
-  desc 'gpr', 'Get pull request'
-  def get_pull_request
-    GetPullRequestCommand.new.run(options)
+  def show_issue
+    GetIssueCommand.new.run(options)
   end
 end
 

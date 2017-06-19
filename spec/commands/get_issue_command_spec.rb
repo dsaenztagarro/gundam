@@ -90,6 +90,45 @@ describe GetIssueCommand do
         end
       end
 
+      context 'with number' do
+        let(:options) do
+          { number: 1 }
+        end
+
+        context 'and the number of issue exists' do
+          it 'returns the issue' do
+            change_to_git_repo do |repo_dir|
+              command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+
+              expected_output = <<~END
+                \e[31mFound a bug\e[0m
+                I'm having a problem with this.
+              END
+
+              expect { command.run(options) }.to output(expected_output).to_stdout
+            end
+          end
+        end
+
+        context 'and the number of issue does not exist' do
+          before do
+            allow(client).to receive(:issue).and_raise(Octokit::NotFound)
+          end
+
+          it 'returns an error message to the user' do
+            change_to_git_repo do |repo_dir|
+              command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+
+              expected_output = <<~END
+                \e[31mOctokit::NotFound\e[0m
+              END
+
+              expect { command.run(options) }.to output(expected_output).to_stdout
+            end
+          end
+        end
+      end
+
       context 'with comments' do
         let(:options) do
           { with_comments: true }
