@@ -111,8 +111,20 @@ describe GetIssueCommand do
         end
 
         context 'and the number of issue does not exist' do
-          it 'returns an error message' do
+          before do
+            allow(client).to receive(:issue).and_raise(Octokit::NotFound)
+          end
 
+          it 'returns an error message to the user' do
+            change_to_git_repo do |repo_dir|
+              command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+
+              expected_output = <<~END
+                \e[31mOctokit::NotFound\e[0m
+              END
+
+              expect { command.run(options) }.to output(expected_output).to_stdout
+            end
           end
         end
       end

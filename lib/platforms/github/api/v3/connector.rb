@@ -17,6 +17,8 @@ module Platforms
           def issue(repo, number)
             response = @client.issue(repo, number)
             Platforms::Github::API::V3::Gateways::IssueGateway.new(response)
+          rescue Octokit::NotFound
+            raise Platforms::IssueNotFound
           end
 
           # @param repo [String]

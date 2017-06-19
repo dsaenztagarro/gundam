@@ -21,7 +21,7 @@ class GetIssueCommand < Command
         puts IssueCommentDecorator.new(comment)
       end
     end
-  rescue Platforms::Unauthorized => error
+  rescue Platforms::IssueNotFound, Platforms::Unauthorized => error
     puts ErrorDecorator.new(error)
   end
 end

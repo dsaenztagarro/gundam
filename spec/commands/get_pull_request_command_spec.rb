@@ -60,7 +60,7 @@ describe GetPullRequestCommand do
           allow(client).to receive(:pull_request).and_raise(Octokit::NotFound)
         end
 
-        it 'returns the pull request' do
+        it 'returns an error message to the user' do
           change_to_git_repo do |repo_dir|
             command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
 

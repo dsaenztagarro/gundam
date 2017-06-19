@@ -19,13 +19,3 @@ Dir.glob(File.expand_path "../support/**/*.rb", __FILE__).each { |file| load fil
 Gundam.configure do |c|
   c.github_access_token = "0123456789"
 end
-
-RSpec.configure do |config|
-  config.before(:suite) do
-    puts "create repo"
-  end
-
-  config.after(:suite) do
-    puts "cleanup repo"
-  end
-end
