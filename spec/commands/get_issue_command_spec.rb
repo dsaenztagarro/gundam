@@ -95,16 +95,24 @@ describe GetIssueCommand do
           { number: 1 }
         end
 
-        it 'returns the issue' do
-          change_to_git_repo do |repo_dir|
-            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+        context 'and the number of issue exists' do
+          it 'returns the issue' do
+            change_to_git_repo do |repo_dir|
+              command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
 
-            expected_output = <<~END
-              \e[31mFound a bug\e[0m
-              I'm having a problem with this.
-            END
+              expected_output = <<~END
+                \e[31mFound a bug\e[0m
+                I'm having a problem with this.
+              END
 
-            expect { command.run(options) }.to output(expected_output).to_stdout
+              expect { command.run(options) }.to output(expected_output).to_stdout
+            end
+          end
+        end
+
+        context 'and the number of issue does not exist' do
+          it 'returns an error message' do
+
           end
         end
       end

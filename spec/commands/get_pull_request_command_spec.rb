@@ -34,23 +34,42 @@ describe GetPullRequestCommand do
         { number: 1347 }
       end
 
-      before do
-        allow(client).to receive(:pull_request).
-          with('github/octocat', 1347).
-          and_return(github_api_v3_response(:get_pull_requests).first)
+      context 'and number of pull exists' do
+        before do
+          allow(client).to receive(:pull_request).
+            with('github/octocat', 1347).
+            and_return(github_api_v3_response(:get_pull_requests).first)
+        end
+
+        it 'returns the pull request' do
+          change_to_git_repo do |repo_dir|
+            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+
+            expected_output = <<~END
+              \e[35mnew-feature #1347\e[0m
+              Please pull these awesome changes
+            END
+
+            expect { command.run(options) }.to output(expected_output).to_stdout
+          end
+        end
       end
 
-      it 'returns the pull request' do
-        change_to_git_repo do |repo_dir|
-          command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+      context 'and the number of pull does not exist' do
+        before do
+          allow(client).to receive(:pull_request).and_raise(Octokit::NotFound)
+        end
 
-          expected_output = <<~END
-            \e[35mnew-feature #1347\e[0m
-            Please pull these awesome changes
-          END
+        it 'returns the pull request' do
+          change_to_git_repo do |repo_dir|
+            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
 
-          command.run(options)
-          # expect { command.run(options) }.to output(expected_output).to_stdout
+            expected_output = <<~END
+              \e[31mOctokit::NotFound\e[0m
+            END
+
+            expect { command.run(options) }.to output(expected_output).to_stdout
+          end
         end
       end
     end

@@ -36,6 +36,8 @@ module Platforms
           def pull_request(repo, number)
             pull = @client.pull_request(repo, number)
             Platforms::Github::API::V3::Gateways::PullRequestGateway.new(pull)
+          rescue Octokit::NotFound
+            raise Platforms::PullRequestNotFound
           end
 
           # @param repo [String]

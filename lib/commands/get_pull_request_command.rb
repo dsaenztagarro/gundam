@@ -36,5 +36,7 @@ class GetPullRequestCommand < Command
         puts CommitStatusDecorator.new(status)
       end
     end
+  rescue Platforms::PullRequestNotFound => error
+    puts ErrorDecorator.new(error)
   end
 end
