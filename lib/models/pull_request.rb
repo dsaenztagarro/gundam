@@ -12,6 +12,8 @@ class PullRequest
     :title,
     :updated_at
 
+  attr_accessor :comments, :statuses
+
   def initialize(
       body:,
       created_at:,
@@ -36,5 +38,7 @@ class PullRequest
     @target_branch = target_branch
     @title         = title
     @updated_at    = updated_at
+    @comments      = []
+    @statuses      = []
   end
 end

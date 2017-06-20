@@ -6,6 +6,9 @@ end
 require 'thor'
 require 'yaml'
 
+# load initializers
+Dir.glob(File.expand_path "../../config/initializers/*.rb", __FILE__).each { |file| load file }
+
 Dir.glob(File.expand_path "../../lib/**/*.rb", __FILE__).each { |file| load file }
 
 config = YAML.load_file(File.expand_path '~/.gundam.yml')
@@ -17,7 +20,7 @@ end
 class GundamCli < Thor
   desc 'create_pull', 'Create pull request'
   def create_pull
-    CreatePullRequestCommand.new.run
+    Gundam::CreatePullRequestCommand.new.run
   end
 
   desc 'show_pull', 'Get pull request'
@@ -25,14 +28,14 @@ class GundamCli < Thor
   option :with_comments, :type => :boolean
   option :with_statuses, :type => :boolean
   def show_pull
-    GetPullRequestCommand.new.run(options)
+    Gundam::GetPullRequestCommand.new.run(options)
   end
 
   desc 'show_issue', 'Get issue'
   option :number, :type => :numeric
   option :with_comments, :type => :boolean
   def show_issue
-    GetIssueCommand.new.run(options)
+    Gundam::GetIssueCommand.new.run(options)
   end
 end
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GetIssueCommand do
+describe Gundam::GetIssueCommand do
   describe '#run' do
     context 'when GraphQL API V4' do
       let(:connector) { Platforms::Github::API::V4::Connector.new }
@@ -120,7 +120,7 @@ describe GetIssueCommand do
               command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
 
               expected_output = <<~END
-                \e[31mOctokit::NotFound\e[0m
+                \e[31mThe issue github/octocat#1 doesn't exist\e[0m
               END
 
               expect { command.run(options) }.to output(expected_output).to_stdout

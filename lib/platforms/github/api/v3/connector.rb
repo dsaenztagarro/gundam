@@ -18,7 +18,7 @@ module Platforms
             response = @client.issue(repo, number)
             Platforms::Github::API::V3::Gateways::IssueGateway.new(response)
           rescue Octokit::NotFound
-            raise Platforms::IssueNotFound
+            raise Gundam::IssueNotFound.new(repo, number)
           end
 
           # @param repo [String]
@@ -39,7 +39,7 @@ module Platforms
             pull = @client.pull_request(repo, number)
             Platforms::Github::API::V3::Gateways::PullRequestGateway.new(pull)
           rescue Octokit::NotFound
-            raise Platforms::PullRequestNotFound
+            raise Gundam::PullRequestNotFound.new(repo, number)
           end
 
           # @param repo [String]

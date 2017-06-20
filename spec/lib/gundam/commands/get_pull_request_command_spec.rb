@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GetPullRequestCommand do
+describe Gundam::GetPullRequestCommand do
   let(:client) { double('Octokit::Client') }
 
   describe '#run' do
@@ -65,7 +65,7 @@ describe GetPullRequestCommand do
             command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
 
             expected_output = <<~END
-              \e[31mOctokit::NotFound\e[0m
+              \e[31mThe pull request github/octocat#1347 doesn't exist\e[0m
             END
 
             expect { command.run(options) }.to output(expected_output).to_stdout
