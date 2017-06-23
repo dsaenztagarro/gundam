@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CreatePullRequestCommand do
+describe Gundam::CreatePullRequestCommand do
   describe '#run' do
     context 'when Rest API V3' do
       let(:client) { double('Octokit::Client') }
