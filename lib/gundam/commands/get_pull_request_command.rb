@@ -3,7 +3,10 @@ require_relative 'command'
 module Gundam
   class GetPullRequestCommand < Command
     # @param [Hash] opts the options to get a pull request
+    # @option opts [Fixnum] :number The pull request number
+    # @option opts [Boolean] :with_description
     # @option opts [Boolean] :with_comments
+    # @option opts [Boolean] :with_statuses
     def run(options = {})
       local_repo = LocalRepository.at(@base_dir)
       service = PlatformServiceFactory.
@@ -15,10 +18,10 @@ module Gundam
         if options[:number]
           service.pull_request(local_repo.full_name, options[:number])
         else
+          head = "#{local_repo.owner}:#{local_repo.current_branch}"
           service.pull_requests(local_repo.full_name, {
-            status: 'open',
-            head: "#{local_repo.owner}:#{local_repo.current_branch}"
-          }).first
+            status: 'open', head: head
+          }).first || raise(PullRequestForBranchNotFound.new(head))
         end
       end
       if options[:with_comments]
@@ -28,14 +31,9 @@ module Gundam
         pull.statuses = service.statuses(pull.head_repo_full_name, pull.head_sha)
       end
 
-      puts PullRequestDecorator.new(pull)
-      pull.comments.each do |comment|
-        puts IssueCommentDecorator.new(comment)
-      end
-      pull.statuses.each do |status|
-        puts CommitStatusDecorator.new(status)
-      end
-    rescue Gundam::PullRequestNotFound => error
+      puts Gundam::PullRequestDecorator.new(pull).show_pull(options)
+    rescue Gundam::PullRequestNotFound,
+           Gundam::PullRequestForBranchNotFound => error
       Gundam::ErrorHandler.handle(error)
     end
   end

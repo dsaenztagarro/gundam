@@ -1,10 +1,6 @@
 require 'pastel'
 
 module ColorizeHelper
-  def magenta(text)
-    pastel.magenta(text)
-  end
-
   def cyan(text)
     pastel.cyan(text)
   end
