@@ -3,8 +3,7 @@ require_relative 'command'
 module Gundam
   class GetIssueCommand < Command
     # @param [Hash] opts the options to get a pull request
-    # @option opts [Boolean] :repo The name of the repository
-    # @option opts [Boolean] :number The issue number
+    # @option opts [Fixnum] :number The issue number
     # @option opts [Boolean] :with_comments
     def run(options = {})
       local_repo = LocalRepository.at(@base_dir)
@@ -18,10 +17,7 @@ module Gundam
         issue.comments = service.issue_comments(local_repo.full_name, number)
       end
 
-      puts IssueDecorator.new(issue).to_s
-      issue.comments.each do |comment|
-        puts IssueCommentDecorator.new(comment)
-      end
+      puts Gundam::IssueDecorator.new(issue).show_issue(options)
     rescue Gundam::IssueNotFound => error
       Gundam::ErrorHandler.handle(error)
     rescue Platforms::Unauthorized => error

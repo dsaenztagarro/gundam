@@ -1,4 +1,5 @@
 en:
   errors:
-    issue_not_found: "The issue %{repo}#%{number} doesn't exist"
-    pull_request_not_found: "The pull request %{repo}#%{number} doesn't exist"
+    issue_not_found: "Not found issue #%{number} on %{repo}"
+    pull_request_not_found: "Not found PR #%{number} on %{repo}"
+    pull_request_for_branch_not_found: "Not found PR for branch %{head}"

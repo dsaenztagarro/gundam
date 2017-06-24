@@ -25,6 +25,7 @@ class GundamCli < Thor
 
   desc 'show_pull', 'Get pull request'
   option :number, :type => :numeric
+  option :with_description, :type => :boolean
   option :with_comments, :type => :boolean
   option :with_statuses, :type => :boolean
   def show_pull
@@ -33,6 +34,7 @@ class GundamCli < Thor
 
   desc 'show_issue', 'Get issue'
   option :number, :type => :numeric
+  option :with_description, :type => :boolean
   option :with_comments, :type => :boolean
   def show_issue
     Gundam::GetIssueCommand.new.run(options)

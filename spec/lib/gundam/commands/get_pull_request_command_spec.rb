@@ -14,14 +14,39 @@ describe Gundam::GetPullRequestCommand do
         receive(:new_client).and_return(client)
     end
 
-    context 'without options' do
+    context 'with description' do
+      let(:options) do
+        { with_description: true }
+      end
+
       it 'returns the pull request' do
         change_to_git_repo_with_topic_branch do |repo_dir|
           command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
 
           expected_output = <<~END
-            \e[35mnew-feature #1347\e[0m
+            \e[31mnew-feature\e[0m
             Please pull these awesome changes
+          END
+
+          expect { command.run(options) }.to output(expected_output).to_stdout
+        end
+      end
+    end
+
+    context 'without PR for current branch' do
+      before do
+        allow(client).to \
+          receive(:pull_requests).
+          with('github/octocat', status: 'open', head: 'github:1-topic-branch').
+          and_return([])
+      end
+
+      it 'returns the pull request' do
+        change_to_git_repo_with_topic_branch do |repo_dir|
+          command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+
+          expected_output = <<~END
+						\e[31mNot found PR for branch github:1-topic-branch\e[0m
           END
 
           expect { command.run }.to output(expected_output).to_stdout
@@ -29,9 +54,9 @@ describe Gundam::GetPullRequestCommand do
       end
     end
 
-    context 'with number' do
+    context 'with number and description' do
       let(:options) do
-        { number: 1347 }
+        { number: 1347, with_description: true }
       end
 
       context 'and number of pull exists' do
@@ -46,7 +71,7 @@ describe Gundam::GetPullRequestCommand do
             command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
 
             expected_output = <<~END
-              \e[35mnew-feature #1347\e[0m
+              \e[31mnew-feature\e[0m
               Please pull these awesome changes
             END
 
@@ -65,7 +90,7 @@ describe Gundam::GetPullRequestCommand do
             command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
 
             expected_output = <<~END
-              \e[31mThe pull request github/octocat#1347 doesn't exist\e[0m
+              \e[31mNot found PR #1347 on github/octocat\e[0m
             END
 
             expect { command.run(options) }.to output(expected_output).to_stdout
@@ -90,8 +115,6 @@ describe Gundam::GetPullRequestCommand do
           command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
 
           expected_output = <<~END
-            \e[35mnew-feature #1347\e[0m
-            Please pull these awesome changes
             \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
             Me too
           END
@@ -117,8 +140,6 @@ describe Gundam::GetPullRequestCommand do
           command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
 
           expected_output = <<~END
-            \e[35mnew-feature #1347\e[0m
-            Please pull these awesome changes
             \e[32msuccess\e[0m \e[36mcontinuous-integration/jenkins\e[0m Build has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
           END
 
