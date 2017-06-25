@@ -13,6 +13,15 @@ module Platforms
 
           # @param repo [String]
           # @param number [Fixnum]
+          # @param comment [String]
+          # @return [Gundam::Github::API::V3::AddCommentResponse]
+          def add_comment(repo, number, comment)
+            response = @client.add_comment(repo, number, comment)
+            IssueComment.new Gundam::Github::API::V3::IssueCommentMapper.new(response).to_h
+          end
+
+          # @param repo [String]
+          # @param number [Fixnum]
           # @return [IssueGateway]
           def issue(repo, number)
             response = @client.issue(repo, number)

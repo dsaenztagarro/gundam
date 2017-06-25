@@ -19,6 +19,15 @@ Dir.glob(File.expand_path "../../lib/**/*.rb", __FILE__).each { |file| load file
 
 Dir.glob(File.expand_path "../support/**/*.rb", __FILE__).each { |file| load file }
 
+tmpdir = Dir.mktmpdir
+
 Gundam.configure do |c|
   c.github_access_token = "0123456789"
+  c.base_dir = tmpdir
+end
+
+RSpec.configure do |config|
+  config.after(:suite) do
+    FileUtils.remove_entry(tmpdir)
+  end
 end

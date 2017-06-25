@@ -15,6 +15,7 @@ config = YAML.load_file(File.expand_path '~/.gundam.yml')
 
 Gundam.configure do |c|
   c.github_access_token = config['github']['personal_access_token']
+  c.base_dir = '~/.gundam'
 end
 
 class GundamCli < Thor
@@ -38,6 +39,13 @@ class GundamCli < Thor
   option :with_comments, :type => :boolean
   def show_issue
     Gundam::GetIssueCommand.new.run(options)
+  end
+
+  desc 'add_comment', 'Add comment'
+  option :pull_request, :type => :boolean
+  def add_comment
+    context = Gundam::ContextProvider.new.load_context(options)
+    Gundam::Commands::Issue::AddComment.new.run(context)
   end
 end
 

@@ -1,10 +1,6 @@
 module Profiles
   module Bebanjo
     class Configuration
-      def initialize(spinner)
-        @spinner = spinner
-      end
-
       # @param git_repo [Git::Repository]
       # @param github_repo [Github::Repository]
       # @param service [Github::Service]
@@ -13,9 +9,7 @@ module Profiles
         branch_name = git_repo.current_branch
         issue_id    = branch_name.to_i
 
-        issue = @spinner.spin "Find issue" do
-          service.issue(platform_repo.name, issue_id)
-        end
+        issue = service.issue(platform_repo.name, issue_id)
 
         { repo: platform_repo.name,
           base: platform_repo.default_branch,

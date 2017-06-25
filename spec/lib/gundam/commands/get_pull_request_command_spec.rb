@@ -21,7 +21,7 @@ describe Gundam::GetPullRequestCommand do
 
       it 'returns the pull request' do
         change_to_git_repo_with_topic_branch do |repo_dir|
-          command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+          command = described_class.new(base_dir: repo_dir)
 
           expected_output = <<~END
             \e[31mnew-feature\e[0m
@@ -43,7 +43,7 @@ describe Gundam::GetPullRequestCommand do
 
       it 'returns the pull request' do
         change_to_git_repo_with_topic_branch do |repo_dir|
-          command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+          command = described_class.new(base_dir: repo_dir)
 
           expected_output = <<~END
 						\e[31mNot found PR for branch github:1-topic-branch\e[0m
@@ -68,7 +68,7 @@ describe Gundam::GetPullRequestCommand do
 
         it 'returns the pull request' do
           change_to_git_repo do |repo_dir|
-            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+            command = described_class.new(base_dir: repo_dir)
 
             expected_output = <<~END
               \e[31mnew-feature\e[0m
@@ -87,7 +87,7 @@ describe Gundam::GetPullRequestCommand do
 
         it 'returns an error message to the user' do
           change_to_git_repo do |repo_dir|
-            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+            command = described_class.new(base_dir: repo_dir)
 
             expected_output = <<~END
               \e[31mNot found PR #1347 on github/octocat\e[0m
@@ -112,7 +112,7 @@ describe Gundam::GetPullRequestCommand do
 
       it 'returns the pull request with comments' do
         change_to_git_repo_with_topic_branch do |repo_dir|
-          command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+          command = described_class.new(base_dir: repo_dir)
 
           expected_output = <<~END
             \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
@@ -137,7 +137,7 @@ describe Gundam::GetPullRequestCommand do
 
       it 'returns the pull request with commit statuses' do
         change_to_git_repo_with_topic_branch do |repo_dir|
-          command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+          command = described_class.new(base_dir: repo_dir)
 
           expected_output = <<~END
             \e[32msuccess\e[0m \e[36mcontinuous-integration/jenkins\e[0m Build has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m

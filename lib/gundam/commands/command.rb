@@ -1,12 +1,11 @@
 module Gundam
   class Command
-    def initialize(base_dir: Dir.pwd, spinner: SpinnerWrapper.new)
+    def initialize(base_dir: Dir.pwd)
       @base_dir = base_dir
-      @spinner = spinner
     end
 
     def default_profile
-      Profiles::Bebanjo::Configuration.new(@spinner)
+      Profiles::Bebanjo::Configuration.new
     end
   end
 end
