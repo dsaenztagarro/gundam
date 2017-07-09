@@ -25,7 +25,7 @@ describe Gundam::GetIssueCommand do
 
           it 'returns the comments of the issue' do
             change_to_git_repo_with_topic_branch do |repo_dir|
-              command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+              command = described_class.new(base_dir: repo_dir)
 
               expected_output = <<~END
                 \e[31mFound a bug\e[0m
@@ -52,7 +52,7 @@ describe Gundam::GetIssueCommand do
 
         it 'returns a bad credentials error message' do
           change_to_git_repo_with_topic_branch do |repo_dir|
-            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+            command = described_class.new(base_dir: repo_dir)
 
             expected_output = <<~END
               \e[31m{\"message\":\"Bad credentials\",\"documentation_url\":\"https://developer.github.com/v3\"}\e[0m
@@ -84,7 +84,7 @@ describe Gundam::GetIssueCommand do
 
         it 'returns the issue' do
           change_to_git_repo_with_topic_branch do |repo_dir|
-            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+            command = described_class.new(base_dir: repo_dir)
 
             expected_output = <<~END
               \e[31mFound a bug\e[0m
@@ -104,7 +104,7 @@ describe Gundam::GetIssueCommand do
         context 'and the number of issue exists' do
           it 'returns the issue' do
             change_to_git_repo do |repo_dir|
-              command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+              command = described_class.new(base_dir: repo_dir)
 
               expected_output = <<~END
                 \e[31mFound a bug\e[0m
@@ -123,7 +123,7 @@ describe Gundam::GetIssueCommand do
 
           it 'returns an error message to the user' do
             change_to_git_repo do |repo_dir|
-              command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+              command = described_class.new(base_dir: repo_dir)
 
               expected_output = <<~END
                 \e[31mNot found issue #1 on github/octocat\e[0m
@@ -148,7 +148,7 @@ describe Gundam::GetIssueCommand do
 
         it 'returns the issue with comments' do
           change_to_git_repo_with_topic_branch do |repo_dir|
-            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+            command = described_class.new(base_dir: repo_dir)
 
             expected_output = <<~END
             \e[31mFound a bug\e[0m

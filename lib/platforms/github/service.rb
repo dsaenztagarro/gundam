@@ -7,6 +7,14 @@ module Platforms
 
       # @param repo [String]
       # @param number [Fixnum]
+      # @param comment [String]
+      # @return [Comment]
+      def add_comment(repo, number, comment)
+        @connector.add_comment(repo, number, comment)
+      end
+
+      # @param repo [String]
+      # @param number [Fixnum]
       # @return [Issue]
       def issue(repo, number)
         gateway = @connector.issue(repo, number)

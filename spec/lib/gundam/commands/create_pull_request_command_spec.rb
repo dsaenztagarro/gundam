@@ -34,7 +34,7 @@ describe Gundam::CreatePullRequestCommand do
 
           it 'prints the url of the created PR' do
             change_to_git_repo_with_topic_branch do |repo_dir|
-              command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+              command = described_class.new(base_dir: repo_dir)
 
               expected_output = "\e[32mhttps://github.com/octocat/Hello-World/pull/1347\e[0m\n"
 
@@ -51,7 +51,7 @@ describe Gundam::CreatePullRequestCommand do
 
           it 'prints the error' do
             change_to_git_repo_with_topic_branch do |repo_dir|
-              command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+              command = described_class.new(base_dir: repo_dir)
 
               expect { command.run }.to output("\e[31mOctokit::Error\e[0m\n").to_stdout
             end
@@ -66,7 +66,7 @@ describe Gundam::CreatePullRequestCommand do
 
         it 'prints the error' do
           change_to_git_repo_with_topic_branch do |repo_dir|
-            command = described_class.new(base_dir: repo_dir, spinner: SpinnerWrapperDummy.new)
+            command = described_class.new(base_dir: repo_dir)
 
             expect { command.run }.to output("\e[31mOctokit::Unauthorized\e[0m\n").to_stdout
           end

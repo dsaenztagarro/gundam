@@ -7,9 +7,9 @@ module Gundam
 
     def show_pull(options = {})
       io = StringIO.new
-      io << show_description if options[:with_description]
-      io << show_comments if options[:with_comments]
-      io << show_statuses if options[:with_statuses]
+      add_description(io) if options[:with_description]
+      add_comments(io) if options[:with_comments]
+      add_statuses(io) if options[:with_statuses]
       io.string
     end
 
@@ -19,10 +19,9 @@ module Gundam
 
     private
 
-    def show_statuses
-      io = StringIO.new
-      statuses.each { |status| io.puts CommitStatusDecorator.new(status) }
-      io.string
+    # @param output [StringIO]
+    def add_statuses(output)
+      statuses.each { |status| output.puts CommitStatusDecorator.new(status) }
     end
   end
 end
