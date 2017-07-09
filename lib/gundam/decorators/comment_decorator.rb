@@ -4,7 +4,7 @@ module Gundam
   class CommentDecorator < Decorator
     def string
       <<~END
-      #{cyan(user_login)} #{blue(updated_at)}
+      #{cyan(author)} #{blue(updated_at)}
       #{body}
       END
     end

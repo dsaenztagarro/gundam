@@ -9,9 +9,9 @@ module Profiles
         branch_name = git_repo.current_branch
         issue_id    = branch_name.to_i
 
-        issue = service.issue(platform_repo.name, issue_id)
+        issue = service.issue(platform_repo.full_name, issue_id)
 
-        { repo: platform_repo.name,
+        { repo: platform_repo.full_name,
           base: platform_repo.default_branch,
           head: branch_name,
           title: issue.title,

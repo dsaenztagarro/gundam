@@ -4,7 +4,6 @@ gem 'octokit'
 gem 'pastel'
 gem 'thor'
 gem 'i18n'
-gem 'tty-spinner'
 
 group :test do
   gem 'simplecov'

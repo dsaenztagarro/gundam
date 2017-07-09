@@ -3,14 +3,13 @@ require 'spec_helper'
 describe Gundam::GetIssueCommand do
   describe '#run' do
     context 'when GraphQL API V4' do
-      let(:connector) { Platforms::Github::API::V4::Connector.new }
+      let(:gateway) { Gundam::Github::API::V4::Gateway.new }
 
       before do
         WebMock.disable_net_connect!
 
-        connector = Platforms::Github::API::V4::Connector.new
-        service   = Platforms::Github::Service.new(connector)
-        allow(PlatformServiceFactory).to receive(:build).and_return(service)
+        gateway = Gundam::Github::API::V4::Gateway.new
+        allow(PlatformServiceFactory).to receive(:build).and_return(gateway)
       end
 
       context 'and status 200' do
@@ -65,7 +64,7 @@ describe Gundam::GetIssueCommand do
 
     context 'when Rest API V3' do
       let(:client) { double('Octokit::Client') }
-      let(:connector) { Platforms::Github::API::V3::Connector.new }
+      let(:gateway) { Gundam::Github::API::V3::Gateway.new }
 
       before do
         allow(client).to \
@@ -73,7 +72,7 @@ describe Gundam::GetIssueCommand do
           with('github/octocat', 1).
           and_return(github_api_v3_response :get_issue)
 
-        allow(Platforms::Github::API::V3::Connector).to \
+        allow(Gundam::Github::API::V3::Gateway).to \
           receive(:new_client).and_return(client)
       end
 

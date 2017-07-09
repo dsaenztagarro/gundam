@@ -10,7 +10,7 @@ describe Gundam::GetPullRequestCommand do
         with('github/octocat', status: 'open', head: 'github:1-topic-branch').
         and_return(github_api_v3_response(:get_pull_requests))
 
-      allow(Platforms::Github::API::V3::Connector).to \
+      allow(Gundam::Github::API::V3::Gateway).to \
         receive(:new_client).and_return(client)
     end
 
