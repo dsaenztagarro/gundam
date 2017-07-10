@@ -61,7 +61,6 @@ GEM
     thor (0.19.4)
     tins (1.14.0)
     tty-color (0.4.2)
-    tty-spinner (0.4.1)
     webmock (3.0.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -81,7 +80,6 @@ DEPENDENCIES
   rspec
   simplecov
   thor
-  tty-spinner
   webmock
   yard
 

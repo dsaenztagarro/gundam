@@ -5,7 +5,7 @@ module Gundam
     end
 
     def user_message
-      ::I18n.t('errors.local_repo_not_found', repo: @repo, number: @number)
+      ::I18n.t('errors.local_repo_not_found', base_dir: @base_dir)
     end
   end
 end

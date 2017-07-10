@@ -17,21 +17,13 @@ class PlatformServiceFactory
     end
 
     def build
-      service_klass_name = "Platforms::#{platform_constant_name}::Service"
-      service_klass = Kernel.const_get(service_klass_name)
-      service_klass.new(create_connector)
+      klass_name = "Gundam::#{platform_constant_name}::API::#{api_version}::Gateway"
+      service_klass = Kernel.const_get(klass_name)
+      service_klass.new
     end
 
     def api_version
       @api_version || DEFAULT_API_VERSION[platform_constant_name]
-    end
-
-    private
-
-    def create_connector
-      service_klass = Kernel.const_get(
-        "Platforms::#{platform_constant_name}::API::#{api_version}::Connector")
-      service_klass.new
     end
   end
 end

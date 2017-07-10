@@ -2,18 +2,18 @@ require 'spec_helper'
 
 describe Gundam::IssueDecorator do
   let(:issue) do
-    Issue.new(
+    Gundam::Issue.new(
       title: 'The title',
       body: 'The body of the issue',
       comments: [
-        IssueComment.new(
-          user_login: 'octokit',
+        Gundam::IssueComment.new(
+          author: 'octokit',
           created_at: Date.parse('2010-10-28'),
           updated_at: Date.parse('2010-11-15'),
           body: 'The body of the comment'
         ),
-        IssueComment.new(
-          user_login: 'octokit',
+        Gundam::IssueComment.new(
+          author: 'octokit',
           created_at: Date.parse('2010-10-28'),
           updated_at: Date.parse('2010-11-15'),
           body: 'The second comment'
