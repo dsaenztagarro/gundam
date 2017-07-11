@@ -21,6 +21,7 @@ module Gundam
 
     def issue_local_repo_context
       CommandContext.new(
+        original_options: options.dup,
         repository: local_repo.full_name,
         number: options[:number] || local_repo.current_branch.to_i,
         service: local_repo.service

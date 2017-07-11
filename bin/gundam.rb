@@ -38,7 +38,8 @@ class GundamCli < Thor
   option :with_description, :type => :boolean
   option :with_comments, :type => :boolean
   def show_issue
-    Gundam::GetIssueCommand.new.run(options)
+    context = Gundam::ContextProvider.new.load_context(options)
+    Gundam::GetIssueCommand.new.run(context)
   end
 
   desc 'add_comment', 'Add comment'
