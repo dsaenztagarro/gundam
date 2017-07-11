@@ -11,11 +11,11 @@ describe Gundam::Github::API::V3::Gateway do
   describe '#add_comment' do
     it 'returns the comment created' do
       allow(client).to \
-        receive(:add_comment).
-        with('github/octocat', 1, 'Me too').
-        and_return(github_api_v3_response :create_issue_comment)
+        receive(:add_comment)
+        .with('octocat/Hello-World', 1, 'Me too')
+        .and_return(github_api_v3_response(:create_issue_comment))
 
-      response = subject.add_comment('github/octocat', 1, 'Me too')
+      response = subject.add_comment('octocat/Hello-World', 1, 'Me too')
 
       expect(response).to be_a(Gundam::IssueComment)
       expect(response.body).to eq('Me too')
@@ -29,11 +29,11 @@ describe Gundam::Github::API::V3::Gateway do
   describe '#issue' do
     it 'returns the Issue' do
       allow(client).to \
-        receive(:issue).
-        with('octocat/Hello-World', 1296269).
-        and_return(github_api_v3_response :get_issue)
+        receive(:issue)
+        .with('octocat/Hello-World', 1_296_269)
+        .and_return(github_api_v3_response(:get_issue))
 
-      response = subject.issue('octocat/Hello-World', 1296269)
+      response = subject.issue('octocat/Hello-World', 1_296_269)
 
       expect(response).to be_a(Gundam::Issue)
       expect(response.title).to eq('Found a bug')
@@ -44,11 +44,11 @@ describe Gundam::Github::API::V3::Gateway do
   describe '#issue_comments' do
     it 'returns a list of comments' do
       allow(client).to \
-        receive(:issue_comments).
-        with('octocat/Hello-World', 1296269).
-        and_return(github_api_v3_response :get_issue_comments)
+        receive(:issue_comments)
+        .with('octocat/Hello-World', 1_296_269)
+        .and_return(github_api_v3_response(:get_issue_comments))
 
-      response = subject.issue_comments('octocat/Hello-World', 1296269)
+      response = subject.issue_comments('octocat/Hello-World', 1_296_269)
 
       expect(response).to be_a(Array)
       expect(response.size).to eq(1)
@@ -60,8 +60,8 @@ describe Gundam::Github::API::V3::Gateway do
 
   describe '#pull_request' do
     it 'returns a pull request' do
-      allow(client).to receive(:pull_request).with('octocat/Hello-World', 1).
-        and_return(github_api_v3_response :get_pull_request)
+      allow(client).to receive(:pull_request).with('octocat/Hello-World', 1)
+        .and_return(github_api_v3_response(:get_pull_request))
 
       response = subject.pull_request('octocat/Hello-World', 1)
 
@@ -69,12 +69,39 @@ describe Gundam::Github::API::V3::Gateway do
       expect(response.title).to eq('new-feature')
       expect(response.body).to eq('Please pull these awesome changes')
     end
+
+    it 'raises an error when the pull is not found' do
+      allow(client).to receive(:pull_request).with('octocat/Hello-World', 1)
+        .and_raise(Octokit::NotFound)
+
+      expect do
+        subject.pull_request('octocat/Hello-World', 1)
+      end.to raise_error(Gundam::PullRequestNotFound)
+    end
+  end
+
+  describe '#pull_requests' do
+    it 'returns the Issue' do
+      allow(client).to receive(:pull_requests)
+        .with('octocat/Hello-World', anything)
+        .and_return(github_api_v3_response(:get_pull_requests))
+
+      response = subject.pull_requests('octocat/Hello-World', anything)
+
+      expect(response).to be_a(Array)
+      expect(response.size).to eq(1)
+
+      pull = response.first
+      expect(pull).to be_a(Gundam::PullRequest)
+      expect(pull.title).to eq('new-feature')
+      expect(pull.body).to eq('Please pull these awesome changes')
+    end
   end
 
   describe '#repository' do
     it 'returns a single repository' do
-      allow(client).to receive(:repository).with('octocat/Hello-World').
-        and_return(github_api_v3_response :get_repository)
+      allow(client).to receive(:repository).with('octocat/Hello-World')
+        .and_return(github_api_v3_response(:get_repository))
 
       response = subject.repository('octocat/Hello-World')
 
@@ -86,12 +113,29 @@ describe Gundam::Github::API::V3::Gateway do
     end
   end
 
+  describe '#statuses' do
+    it 'returns the last' do
+      head_sha = '6dcb09b5b57875f334f61aebed695e2e4193db5e'
+
+      allow(client).to receive(:statuses)
+        .with('octocat/Hello-World', head_sha)
+        .and_return(github_api_v3_response(:get_commit_statuses))
+
+      response = subject.statuses('octocat/Hello-World', head_sha)
+
+      expect(response).to be_a(Array)
+      obj = response.first
+      expect(obj).to be_a(Gundam::CommitStatus)
+      expect(obj.state).to eq('success')
+    end
+  end
+
   describe '#create_pull_request' do
     it 'creates a pull request' do
       allow(client).to \
-        receive(:create_pull_request).
-        with('octocat/Hello-World', 'master', 'new-topic', 'new-feature', 'Please pull these awesome changes').
-        and_return(github_api_v3_response :create_pull_request)
+        receive(:create_pull_request)
+        .with('octocat/Hello-World', 'master', 'new-topic', 'new-feature', 'Please pull these awesome changes')
+        .and_return(github_api_v3_response(:create_pull_request))
 
       response = subject.create_pull_request(
         repo: 'octocat/Hello-World',

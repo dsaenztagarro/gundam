@@ -2,19 +2,19 @@ require 'spec_helper'
 require 'byebug'
 
 describe Gundam::Commands::Issue::AddComment do
-  let(:service) { double('Gundam::Github::Service') }
+  let(:repo_service) { double('Gundam::Github::API::V3::Gateway') }
   let(:comment) { double('comment') }
 
   let(:context) do
-    Gundam::CommandContext.new(
-      repository: 'github/octocat',
-      number: 1,
-      service: service
-    )
+    double(cli_options: { number: 1 },
+           local_repo?: false,
+           repository: 'octocat/Hello-World',
+           repo_service: repo_service)
   end
+  let(:subject) { described_class.new(context) }
 
 	let(:tmp_filepath) do
-		"#{Gundam.base_dir}/files/github_octocat_issue_1_comment_20101115131020.md"
+		"#{Gundam.base_dir}/files/octocat_Hello-World_issue_1_comment_20101115131020.md"
 	end
 
 	describe '#run' do
@@ -31,16 +31,15 @@ describe Gundam::Commands::Issue::AddComment do
 				File.open(tmp_filepath, 'w') { |file| file.write("This is a comment") }
 			end
 
-			expect(service).to \
-				receive(:add_comment).
-				with('github/octocat', 1, 'This is a comment').
+			expect(repo_service).to receive(:add_comment).
+				with('octocat/Hello-World', 1, 'This is a comment').
 				and_return(double('IssueComment', html_url: 'https://...'))
 
 			expected_output = <<~END
 				\e[32mhttps://...\e[0m
 			END
 
-			expect { subject.run(context) }.to output(expected_output).to_stdout
+			expect { subject.run }.to output(expected_output).to_stdout
 		end
 
 		it 'does not add a comment when the user saves the file empty' do
@@ -48,9 +47,9 @@ describe Gundam::Commands::Issue::AddComment do
 				expect(arg).to eq("$EDITOR #{tmp_filepath}")
 			end
 
-			expect(service).to_not receive(:add_comment)
+			expect(repo_service).to_not receive(:add_comment)
 
-			subject.run(context)
+			subject.run
 		end
 	end
 end

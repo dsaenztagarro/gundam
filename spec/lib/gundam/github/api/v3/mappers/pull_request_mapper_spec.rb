@@ -14,6 +14,7 @@ describe Gundam::Github::API::V3::PullRequestMapper do
       expect(object.head_sha).to eq('6dcb09b5b57875f334f61aebed695e2e4193db5e')
       expect(object.html_url).to eq('https://github.com/octocat/Hello-World/pull/1347')
       expect(object.number).to eq(1347)
+      expect(object.repository).to eq('octocat/Hello-World')
       expect(object.source_branch).to eq('new-topic')
       expect(object.target_branch).to eq('master')
       expect(object.title).to eq('new-feature')

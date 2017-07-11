@@ -1,22 +1,20 @@
-require 'forwardable'
-require_relative 'command'
-
 module Gundam
   class GetIssueCommand < Command
-    extend Forwardable
+    def_delegators :context, :cli_options # base context
+    def_delegators :context, :local_repo?, :local_repo, :repo_service,
+      :repository # context with repository
 
-    def_delegators :@context, :repository, :number, :service, :original_options
-
-    # @param context [CommandContext]
-    def run(context)
-      @context = context
-
-      issue = service.issue(repository, number)
+    def run
+      issue = if local_repo?
+                local_repo.current_issue
+              else
+                repo_service.issue(repository, cli_options[:number])
+              end
       if with_comments?
-        issue.comments = service.issue_comments(repository, number)
+        issue.comments = repo_service.issue_comments(repository, issue.number)
       end
 
-      puts Gundam::IssueDecorator.new(issue).show_issue(original_options)
+      puts Gundam::IssueDecorator.new(issue).show_issue(cli_options)
     rescue Gundam::IssueNotFound => error
       Gundam::ErrorHandler.handle(error)
     rescue Platforms::Unauthorized => error
@@ -26,7 +24,7 @@ module Gundam
     private
 
     def with_comments?
-      original_options[:with_comments]
+      cli_options[:with_comments]
     end
   end
 end

@@ -3,6 +3,7 @@
     "repositoryOwner": {
       "repository": {
         "issue": {
+          "number": 1347,
           "title": "Found a bug",
           "bodyText": "I'm having a problem with this.",
           "author": {

@@ -1,11 +1,10 @@
-require_relative 'command'
-
 module Gundam
   class CreatePullRequestCommand < Command
+    def_delegators :context, :local_repo
+
     def run
-      local_repo = LocalRepository.at(@base_dir)
-      service = PlatformServiceFactory.
-        with_platform(local_repo.platform_constant_name).build
+      service = PlatformServiceFactory
+                .with_platform(local_repo.platform_constant_name).build
 
       platform_repo = service.repository(local_repo.full_name)
 

@@ -1,7 +1,8 @@
 query {
-  repositoryOwner(login: "github") {
-    repository(name: "octocat") {
-      issue(number: 1) {
+  repositoryOwner(login: "octocat") {
+    repository(name: "Hello-World") {
+      issue(number: 1347) {
+        number
         title
         bodyText
         author {

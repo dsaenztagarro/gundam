@@ -3,7 +3,6 @@ module Gundam
     module API
       module V3
         class PullRequestMapper
-
           # @param resource [Sawyer::Resource]
           def self.load(resource)
             Gundam::PullRequest.new(
@@ -14,6 +13,7 @@ module Gundam
               head_repo_full_name: resource[:head][:repo][:full_name],
               html_url:            resource[:_links][:html][:href],
               number:              resource[:number],
+              repository:          resource[:base][:repo][:full_name],
               source_branch:       resource[:head][:ref],
               target_branch:       resource[:base][:ref],
               title:               resource[:title],
