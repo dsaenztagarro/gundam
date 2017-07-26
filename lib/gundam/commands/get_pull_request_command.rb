@@ -10,14 +10,10 @@ module Gundam
              else
                repo_service.pull_request(repository, cli_options[:number])
              end
-      if cli_options[:with_comments]
-        pull.comments = repo_service.issue_comments(repository, pull.number)
-      end
-      if cli_options[:with_statuses]
-        pull.statuses = repo_service.statuses(repository, pull.head_sha)
-      end
+      pull.comments = repo_service.issue_comments(repository, pull.number)
+      pull.statuses = repo_service.statuses(repository, pull.head_sha)
 
-      puts Gundam::PullRequestDecorator.new(pull).show_pull(cli_options)
+      puts Gundam::PullRequestDecorator.new(pull).show_pull
     rescue Gundam::LocalRepoNotFound,
            Gundam::PullRequestNotFound,
            Gundam::PullRequestForBranchNotFound => error

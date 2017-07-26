@@ -24,35 +24,18 @@ describe Gundam::IssueDecorator do
 
   let(:subject) { described_class.new(issue) }
 
-  describe '#show_issue' do
-    let(:result) { subject.show_issue(options) }
-
-    context 'with description' do
-      let(:options) do { with_description: true } end
-
-      it 'returns the issue description' do
-        expect(result).to eq(
-          <<~END
-          \e[31mThe title\e[0m
-          The body of the issue
-          END
-        )
-      end
-    end
-
-    context 'with comments' do
-      let(:options) do { with_comments: true } end
-
-      it 'returns the issue comments' do
-        expect(result).to eq(
-          <<~END
-          \e[36moctokit\e[0m \e[34m2010-11-15\e[0m
-          The body of the comment
-          \e[36moctokit\e[0m \e[34m2010-11-15\e[0m
-          The second comment
-          END
-        )
-      end
+  describe '#show_cli' do
+    it 'returns the issue formatted for console' do
+      expect(subject.show_cli).to eq(
+        <<~END
+        \e[31mThe title\e[0m
+        The body of the issue
+        \e[36moctokit\e[0m \e[34m2010-11-15\e[0m
+        The body of the comment
+        \e[36moctokit\e[0m \e[34m2010-11-15\e[0m
+        The second comment
+        END
+      )
     end
   end
 end

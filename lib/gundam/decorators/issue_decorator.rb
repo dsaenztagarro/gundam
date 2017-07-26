@@ -5,10 +5,10 @@ module Gundam
   class IssueDecorator < Decorator
     include Gundam::IssueHelper
 
-    def show_issue(options)
+    def show_cli
       io = StringIO.new
-      add_description(io) if options[:with_description]
-      add_comments(io)    if options[:with_comments]
+      add_description(io)
+      add_comments(io)
       io.string
     end
   end

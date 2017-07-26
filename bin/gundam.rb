@@ -30,7 +30,6 @@ module GundamCli
     option :without_local_repo, type: :boolean
     option :repository, type: :string
     option :number, type: :numeric
-    option :with_description, type: :boolean
     option :with_comments, type: :boolean
     option :with_statuses, type: :boolean
     def show
@@ -46,7 +45,6 @@ module GundamCli
     option without_local_repo: :boolean
     option :repository, type: :string
     option :number, type: :numeric
-    option :with_description, type: :boolean
     option :with_comments, type: :boolean
     option %w(with_comments -c), type: :boolean
     def show
