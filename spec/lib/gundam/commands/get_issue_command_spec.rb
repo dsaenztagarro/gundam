@@ -25,23 +25,17 @@ describe Gundam::GetIssueCommand do
       context 'and status 200' do
         before { stub_github_api_v4_request(:issue) }
 
-        context 'with description and comments' do
-          let(:other_options) do
-            { with_description: true, with_comments: true }
-          end
+        it 'returns the issue' do
+          expected_output = <<~END
+            \e[31mFound a bug\e[0m
+            I'm having a problem with this.
+            \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
+            Hello world
+            \e[36mtron\e[0m \e[34m2017-05-26T21:57:31Z\e[0m
+            Good bye
+          END
 
-          it 'returns the comments of the issue' do
-            expected_output = <<~END
-              \e[31mFound a bug\e[0m
-              I'm having a problem with this.
-              \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
-              Hello world
-              \e[36mtron\e[0m \e[34m2017-05-26T21:57:31Z\e[0m
-              Good bye
-            END
-
-            expect { subject.run }.to output(expected_output).to_stdout
-          end
+          expect { subject.run }.to output(expected_output).to_stdout
         end
       end
 
@@ -65,37 +59,26 @@ describe Gundam::GetIssueCommand do
 
       before do
         allow(client).to receive(:issue).with('octocat/Hello-World', 1347).
-          and_return(github_api_v3_response :get_issue)
+          and_return(github_api_v3_response(:get_issue))
+
+        allow(client).to receive(:issue_comments).
+          with('octocat/Hello-World', 1347).
+          and_return(github_api_v3_response(:get_issue_comments))
 
         allow(Gundam::Github::API::V3::Gateway).to receive(:new_client).
           and_return(client)
       end
 
-      context 'with description' do
-        let(:other_options) do
-          { with_description: true }
-        end
-
-        it 'returns the issue' do
-          expected_output = <<~END
-            \e[31mFound a bug\e[0m
-            I'm having a problem with this.
-          END
-
-          expect { subject.run }.to output(expected_output).to_stdout
-        end
-      end
-
-      context 'with number and description' do
-        let(:other_options) do
-          { number: 1347, with_description: true }
-        end
+      context 'without local repo' do
+        let(:other_options) { { number: 1347 } }
 
         context 'and the number of issue exists' do
           it 'returns the issue' do
             expected_output = <<~END
               \e[31mFound a bug\e[0m
               I'm having a problem with this.
+              \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
+              Me too
             END
 
             expect { subject.run }.to output(expected_output).to_stdout
@@ -120,12 +103,6 @@ describe Gundam::GetIssueCommand do
       context 'with description and comments' do
         let(:other_options) do
           { with_description: true, with_comments: true }
-        end
-
-        before do
-          allow(client).to receive(:issue_comments).
-            with('octocat/Hello-World', 1347).
-            and_return(github_api_v3_response :get_issue_comments)
         end
 
         it 'returns the issue with comments' do
@@ -153,22 +130,19 @@ describe Gundam::GetIssueCommand do
           double(cli_options: cli_options,
                  local_repo?: true,
                  local_repo: local_repo,
+                 repository: 'octocat/Hello-World',
                  repo_service: repo_service)
         end
 
-        context 'with description' do
-          let(:other_options) do
-            { with_description: true }
-          end
+        it 'returns the issue' do
+          expected_output = <<~END
+            \e[31mFound a bug\e[0m
+            I'm having a problem with this.
+            \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
+            Me too
+          END
 
-          it 'returns the issue' do
-            expected_output = <<~END
-              \e[31mFound a bug\e[0m
-              I'm having a problem with this.
-            END
-
-            expect { subject.run }.to output(expected_output).to_stdout
-          end
+          expect { subject.run }.to output(expected_output).to_stdout
         end
       end
     end

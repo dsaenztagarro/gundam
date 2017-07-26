@@ -10,21 +10,13 @@ module Gundam
               else
                 repo_service.issue(repository, cli_options[:number])
               end
-      if with_comments?
-        issue.comments = repo_service.issue_comments(repository, issue.number)
-      end
+      issue.comments = repo_service.issue_comments(repository, issue.number)
 
-      puts Gundam::IssueDecorator.new(issue).show_issue(cli_options)
+      puts Gundam::IssueDecorator.new(issue).show_cli
     rescue Gundam::IssueNotFound => error
       Gundam::ErrorHandler.handle(error)
     rescue Platforms::Unauthorized => error
       puts ErrorDecorator.new(error)
-    end
-
-    private
-
-    def with_comments?
-      cli_options[:with_comments]
     end
   end
 end

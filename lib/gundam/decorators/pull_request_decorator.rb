@@ -5,11 +5,11 @@ module Gundam
   class PullRequestDecorator < Decorator
     include Gundam::IssueHelper
 
-    def show_pull(options = {})
+    def show_pull
       io = StringIO.new
-      add_description(io) if options[:with_description]
-      add_comments(io) if options[:with_comments]
-      add_statuses(io) if options[:with_statuses]
+      add_description(io)
+      add_comments(io)
+      add_statuses(io)
       io.string
     end
 
@@ -21,7 +21,9 @@ module Gundam
 
     # @param output [StringIO]
     def add_statuses(output)
-      statuses.each { |status| output.puts CommitStatusDecorator.new(status) }
+      statuses.to_a.each do |status|
+        output.puts CommitStatusDecorator.new(status)
+      end
     end
   end
 end
