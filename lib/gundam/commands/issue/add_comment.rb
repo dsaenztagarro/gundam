@@ -1,18 +1,11 @@
-require 'forwardable'
-require_relative '../shared/local_repo_ext'
-
 module Gundam
   module Commands
     module Issue
-      class AddComment
-        extend Forwardable
+      class AddComment < Gundam::Command
+        def_delegators :context, :cli_options # base context
+        def_delegators :context, :repository, :repo_service # context with repository
 
-        def_delegators :@context, :repository, :number, :service
-
-        # @param context [CommandContext]
-        def run(context)
-          @context = context
-
+        def run
           filepath = create_file(new_comment_filename)
 
           open_file(filepath)
@@ -20,7 +13,7 @@ module Gundam
           text = File.read(filepath)
           return if text.empty?
 
-          comment = context.service.add_comment(repository, number, text)
+          comment = repo_service.add_comment(repository, cli_options[:number], text)
 
           puts Gundam::CommentDecorator.new(comment).string_on_create
         end
@@ -28,8 +21,9 @@ module Gundam
         private
 
         def new_comment_filename
-          timestamp = Time.now.utc.strftime("%Y%m%d%H%M%S")
+          timestamp = Time.now.utc.strftime('%Y%m%d%H%M%S')
           repo = repository.tr('/', '_')
+          number = cli_options[:number]
           "#{repo}_issue_#{number}_comment_#{timestamp}.md"
         end
 

@@ -46,10 +46,10 @@ module Gundam
 
           def run_query(query)
             response = Net::HTTP.post URI('https://api.github.com/graphql'),
-              { query: query.to_s }.to_json,
-              'Authorization' => "bearer #{Gundam.github_access_token}",
-              'Content-type'  => 'application/json',
-              'User-Agent'    => 'Gundam GraphQL Connector'
+                                      { query: query.to_s }.to_json,
+                                      'Authorization' => "bearer #{Gundam.github_access_token}",
+                                      'Content-type'  => 'application/json',
+                                      'User-Agent'    => 'Gundam GraphQL Gateway'
 
             case response
             when Net::HTTPOK then JSON.parse(response.body)

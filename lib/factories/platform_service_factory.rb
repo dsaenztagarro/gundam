@@ -4,15 +4,10 @@ class PlatformServiceFactory
 
     DEFAULT_API_VERSION = {
       'Github' => 'V3'
-    }
+    }.freeze
 
     def with_platform(platform_constant_name)
       @platform_constant_name = platform_constant_name
-      self
-    end
-
-    def with_api_version(api_version)
-      @api_version = api_version.to_s
       self
     end
 

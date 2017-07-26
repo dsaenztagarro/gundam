@@ -1,5 +1,5 @@
 module GithubHelper
-  API_FIXTURES_PATH = '../../fixtures/github/api'
+  API_FIXTURES_PATH = '../../fixtures/github/api'.freeze
 
   def github_api_v3_response(resource)
     fixture_path = File.expand_path(
@@ -15,14 +15,14 @@ module GithubHelper
     status   = options[:status] || 200
     response = options[:response] || github_api_v4_response(resource)
 
-    stub_request(:post, "https://api.github.com/graphql").with(
-        body: { query: query }.to_json,
-        headers: {
-          'Authorization' => "bearer #{Gundam.github_access_token}",
-          'Content-Type'  => 'application/json',
-          'User-Agent'    => 'Gundam GraphQL Connector'
-        }
-      ).to_return(status: status, body: response, headers: {})
+    stub_request(:post, 'https://api.github.com/graphql').with(
+      body: { query: query }.to_json,
+      headers: {
+        'Authorization' => "bearer #{Gundam.github_access_token}",
+        'Content-Type'  => 'application/json',
+        'User-Agent'    => 'Gundam GraphQL Gateway'
+      }
+    ).to_return(status: status, body: response, headers: {})
   end
 
   private

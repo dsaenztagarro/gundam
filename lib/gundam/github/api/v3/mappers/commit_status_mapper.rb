@@ -3,7 +3,6 @@ module Gundam
     module API
       module V3
         class CommitStatusMapper
-
           # @param resource [Sawyer::Resource]
           def self.load(resource)
             Gundam::CommitStatus.new(

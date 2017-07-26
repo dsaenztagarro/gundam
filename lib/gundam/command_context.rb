@@ -1,12 +1,10 @@
 module Gundam
   class CommandContext
-    attr_reader :repository, :number, :service, :original_options
+    attr_reader :base_dir, :cli_options
 
-    def initialize(options = {})
-      @original_options = options[:original_options]
-      @repository       = options[:repository]
-      @number           = options[:number]
-      @service          = options[:service]
+    def initialize(base_dir, cli_options)
+      @base_dir    = base_dir
+      @cli_options = cli_options
     end
   end
 end

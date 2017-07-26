@@ -3,7 +3,6 @@ module Gundam
     module API
       module V3
         class RemoteRepositoryMapper
-
           # @param resource [Sawyer::Resource]
           def self.load(resource)
             Gundam::RemoteRepository.new(

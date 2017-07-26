@@ -1,31 +1,29 @@
 module Gundam
   class ContextProvider
-    def load_context(options)
-      @options = options
+    attr_writer :cli_options
 
-      options[:pull] ? pull_local_repo_context : issue_local_repo_context
+    def load_context
+      CommandContext.new(base_dir, cli_options).tap do |context|
+        context.extend(Context::WithRepository)
+      end
     end
 
     private
 
-    attr_reader :options
-
     def base_dir
-      options[:base_dir] || Dir.pwd
+      cli_base_dir = cli_options[:base_dir]
+
+      return Dir.pwd unless cli_base_dir
+
+      unless Dir.exist?(cli_base_dir)
+        raise Gundam::BaseDirNotFound.new(cli_base_dir)
+      end
+
+      cli_base_dir
     end
 
-    def local_repo
-      @local_repo ||= LocalRepository.at(base_dir) ||
-                        raise(Gundam::LocalRepoNotFound.new(base_dir))
-    end
-
-    def issue_local_repo_context
-      CommandContext.new(
-        original_options: options.dup,
-        repository: local_repo.full_name,
-        number: options[:number] || local_repo.current_branch.to_i,
-        service: local_repo.service
-      )
+    def cli_options
+      @cli_options ||= {}
     end
   end
 end

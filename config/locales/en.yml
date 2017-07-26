@@ -1,5 +1,7 @@
 en:
   errors:
+    base_dir_not_found: "Doesn't exist base dir %{dir}"
+    cli_option_missing: "Missing cli option %{cli_option}"
     issue_not_found: "Not found issue #%{number} on %{repo}"
     missing_argument: "Not found required argument '%{argument}'"
     local_repo_not_found: "Not found local repo at %{base_dir}"

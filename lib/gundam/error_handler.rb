@@ -7,9 +7,7 @@ module Gundam
 
       # @params error [StandardError]
       def handle(error)
-        if error.respond_to? :user_message
-          puts red(error.user_message)
-        end
+        puts red(error.user_message) if error.respond_to? :user_message
       end
     end
   end

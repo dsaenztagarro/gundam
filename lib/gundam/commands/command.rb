@@ -1,7 +1,14 @@
+require 'forwardable'
+
 module Gundam
   class Command
-    def initialize(base_dir: Dir.pwd)
-      @base_dir = base_dir
+    extend Forwardable
+
+    attr_reader :context
+
+    # @param context [CommandContext]
+    def initialize(context)
+      @context = context
     end
 
     def default_profile
