@@ -30,8 +30,6 @@ module GundamCli
     option :without_local_repo, type: :boolean
     option :repository, type: :string
     option :number, type: :numeric
-    option :with_comments, type: :boolean
-    option :with_statuses, type: :boolean
     def show
       Gundam::CommandRunner.new.run(
         command: Gundam::GetPullRequestCommand,
@@ -45,8 +43,6 @@ module GundamCli
     option without_local_repo: :boolean
     option :repository, type: :string
     option :number, type: :numeric
-    option :with_comments, type: :boolean
-    option %w(with_comments -c), type: :boolean
     def show
       Gundam::CommandRunner.new.run(
         command: Gundam::GetIssueCommand,
@@ -56,11 +52,14 @@ module GundamCli
   end
 
   class Comments < Thor
-    desc 'add_comment', 'Add comment'
-    option :pull_request, type: :boolean
+    desc 'create', 'Add comment'
+    option :without_local_repo, type: :boolean
+    option :repository, type: :string
+    option :number, type: :numeric
     def create
-      context = Gundam::ContextProvider.new.load_context(:issue, options)
-      Gundam::Commands::Issue::AddComment.new.run(context)
+      Gundam::CommandRunner.new.run(
+        command: Gundam::Commands::Issue::AddComment,
+        cli_options: options)
     end
   end
 
@@ -70,6 +69,10 @@ module GundamCli
 
     desc "pull SUBCOMMAND ...ARGS", "manage set of pull requests"
     subcommand "pull", GundamCli::Pull
+
+    desc "comments SUBCOMMAND ...ARGS", "manage set of pull requests"
+    subcommand "comments", GundamCli::Comments
+
   end
 end
 
