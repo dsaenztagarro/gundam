@@ -29,9 +29,9 @@ describe Gundam::GetIssueCommand do
           expected_output = <<~END
             \e[31mFound a bug\e[0m
             I'm having a problem with this.
-            \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
+            \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m 318212279
             Hello world
-            \e[36mtron\e[0m \e[34m2017-05-26T21:57:31Z\e[0m
+            \e[36mtron\e[0m \e[34m2017-05-26T21:57:31Z\e[0m 318212280
             Good bye
           END
 
@@ -77,7 +77,7 @@ describe Gundam::GetIssueCommand do
             expected_output = <<~END
               \e[31mFound a bug\e[0m
               I'm having a problem with this.
-              \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
+              \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m 1
               Me too
             END
 
@@ -109,7 +109,7 @@ describe Gundam::GetIssueCommand do
           expected_output = <<~END
             \e[31mFound a bug\e[0m
             I'm having a problem with this.
-            \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
+            \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m 1
             Me too
           END
 
@@ -138,7 +138,7 @@ describe Gundam::GetIssueCommand do
           expected_output = <<~END
             \e[31mFound a bug\e[0m
             I'm having a problem with this.
-            \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
+            \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m 1
             Me too
           END
 

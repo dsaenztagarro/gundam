@@ -1,10 +1,12 @@
 require_relative 'decorator'
+require 'byebug'
+
 
 module Gundam
   class CommentDecorator < Decorator
     def string
       <<~END
-      #{cyan(author)} #{blue(updated_at)}
+      #{cyan(author)} #{blue(updated_at)} #{id}
       #{body}
       END
     end

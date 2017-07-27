@@ -6,6 +6,7 @@ module Gundam
           # @param resource [Sawyer::Resource]
           def self.load(resource)
             Gundam::IssueComment.new(
+              id:         resource['databaseId'],
               body:       resource['bodyText'],
               created_at: resource['publishedAt'],
               updated_at: resource['publishedAt'],

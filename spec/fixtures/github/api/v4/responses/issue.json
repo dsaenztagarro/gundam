@@ -12,7 +12,7 @@
           "comments": {
             "nodes": [
               {
-                "id": "MDEyOklzc3VlQ29tbWVudDMwNDM5NjQ5NA==",
+                "databaseId": 318212279,
                 "author": {
                   "login": "octocat"
                 },
@@ -20,7 +20,7 @@
                 "publishedAt": "2011-04-14T16:00:49Z"
               },
               {
-                "id": "MDEyOklzc3VlQ29tbWVudDMwNDM5NjQ5OQ==",
+                "databaseId": 318212280,
                 "author": {
                   "login": "tron"
                 },

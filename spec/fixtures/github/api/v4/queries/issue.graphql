@@ -2,7 +2,7 @@ query {
   repositoryOwner(login: "octocat") {
     repository(name: "Hello-World") {
       issue(number: 1347) {
-        number
+        databaseId
         title
         bodyText
         author {

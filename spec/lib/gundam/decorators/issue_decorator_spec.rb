@@ -5,20 +5,7 @@ describe Gundam::IssueDecorator do
     Gundam::Issue.new(
       title: 'The title',
       body: 'The body of the issue',
-      comments: [
-        Gundam::IssueComment.new(
-          author: 'octokit',
-          created_at: Date.parse('2010-10-28'),
-          updated_at: Date.parse('2010-11-15'),
-          body: 'The body of the comment'
-        ),
-        Gundam::IssueComment.new(
-          author: 'octokit',
-          created_at: Date.parse('2010-10-28'),
-          updated_at: Date.parse('2010-11-15'),
-          body: 'The second comment'
-        )
-      ]
+      comments: [create_comment]
     )
   end
 
@@ -28,12 +15,10 @@ describe Gundam::IssueDecorator do
     it 'returns the issue formatted for console' do
       expect(subject.show_cli).to eq(
         <<~END
-        \e[31mThe title\e[0m
-        The body of the issue
-        \e[36moctokit\e[0m \e[34m2010-11-15\e[0m
-        The body of the comment
-        \e[36moctokit\e[0m \e[34m2010-11-15\e[0m
-        The second comment
+          \e[31mThe title\e[0m
+          The body of the issue
+          \e[36moctokit\e[0m \e[34m2011-04-14 16:00:49 UTC\e[0m 318212279
+          Me too
         END
       )
     end
