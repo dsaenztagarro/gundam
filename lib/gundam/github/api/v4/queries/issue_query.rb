@@ -21,7 +21,7 @@ module Gundam
                 repositoryOwner(login: "#{@login}") {
                   repository(name: "#{@repo}") {
                     issue(number: #{@number}) {
-                      number
+                      databaseId
                       title
                       bodyText
                       author {

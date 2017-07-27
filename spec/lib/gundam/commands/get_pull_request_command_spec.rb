@@ -25,15 +25,8 @@ describe Gundam::GetPullRequestCommand do
       allow(service).to receive(:pull_request)
         .with('octocat/Hello-World', 1347).and_return(pull)
 
-      comments = [
-        Gundam::IssueComment.new(
-          author: 'octocat',
-          updated_at: '2011-04-14T16:00:49Z',
-          body: 'Me too')
-      ]
-
       allow(service).to receive(:issue_comments)
-        .with('octocat/Hello-World', 1347).and_return(comments)
+        .with('octocat/Hello-World', 1347).and_return([create_comment])
 
       statuses = [
         Gundam::CommitStatus.new(
@@ -53,7 +46,7 @@ describe Gundam::GetPullRequestCommand do
         expected_output = <<~END
           \e[31mnew-feature\e[0m
           Please pull these awesome changes
-          \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
+          \e[36moctokit\e[0m \e[34m2011-04-14 16:00:49 UTC\e[0m 318212279
           Me too
           \e[32msuccess\e[0m \e[36mcontinuous-integration/jenkins\e[0m Build has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
         END
@@ -78,7 +71,7 @@ describe Gundam::GetPullRequestCommand do
       end
     end
 
-    context 'when local repo' do
+    context 'with local repo' do
       let(:pull) do
         Gundam::PullRequest.new(repository: 'octocat/Hello-World',
                                 number: 1347,
@@ -100,7 +93,7 @@ describe Gundam::GetPullRequestCommand do
         expected_output = <<~END
           \e[31mnew-feature\e[0m
           Please pull these awesome changes
-          \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m
+          \e[36moctokit\e[0m \e[34m2011-04-14 16:00:49 UTC\e[0m 318212279
           Me too
           \e[32msuccess\e[0m \e[36mcontinuous-integration/jenkins\e[0m Build has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
         END
