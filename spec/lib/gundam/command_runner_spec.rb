@@ -13,6 +13,7 @@ describe Gundam::CommandRunner do
 
     it 'runs the command' do
       expect(context_provider).to receive(:cli_options=).with({}).ordered
+      expect(context_provider).to receive(:command_options=).with({}).ordered
       expect(context_provider).to receive(:load_context).and_return(context).ordered
 
       expect(command_class).to receive(:new).with(context).and_return(command)

@@ -53,7 +53,7 @@ module Gundam
 
             case response
             when Net::HTTPOK then JSON.parse(response.body)
-            when Net::HTTPUnauthorized then raise Platforms::Unauthorized, response.body
+            when Net::HTTPUnauthorized then raise Gundam::Unauthorized.new(:github_api_v4, details: response.body)
             end
           end
         end

@@ -7,7 +7,7 @@ describe Gundam::CreatePullRequestCommand do
                               platform_constant_name: 'Github')
   end
 
-  let(:context) { Gundam::CommandContext.new('/base/dir', {}) }
+  let(:context) { Gundam::CommandContext.new('/base/dir', {}, {}) }
   let(:subject) { described_class.new(context) }
 
   before do
@@ -54,12 +54,14 @@ describe Gundam::CreatePullRequestCommand do
 
         context 'and there is an error creating PR' do
           before do
-            allow(client).to \
-              receive(:create_pull_request).and_raise(Octokit::Error)
+            cause_error = double('OriginalError', message: 'Error reason')
+            error = Gundam::CreatePullRequestError.new
+            allow(error).to receive(:cause).and_return(cause_error)
+            allow(client).to receive(:create_pull_request).and_raise(error)
           end
 
           it 'prints the error' do
-            expected_output = "\e[31mOctokit::Error\e[0m\n"
+            expected_output = "\e[31mError reason\e[0m\n"
 
             expect { subject.run }.to output(expected_output).to_stdout
           end
@@ -72,7 +74,7 @@ describe Gundam::CreatePullRequestCommand do
         end
 
         it 'prints the error' do
-          expected_output = "\e[31mOctokit::Unauthorized\e[0m\n"
+          expected_output = "\e[31mUnauthorized access to Github REST API V3\e[0m\n"
 
           expect { subject.run }.to output(expected_output).to_stdout
         end

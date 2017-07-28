@@ -24,6 +24,9 @@ module Gundam
                       databaseId
                       title
                       bodyText
+                      repository {
+                        nameWithOwner
+                      }
                       author {
                         login
                       }

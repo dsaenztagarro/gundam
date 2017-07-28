@@ -5,6 +5,9 @@ query {
         databaseId
         title
         bodyText
+        repository {
+          nameWithOwner
+        }
         author {
           login
         }

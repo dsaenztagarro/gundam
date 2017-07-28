@@ -9,6 +9,8 @@ require 'yaml'
 # load initializers
 Dir.glob(File.expand_path '../../config/initializers/*.rb', __FILE__).each { |file| load file }
 
+require_relative '../lib/gundam'
+
 Dir.glob(File.expand_path '../../lib/**/*.rb', __FILE__).each { |file| load file }
 
 config = YAML.load_file(File.expand_path '~/.gundam.yml')
@@ -36,6 +38,17 @@ module GundamCli
         cli_options: options
       )
     end
+
+    desc 'add_comment', 'Add comment'
+    option :without_local_repo, type: :boolean
+    option :repository, type: :string
+    option :number, type: :numeric
+    def add_comment
+      Gundam::CommandRunner.new.run(
+        command: Gundam::Commands::Issue::AddComment,
+        command_options: { commentable: 'Pull' },
+        cli_options: options)
+    end
   end
 
   class Issue < Thor
@@ -49,18 +62,20 @@ module GundamCli
         cli_options: options
       )
     end
-  end
 
-  class Comments < Thor
-    desc 'create', 'Add comment'
+    desc 'add_comment', 'Add comment'
     option :without_local_repo, type: :boolean
     option :repository, type: :string
     option :number, type: :numeric
-    def create
+    def add_comment
       Gundam::CommandRunner.new.run(
         command: Gundam::Commands::Issue::AddComment,
+        command_options: { commentable: 'Issue' },
         cli_options: options)
     end
+  end
+
+  class Comments < Thor
   end
 
   class Base < Thor

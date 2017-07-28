@@ -62,7 +62,7 @@ module Gundam
             response = @client.repository(repo)
             RemoteRepositoryMapper.load(response)
           rescue Octokit::Unauthorized
-            raise Platforms::Unauthorized
+            raise Gundam::Unauthorized.new(:github_api_v3)
           end
 
           # @param repo [String]
@@ -83,7 +83,7 @@ module Gundam
             response = @client.create_pull_request(repo, base, head, title, body)
             PullRequestMapper.load(response)
           rescue Octokit::Error
-            raise Platforms::CreatePullRequestError
+            raise Gundam::CreatePullRequestError
           end
 
           def self.new_client

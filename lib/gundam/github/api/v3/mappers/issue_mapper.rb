@@ -8,9 +8,9 @@ module Gundam
           # @param resource [Sawyer::Resource]
           def self.load(resource)
             Gundam::Issue.new(
-              title: resource[:title],
               body:  resource[:body],
-              number: resource[:number]
+              number: resource[:number],
+              title: resource[:title],
             )
           end
         end
