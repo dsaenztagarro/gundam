@@ -1,9 +1,9 @@
 module Gundam
   class ContextProvider
-    attr_writer :cli_options
+    attr_writer :cli_options, :command_options
 
     def load_context
-      CommandContext.new(base_dir, cli_options).tap do |context|
+      CommandContext.new(base_dir, cli_options, command_options).tap do |context|
         context.extend(Context::WithRepository)
       end
     end
@@ -24,6 +24,10 @@ module Gundam
 
     def cli_options
       @cli_options ||= {}
+    end
+
+    def command_options
+      @command_options ||= {}
     end
   end
 end

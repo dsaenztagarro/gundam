@@ -30,14 +30,15 @@ describe Gundam::Github::API::V3::Gateway do
     it 'returns the Issue' do
       allow(client).to \
         receive(:issue)
-        .with('octocat/Hello-World', 1_296_269)
+        .with('octocat/Hello-World', 1347)
         .and_return(github_api_v3_response(:get_issue))
 
-      response = subject.issue('octocat/Hello-World', 1_296_269)
+      response = subject.issue('octocat/Hello-World', 1347)
 
       expect(response).to be_a(Gundam::Issue)
-      expect(response.title).to eq('Found a bug')
       expect(response.body).to eq("I'm having a problem with this.")
+      expect(response.number).to eq(1347)
+      expect(response.title).to eq('Found a bug')
     end
   end
 
@@ -132,8 +133,7 @@ describe Gundam::Github::API::V3::Gateway do
 
   describe '#create_pull_request' do
     it 'creates a pull request' do
-      allow(client).to \
-        receive(:create_pull_request)
+      allow(client).to receive(:create_pull_request)
         .with('octocat/Hello-World', 'master', 'new-topic', 'new-feature', 'Please pull these awesome changes')
         .and_return(github_api_v3_response(:create_pull_request))
 
@@ -151,6 +151,23 @@ describe Gundam::Github::API::V3::Gateway do
       expect(response.html_url).to eq('https://github.com/octocat/Hello-World/pull/1347')
       expect(response.source_branch).to eq('new-topic')
       expect(response.target_branch).to eq('master')
+    end
+
+    context 'when there is client error' do
+      before do
+        allow(client).to receive(:create_pull_request).with(any_args).and_raise(Octokit::Error)
+      end
+
+      it 'raises an exception' do
+        expect do
+          subject.create_pull_request(
+            repo: 'octocat/Hello-World',
+            base: 'master',
+            head: 'new-topic',
+            title: 'new-feature',
+            body: 'Please pull these awesome changes')
+        end.to raise_error(Gundam::CreatePullRequestError)
+      end
     end
   end
 end

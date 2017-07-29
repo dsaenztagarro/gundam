@@ -6,6 +6,9 @@
           "number": 1347,
           "title": "Found a bug",
           "bodyText": "I'm having a problem with this.",
+          "repository": {
+            "nameWithOwner": "octocat/Hello-World"
+          },
           "author": {
             "login": "octocat"
           },

@@ -22,7 +22,7 @@ module GithubHelper
         'Content-Type'  => 'application/json',
         'User-Agent'    => 'Gundam GraphQL Gateway'
       }
-    ).to_return(status: status, body: response, headers: {})
+    ).to_return(status: status, body: response, headers: {}).times(1)
   end
 
   private

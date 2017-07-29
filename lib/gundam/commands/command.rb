@@ -1,5 +1,3 @@
-require 'forwardable'
-
 module Gundam
   class Command
     extend Forwardable

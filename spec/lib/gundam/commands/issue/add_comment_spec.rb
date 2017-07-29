@@ -2,16 +2,17 @@ require 'spec_helper'
 require 'byebug'
 
 describe Gundam::Commands::Issue::AddComment do
-  let(:repo_service) { double('Gundam::Github::API::V3::Gateway') }
+  let(:repo_service) { double('FakeGateway') }
   let(:comment) { double('comment') }
+  let(:subject) { described_class.new(context) }
+  let(:issue_finder) { double(find: issue) }
+  let(:issue) { double(number: 1) }
 
   let(:context) do
-    double(cli_options: { number: 1 },
-           local_repo?: false,
-           repository: 'octocat/Hello-World',
-           repo_service: repo_service)
+    double('FakeContext', command_options: { commentable: 'Issue' },
+                          repository: 'octocat/Hello-World',
+                          repo_service: repo_service)
   end
-  let(:subject) { described_class.new(context) }
 
 	let(:tmp_filepath) do
 		"#{Gundam.base_dir}/files/octocat_Hello-World_issue_1_comment_20101115131020.md"
@@ -22,6 +23,11 @@ describe Gundam::Commands::Issue::AddComment do
 			time_now = with_utc_time_zone { Time.parse('2010-11-15 13:10:20').to_time }
 			allow(Time).to receive(:now).and_return(time_now)
 			File.delete(tmp_filepath) if File.exist?(tmp_filepath)
+
+      allow(Gundam::IssueFinder).to receive(:new).with(context)
+        .and_return(issue_finder)
+
+      allow(issue_finder).to receive(:find).and_return(issue)
 		end
 
 		it 'adds a comment to the issue when the user saves the file with text' do

@@ -15,9 +15,8 @@ module Gundam
       `echo #{pull_request.html_url} | pbcopy`
 
       puts Gundam::PullRequestDecorator.new(pull_request).show_pull_created
-    rescue Platforms::CreatePullRequestError,
-           Platforms::Unauthorized => error
-      puts ErrorDecorator.new(error)
+    rescue Gundam::Unauthorized, Gundam::CreatePullRequestError => error
+      Gundam::ErrorHandler.handle(error)
     end
   end
 end

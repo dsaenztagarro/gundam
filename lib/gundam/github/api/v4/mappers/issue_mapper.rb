@@ -7,8 +7,9 @@ module Gundam
           def self.load(resource)
             issue = resource['data']['repositoryOwner']['repository']['issue']
             Gundam::Issue.new(
-              number: issue['number'],
               body: issue['bodyText'],
+              number: issue['number'],
+              repository: issue['repository']['nameWithOwner'],
               title: issue['title'])
           end
         end

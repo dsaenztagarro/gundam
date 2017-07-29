@@ -17,42 +17,6 @@ describe Gundam::GetIssueCommand do
     end
     let(:subject) { described_class.new(context) }
 
-    context 'when GraphQL API V4' do
-      let(:repo_service) { Gundam::Github::API::V4::Gateway.new }
-
-      before { WebMock.disable_net_connect! }
-
-      context 'and status 200' do
-        before { stub_github_api_v4_request(:issue) }
-
-        it 'returns the issue' do
-          expected_output = <<~END
-            \e[31mFound a bug\e[0m
-            I'm having a problem with this.
-            \e[36moctocat\e[0m \e[34m2011-04-14T16:00:49Z\e[0m 318212279
-            Hello world
-            \e[36mtron\e[0m \e[34m2017-05-26T21:57:31Z\e[0m 318212280
-            Good bye
-          END
-
-          expect { subject.run }.to output(expected_output).to_stdout
-        end
-      end
-
-      it 'returns a bad credentials error message with status 401' do
-        stub_github_api_v4_request(:issue, {
-          status: 401,
-          response: "{\"message\":\"Bad credentials\",\"documentation_url\":\"https://developer.github.com/v3\"}"
-        })
-
-        expected_output = <<~END
-          \e[31m{\"message\":\"Bad credentials\",\"documentation_url\":\"https://developer.github.com/v3\"}\e[0m
-        END
-
-        expect { subject.run }.to output(expected_output).to_stdout
-      end
-    end
-
     context 'when Rest API V3' do
       let(:client) { double('Octokit::Client') }
       let(:repo_service) { Gundam::Github::API::V3::Gateway.new }
