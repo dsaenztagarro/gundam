@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 gem 'octokit'
 gem 'pastel'
 gem 'thor'
-gem 'i18n'
 
 group :test do
   gem 'simplecov'

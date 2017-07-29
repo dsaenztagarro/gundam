@@ -6,7 +6,7 @@ module Gundam
     end
 
     def user_message
-      ::I18n.t('errors.issue_not_found', repo: @repo, number: @number)
+      "Not found issue ##{@number} on #{@repo}"
     end
   end
 end
