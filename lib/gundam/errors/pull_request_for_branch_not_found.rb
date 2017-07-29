@@ -5,7 +5,7 @@ module Gundam
     end
 
     def user_message
-      ::I18n.t('errors.pull_request_for_branch_not_found', head: @head)
+      "Not found PR for branch #{@head}"
     end
   end
 end

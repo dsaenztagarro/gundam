@@ -5,7 +5,7 @@ module Gundam
     end
 
     def user_message
-      ::I18n.t('errors.base_dir_not_found', dir: @dir)
+      "Doesn't exist base dir #{@dir}"
     end
   end
 end

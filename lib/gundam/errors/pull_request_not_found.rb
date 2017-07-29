@@ -6,7 +6,7 @@ module Gundam
     end
 
     def user_message
-      ::I18n.t('errors.pull_request_not_found', repo: @repo, number: @number)
+      "Not found PR ##{@number} on #{@repo}"
     end
   end
 end

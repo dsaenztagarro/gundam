@@ -10,15 +10,12 @@ SimpleCov.start do
   add_filter 'spec/'
 end
 
-require 'webmock/rspec'
-require 'json'
-
-# load initializers
-Dir.glob(File.expand_path '../../config/initializers/*.rb', __FILE__).each { |file| load file }
-
 require_relative '../lib/gundam'
 
 Dir.glob(File.expand_path '../../lib/**/*.rb', __FILE__).each { |file| load file }
+
+require 'webmock/rspec'
+require 'json'
 
 Dir.glob(File.expand_path '../support/**/*.rb', __FILE__).each { |file| load file }
 
