@@ -1,5 +1,5 @@
 module Gundam
-  class Command
+  class Plugin
     extend Forwardable
 
     attr_reader :context

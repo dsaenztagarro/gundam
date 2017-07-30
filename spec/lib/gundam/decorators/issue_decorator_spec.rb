@@ -1,14 +1,7 @@
 require 'spec_helper'
 
 describe Gundam::IssueDecorator do
-  let(:issue) do
-    Gundam::Issue.new(
-      title: 'The title',
-      body: 'The body of the issue',
-      comments: [create_comment]
-    )
-  end
-
+  let(:issue) { create_issue_with_comments }
   let(:subject) { described_class.new(issue) }
 
   describe '#show_cli' do

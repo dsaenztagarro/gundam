@@ -1,6 +1,3 @@
-require_relative 'decorator'
-require_relative 'helpers/issue_helper'
-
 module Gundam
   class IssueDecorator < Decorator
     include Gundam::IssueHelper

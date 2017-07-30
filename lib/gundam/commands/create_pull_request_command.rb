@@ -1,22 +1,25 @@
 module Gundam
   class CreatePullRequestCommand < Command
-    def_delegators :context, :local_repo
+    def_delegators :context, :repo_service, :local_repo # context with repository
 
     def run
-      service = PlatformServiceFactory
-                .with_platform(local_repo.platform_constant_name).build
+			unless local_repo.exist_remote_branch?
+				local_repo.push_set_upstream
+			end
 
-      platform_repo = service.repository(local_repo.full_name)
+      options = plugin.pull_request_options
 
-      options = default_profile.pull_request_options(local_repo, platform_repo, service)
-
-      pull_request = service.create_pull_request(options)
+      pull_request = repo_service.create_pull_request(options)
 
       `echo #{pull_request.html_url} | pbcopy`
 
       puts Gundam::PullRequestDecorator.new(pull_request).show_pull_created
     rescue Gundam::Unauthorized, Gundam::CreatePullRequestError => error
       Gundam::ErrorHandler.handle(error)
+    end
+
+    def plugin
+      Gundam::CreatePullRequestPlugin.new(context)
     end
   end
 end

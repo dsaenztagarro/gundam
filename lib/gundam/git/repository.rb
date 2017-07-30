@@ -42,6 +42,17 @@ module Gundam
           Dir.chdir(dir) { `git rev-parse --abbrev-ref HEAD`.chomp }
       end
 
+      def exist_remote_branch?
+        run do
+          `git ls-remote --exit-code --heads #{remote_origin_url} #{current_branch}`
+          $CHILD_STATUS.exitstatus == 0
+        end
+      end
+
+      def push_set_upstream
+        run { `git push --set-upstream origin #{current_branch}` }
+      end
+
       private
 
       def remote_attributes
@@ -51,6 +62,10 @@ module Gundam
 
       def remote_origin_url
         Dir.chdir(dir) { `git config --get remote.origin.url`.chomp }
+      end
+
+      def run
+        Dir.chdir(dir) { yield }
       end
     end
   end
