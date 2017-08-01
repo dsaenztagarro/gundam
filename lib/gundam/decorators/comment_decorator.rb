@@ -1,7 +1,3 @@
-require_relative 'decorator'
-require 'byebug'
-
-
 module Gundam
   class CommentDecorator < Decorator
     def string

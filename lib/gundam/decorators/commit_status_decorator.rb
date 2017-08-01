@@ -1,5 +1,3 @@
-require_relative 'decorator'
-
 class CommitStatusDecorator < Decorator
   def to_s
     <<~END

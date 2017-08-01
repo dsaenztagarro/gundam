@@ -1,6 +1,6 @@
 module Gundam
   class GetIssueCommand < Command
-    def_delegators :context, :repo_service, :repository
+    def_delegators :context, :repo_service, :repository # context with repository
 
     def run
       issue = IssueFinder.new(context).find

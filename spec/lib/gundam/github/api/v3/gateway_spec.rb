@@ -112,6 +112,15 @@ describe Gundam::Github::API::V3::Gateway do
       expect(response.full_name).to eq('octocat/Hello-World')
       expect(response.default_branch).to eq('master')
     end
+
+    it 'raises an error with invalid credentials' do
+      allow(client).to receive(:repository).with('octocat/Hello-World')
+        .and_raise(Octokit::Unauthorized)
+
+      expect do
+        subject.repository('octocat/Hello-World')
+      end.to raise_error(Gundam::Unauthorized)
+    end
   end
 
   describe '#statuses' do

@@ -1,13 +1,7 @@
 require 'spec_helper'
 
 describe Gundam::PullRequestDecorator do
-  let(:issue) do
-    Gundam::PullRequest.new(
-      title: 'The title',
-      body: 'The body of the issue',
-      comments: [create_comment]
-    )
-  end
+  let(:issue) { create_pull_request }
 
   let(:subject) { described_class.new(issue) }
 
@@ -21,6 +15,13 @@ describe Gundam::PullRequestDecorator do
           Me too
         END
       )
+    end
+  end
+
+  describe '#show_pull_created' do
+    it 'returns the expected string' do
+      expect(subject.show_pull_created).to eq(
+        "\e[32mhttps://github.com/octocat/Hello-World/pull/1347\e[0m")
     end
   end
 end

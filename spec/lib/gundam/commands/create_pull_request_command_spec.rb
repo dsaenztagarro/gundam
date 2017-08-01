@@ -1,84 +1,93 @@
 require 'spec_helper'
 
 describe Gundam::CreatePullRequestCommand do
-  let(:local_repo) do
-    double('Git::Repository', current_branch: '1-topic-branch',
-                              full_name: 'octocat/Hello-World',
-                              platform_constant_name: 'Github')
-  end
+	let(:repo_service) { double('Gundam::Github::API::V3::Gateway') }
+  let(:local_repo) { double('Git::Repository') }
+  let(:context) do
+		double('Gundam::Context', local_repo: local_repo,
+															repo_service: repo_service)
+	end
 
-  let(:context) { Gundam::CommandContext.new('/base/dir', {}, {}) }
+	let(:plugin) { double('Gundam::Plugin') }
+	let(:decorator) { double('Gundam::PullRequestDecorator') }
+
   let(:subject) { described_class.new(context) }
 
-  before do
-    allow(context).to receive(:local_repo).and_return(local_repo)
-  end
+	let(:pr_options) { double('options') }
+	let(:pull_request) { create_pull_request }
 
   describe '#run' do
-    context 'when Rest API V3' do
-      let(:client) { double('Octokit::Client') }
+		before do
+			allow(Gundam::CreatePullRequestPlugin).to receive(:new).with(context)
+				.and_return(plugin)
+			allow(plugin).to receive(:pull_request_options).and_return(pr_options)
 
-      before do
-        allow(Gundam::Github::API::V3::Gateway).to \
-          receive(:new_client).and_return(client)
-      end
+			allow(Gundam::PullRequestDecorator).to receive(:new).with(pull_request)
+				.and_return(decorator)
+		end
 
-      context 'and status 200 for GET operations' do
+    context 'when the upstream is present' do
+			before do
+				allow(local_repo).to receive(:exist_remote_branch?).and_return(true)
+			end
+
+      it 'creates the pull request' do
+				expect(repo_service).to receive(:create_pull_request).with(pr_options)
+					.and_return(pull_request)
+
+				expect(subject).to receive(:`).with('echo https://github.com/octocat/Hello-World/pull/1347 | pbcopy')
+
+				expect(decorator).to receive(:show_pull_created)
+
+				subject.run
+			end
+
+      context 'and there is an error creating PR' do
         before do
-          allow(client).to receive(:repository)
-            .with('octocat/Hello-World')
-            .and_return(github_api_v3_response :get_repository)
-
-          allow(client).to receive(:issue)
-            .with('octocat/Hello-World', 1)
-            .and_return(github_api_v3_response :get_issue)
-        end
-
-        context 'and PR is created' do
-          before do
-            allow(client).to receive(:create_pull_request)
-              .with('octocat/Hello-World',
-                    'master',
-                    '1-topic-branch',
-                    'Found a bug',
-                    'This PR implements #1')
-              .and_return(github_api_v3_response :create_pull_request)
-          end
-
-          it 'prints the url of the created PR' do
-            expected_output = "\e[32mhttps://github.com/octocat/Hello-World/pull/1347\e[0m\n"
-
-            expect { subject.run }.to output(expected_output).to_stdout
-          end
-        end
-
-        context 'and there is an error creating PR' do
-          before do
-            cause_error = double('OriginalError', message: 'Error reason')
-            error = Gundam::CreatePullRequestError.new
-            allow(error).to receive(:cause).and_return(cause_error)
-            allow(client).to receive(:create_pull_request).and_raise(error)
-          end
-
-          it 'prints the error' do
-            expected_output = "\e[31mError reason\e[0m\n"
-
-            expect { subject.run }.to output(expected_output).to_stdout
-          end
-        end
-      end
-
-      context 'and status 401 on first GET operation' do
-        before do
-          allow(client).to receive(:repository).and_raise(Octokit::Unauthorized)
+          cause_error = double('OriginalError', message: 'Error reason')
+          error = Gundam::CreatePullRequestError.new
+          allow(error).to receive(:cause).and_return(cause_error)
+          allow(repo_service).to receive(:create_pull_request).and_raise(error)
         end
 
         it 'prints the error' do
-          expected_output = "\e[31mUnauthorized access to Github REST API V3\e[0m\n"
+          expected_output = "\e[31mError reason\e[0m\n"
 
           expect { subject.run }.to output(expected_output).to_stdout
         end
       end
+
+			context 'and status 401 on first GET operation' do
+				before do
+					allow(plugin).to receive(:pull_request_options)
+						.and_raise(Gundam::Unauthorized.new(:github_api_v3))
+				end
+
+				it 'prints the error' do
+					expected_output = "\e[31mUnauthorized access to Github REST API V3\e[0m\n"
+
+					expect { subject.run }.to output(expected_output).to_stdout
+				end
+			end
     end
-  end
+
+    context 'when the upstream is present' do
+      before do
+        allow(local_repo).to receive(:exist_remote_branch?).and_return(false)
+      end
+
+      it 'creates the pull request' do
+        expect(local_repo).to receive(:push_set_upstream)
+
+        expect(repo_service).to receive(:create_pull_request).with(pr_options)
+          .and_return(pull_request)
+
+        expect(subject).to receive(:`).with('echo https://github.com/octocat/Hello-World/pull/1347 | pbcopy')
+
+        expect(decorator).to receive(:show_pull_created)
+
+        subject.run
+      end
+    end
+	end
 end
