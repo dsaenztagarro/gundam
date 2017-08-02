@@ -3,9 +3,7 @@ module Gundam
     def_delegators :context, :repo_service, :local_repo # context with repository
 
     def run
-			unless local_repo.exist_remote_branch?
-				local_repo.push_set_upstream
-			end
+      local_repo.push_set_upstream unless local_repo.exist_remote_branch?
 
       options = plugin.pull_request_options
 

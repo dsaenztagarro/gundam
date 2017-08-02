@@ -1,15 +1,9 @@
 module Gundam
   class GetPullRequestCommand < Command
-    def_delegators :context, :cli_options # base context
-    def_delegators :context, :local_repo?, :local_repo, :repo_service,
-      :repository # context with repository
+    def_delegators :context, :repo_service, :repository # context with repository
 
     def run
-      pull = if local_repo?
-               local_repo.current_pull
-             else
-               repo_service.pull_request(repository, cli_options[:number])
-             end
+      pull = PullFinder.new(context).find
       pull.comments = repo_service.issue_comments(repository, pull.number)
       pull.statuses = repo_service.statuses(repository, pull.head_sha)
 
