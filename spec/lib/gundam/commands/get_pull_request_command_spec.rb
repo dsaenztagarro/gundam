@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Gundam::GetPullRequestCommand do
   describe '#run' do
-    let(:service) { Gundam::Github::API::V3::Gateway.new }
+    let(:repo_service) { Gundam::Github::API::V3::Gateway.new }
     let(:repo_options) { { without_local_repo: true, number: 1347 } }
     let(:other_options) { {} }
     let(:cli_options) { repo_options.merge(other_options) }
@@ -11,7 +11,7 @@ describe Gundam::GetPullRequestCommand do
              local_repo?: false,
              repository: 'octocat/Hello-World',
              number: 1347,
-             repo_service: service)
+             repo_service: repo_service)
     end
     let(:subject) { described_class.new(context) }
 
@@ -22,10 +22,10 @@ describe Gundam::GetPullRequestCommand do
         body: "Please pull these awesome changes",
         head_sha: "6dcb09b5b57875f334f61aebed695e2e4193db5e")
 
-      allow(service).to receive(:pull_request)
+      allow(repo_service).to receive(:pull_request)
         .with('octocat/Hello-World', 1347).and_return(pull)
 
-      allow(service).to receive(:issue_comments)
+      allow(repo_service).to receive(:issue_comments)
         .with('octocat/Hello-World', 1347).and_return([create_comment])
 
       statuses = [
@@ -36,7 +36,7 @@ describe Gundam::GetPullRequestCommand do
           updated_at: '2012-07-20T01:19:13Z')
       ]
 
-      allow(service).to receive(:statuses)
+      allow(repo_service).to receive(:statuses)
         .with('octocat/Hello-World', '6dcb09b5b57875f334f61aebed695e2e4193db5e')
         .and_return(statuses)
     end
@@ -57,7 +57,7 @@ describe Gundam::GetPullRequestCommand do
 
     context "when there isn't a PR with passed number" do
       before do
-        allow(service).to receive(:pull_request).
+        allow(repo_service).to receive(:pull_request).
           with('octocat/Hello-World', 1347).
           and_raise Gundam::PullRequestNotFound.new('octocat/Hello-World', 1347)
       end
@@ -86,7 +86,7 @@ describe Gundam::GetPullRequestCommand do
                local_repo?: true,
                local_repo: local_repo,
                repository: 'octocat/Hello-World',
-               repo_service: service)
+               repo_service: repo_service)
       end
 
       it 'returns the pull request' do
