@@ -10,12 +10,26 @@ module Gundam
             @client = client
           end
 
+          def issue_comment(repo, number)
+            response = @client.issue_comment(repo, number)
+            IssueCommentMapper.load(response)
+          end
+
           # @param repo [String]
           # @param number [Fixnum]
           # @param comment [String]
           # @return [Gundam::IssueComment]
           def add_comment(repo, number, comment)
             response = @client.add_comment(repo, number, comment)
+            IssueCommentMapper.load(response)
+          end
+
+          # @param repo [String] A GitHub repository
+          # @param number [Fixnum] Comment number
+          # @param comment [String] Body of the comment which will replace the existing body
+          # @return [Gundam::IssueComment]
+          def update_comment(repo, number, comment)
+            response = @client.update_comment(repo, number, comment)
             IssueCommentMapper.load(response)
           end
 

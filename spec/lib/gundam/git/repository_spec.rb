@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gundam::Git::Repository do
+describe Gundam::Git::Repository, git: true do
   describe '#current_branch' do
     it 'returns the current branch' do
       change_to_git_repo_with_topic_branch do |repo_dir|

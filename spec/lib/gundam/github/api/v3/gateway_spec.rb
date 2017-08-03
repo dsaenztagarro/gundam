@@ -26,6 +26,24 @@ describe Gundam::Github::API::V3::Gateway do
     end
   end
 
+  describe '#update_comment' do
+    it 'returns the comment created' do
+      allow(client).to \
+        receive(:update_comment)
+        .with('octocat/Hello-World', 1, 'Me too')
+        .and_return(github_api_v3_response(:create_issue_comment))
+
+      response = subject.update_comment('octocat/Hello-World', 1, 'Me too')
+
+      expect(response).to be_a(Gundam::IssueComment)
+      expect(response.body).to eq('Me too')
+      expect(response.created_at).to eq('2011-04-14T16:00:49Z')
+      expect(response.html_url).to eq('https://github.com/octocat/Hello-World/issues/1347#issuecomment-1')
+      expect(response.id).to eq(1)
+      expect(response.updated_at).to eq('2011-04-14T16:00:49Z')
+    end
+  end
+
   describe '#issue' do
     it 'returns the Issue' do
       allow(client).to \
@@ -56,6 +74,20 @@ describe Gundam::Github::API::V3::Gateway do
 
       comment = response.first
       expect(comment.body).to eq('Me too')
+    end
+  end
+
+  describe '#issue_comment' do
+    it 'returns the comment' do
+      allow(client).to \
+        receive(:issue_comment)
+        .with('octocat/Hello-World', 1_296_269)
+        .and_return(github_api_v3_response(:get_issue_comment))
+
+      response = subject.issue_comment('octocat/Hello-World', 1_296_269)
+
+      expect(response).to be_a(Gundam::IssueComment)
+      expect(response.body).to eq('Me too')
     end
   end
 
