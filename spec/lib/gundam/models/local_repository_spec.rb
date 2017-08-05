@@ -13,7 +13,7 @@ describe LocalRepository do
 
   describe '#current_pull' do
     before do
-      allow(PlatformServiceFactory).to receive(:with_platform).with('Github')
+      allow(Gundam::RepoServiceFactory).to receive(:with_platform).with('Github')
         .and_return(factory)
       allow(factory).to receive(:build).and_return(service)
     end
