@@ -1,7 +1,6 @@
 require 'spec_helper'
-require 'byebug'
 
-describe Gundam::Commands::Issue::AddComment do
+describe Gundam::Commands::CreateComment do
   let(:repo_service) { double('FakeGateway') }
   let(:comment) { double('comment') }
   let(:subject) { described_class.new(context) }

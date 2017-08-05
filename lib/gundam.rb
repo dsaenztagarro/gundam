@@ -4,6 +4,7 @@ require 'forwardable'
 require_relative 'gundam/configurable'
 require_relative 'gundam/commands/command'
 require_relative 'gundam/commands/plugin'
+require_relative 'gundam/commands/shared/file_helper'
 require_relative 'gundam/decorators/decorator'
 require_relative 'gundam/decorators/helpers/issue_helper'
 

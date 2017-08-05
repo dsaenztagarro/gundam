@@ -7,13 +7,13 @@ require 'thor'
 require 'yaml'
 
 # load initializers
-Dir.glob(File.expand_path '../../config/initializers/*.rb', __FILE__).each { |file| load file }
+Dir.glob(File.expand_path('../../config/initializers/*.rb', __FILE__)).each { |file| load file }
 
 require_relative '../lib/gundam'
 
-Dir.glob(File.expand_path '../../lib/**/*.rb', __FILE__).each { |file| load file }
+Dir.glob(File.expand_path('../../lib/**/*.rb', __FILE__)).each { |file| load file }
 
-config = YAML.load_file(File.expand_path '~/.gundam.yml')
+config = YAML.load_file(File.expand_path('~/.gundam.yml'))
 
 Gundam.configure do |c|
   c.github_access_token = config['github']['personal_access_token']
@@ -25,7 +25,8 @@ module GundamCli
     desc 'create', 'Create pull request'
     def create
       Gundam::CommandRunner.new.run(
-        command: Gundam::CreatePullRequestCommand)
+        command: Gundam::CreatePullRequestCommand
+      )
     end
 
     desc 'pull', 'Get pull request'
@@ -45,9 +46,20 @@ module GundamCli
     option :number, type: :numeric
     def add_comment
       Gundam::CommandRunner.new.run(
-        command: Gundam::Commands::Issue::AddComment,
+        command: Gundam::Commands::CreateComment,
         command_options: { commentable: 'Pull' },
-        cli_options: options)
+        cli_options: options
+      )
+    end
+
+    desc 'update_comment', 'Update comment'
+    option :comment_id, type: :numeric
+    def update_comment
+      Gundam::CommandRunner.new.run(
+        command: Gundam::Commands::UpdateComment,
+        command_options: { commentable: 'Pull' },
+        cli_options: options
+      )
     end
   end
 
@@ -71,7 +83,18 @@ module GundamCli
       Gundam::CommandRunner.new.run(
         command: Gundam::Commands::Issue::AddComment,
         command_options: { commentable: 'Issue' },
-        cli_options: options)
+        cli_options: options
+      )
+    end
+
+    desc 'update_comment', 'Update comment'
+    option :comment_id, type: :numeric
+    def update_comment
+      Gundam::CommandRunner.new.run(
+        command: Gundam::Commands::Comments::Update,
+        command_options: { commentable: 'Issue' },
+        cli_options: options
+      )
     end
   end
 
@@ -79,15 +102,14 @@ module GundamCli
   end
 
   class Base < Thor
-    desc "issue SUBCOMMAND ...ARGS", "manage set of issue requests"
-    subcommand "issue", GundamCli::Issue
+    desc 'issue SUBCOMMAND ...ARGS', 'manage set of issue requests'
+    subcommand 'issue', GundamCli::Issue
 
-    desc "pull SUBCOMMAND ...ARGS", "manage set of pull requests"
-    subcommand "pull", GundamCli::Pull
+    desc 'pull SUBCOMMAND ...ARGS', 'manage set of pull requests'
+    subcommand 'pull', GundamCli::Pull
 
-    desc "comments SUBCOMMAND ...ARGS", "manage set of pull requests"
-    subcommand "comments", GundamCli::Comments
-
+    desc 'comments SUBCOMMAND ...ARGS', 'manage set of pull requests'
+    subcommand 'comments', GundamCli::Comments
   end
 end
 
