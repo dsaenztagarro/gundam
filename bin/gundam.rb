@@ -21,6 +21,16 @@ Gundam.configure do |c|
 end
 
 module GundamCli
+  class Vim < Thor
+    desc 'words ORGANIZATION', 'Create dictionary with Github Team members'
+    def words(organization)
+      Gundam::CommandRunner.new.run(
+        command: Gundam::SetupVimWordsCommand,
+        cli_options: { organization: organization }
+      )
+    end
+  end
+
   class Pull < Thor
     desc 'create', 'Create pull request'
     def create
@@ -40,11 +50,11 @@ module GundamCli
       )
     end
 
-    desc 'add_comment', 'Add comment'
+    desc 'comment', 'Add comment'
     option :without_local_repo, type: :boolean
     option :repository, type: :string
     option :number, type: :numeric
-    def add_comment
+    def comment
       Gundam::CommandRunner.new.run(
         command: Gundam::Commands::CreateComment,
         command_options: { commentable: 'Pull' },
@@ -75,13 +85,13 @@ module GundamCli
       )
     end
 
-    desc 'add_comment', 'Add comment'
+    desc 'comment', 'Add comment'
     option :without_local_repo, type: :boolean
     option :repository, type: :string
     option :number, type: :numeric
-    def add_comment
+    def comment
       Gundam::CommandRunner.new.run(
-        command: Gundam::Commands::Issue::AddComment,
+        command: Gundam::Commands::CreateComment,
         command_options: { commentable: 'Issue' },
         cli_options: options
       )
@@ -102,6 +112,9 @@ module GundamCli
   end
 
   class Base < Thor
+    desc 'vim SUBCOMMAND ...ARGS', 'manage set of vim requests'
+    subcommand 'vim', GundamCli::Vim
+
     desc 'issue SUBCOMMAND ...ARGS', 'manage set of issue requests'
     subcommand 'issue', GundamCli::Issue
 

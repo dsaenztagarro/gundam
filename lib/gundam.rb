@@ -1,5 +1,6 @@
 require 'English' # needed by $CHILD_STATUS
 require 'forwardable'
+require 'stringio'
 
 require_relative 'gundam/configurable'
 require_relative 'gundam/helpers/colorize_helper'
