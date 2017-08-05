@@ -12,7 +12,7 @@ class LocalRepository < SimpleDelegator
   end
 
   def service
-    @service ||= PlatformServiceFactory.with_platform(platform_constant_name).build
+    @service ||= Gundam::RepoServiceFactory.with_platform(platform_constant_name).build
   end
 
   class << self

@@ -23,7 +23,7 @@ module Gundam
           local_repo.service
         else
           platform_constant_name = cli_option_or_error(:platform_constant_name)
-          PlatformServiceFactory.with_platform(platform_constant_name).build
+          RepoServiceFactory.with_platform(platform_constant_name).build
         end
       end
 

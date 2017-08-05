@@ -1,5 +1,3 @@
-require_relative '../helpers/colorize_helper'
-
 module Gundam
   class ErrorHandler
     class << self
