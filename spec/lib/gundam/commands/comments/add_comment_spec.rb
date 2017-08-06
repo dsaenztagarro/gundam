@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Gundam::Commands::CreateComment do
-  let(:repo_service) { double('FakeGateway') }
+  let(:repo_service) { double('RepoService') }
   let(:comment) { double('comment') }
   let(:subject) { described_class.new(context) }
   let(:issue_finder) { double(find: issue) }

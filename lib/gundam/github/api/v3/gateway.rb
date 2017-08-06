@@ -10,6 +10,16 @@ module Gundam
             @client = client
           end
 
+          def org_teams(organization)
+            response = @client.org_teams(organization)
+            response.map { |resource| TeamMapper.load(resource) }
+          end
+
+          def team_members(team_id)
+            response = @client.team_members(team_id)
+            response.map { |resource| TeamMemberMapper.load(resource) }
+          end
+
           def issue_comment(repo, number)
             response = @client.issue_comment(repo, number)
             IssueCommentMapper.load(response)

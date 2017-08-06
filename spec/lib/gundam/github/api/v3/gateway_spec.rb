@@ -211,4 +211,45 @@ describe Gundam::Github::API::V3::Gateway do
       end
     end
   end
+
+  describe '#org_teams' do
+    it 'returns the teams of an organization' do
+      allow(client).to receive(:org_teams).with('myorg')
+        .and_return(github_api_v3_response(:get_teams))
+
+      result = subject.org_teams('myorg')
+
+			expected_teams = [{id: 1, name: 'Justice League'}, {id: 2, name: 'ATeam'}]
+
+      expect(result).to be_a(Array)
+
+			result.zip(expected_teams).each do |team, expected_team|
+				expect(team).to be_a(Gundam::Team)
+				expect(team.id).to eq(expected_team[:id])
+				expect(team.name).to eq(expected_team[:name])
+			end
+    end
+  end
+
+  describe '#team_members' do
+    it 'returns the members of the team' do
+      allow(client).to receive(:teams)
+        .and_return(github_api_v3_response(:get_teams))
+
+      allow(client).to receive(:team_members).with(2)
+        .and_return(github_api_v3_response(:get_team_members))
+
+      result = subject.team_members(2)
+
+			expected_team_members = [{id: 1, login: 'octocat'}, {id: 2, login: 'zuma'}]
+
+      expect(result).to be_a(Array)
+
+			result.zip(expected_team_members).each do |member, expected_member|
+				expect(member).to be_a(Gundam::TeamMember)
+				expect(member.id).to eq(expected_member[:id])
+				expect(member.login).to eq(expected_member[:login])
+			end
+    end
+  end
 end

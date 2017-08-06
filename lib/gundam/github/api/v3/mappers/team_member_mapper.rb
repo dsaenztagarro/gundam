@@ -2,13 +2,12 @@ module Gundam
   module Github
     module API
       module V3
-        class IssueMapper
+        class TeamMemberMapper
           # @param resource [Sawyer::Resource]
           def self.load(resource)
-            Gundam::Issue.new(
-              body:  resource[:body],
-              number: resource[:number],
-              title: resource[:title],
+            Gundam::TeamMember.new(
+              id:  resource[:id],
+              login: resource[:login]
             )
           end
         end
