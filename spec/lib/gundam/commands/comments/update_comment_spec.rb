@@ -57,7 +57,7 @@ describe Gundam::Commands::UpdateComment do
       expect(subject).to receive(:system) do |arg|
 				expect(arg).to eq("$EDITOR #{tmp_filepath}")
 				# User appends content to the comment
-				File.open(tmp_filepath, 'w') { |file| file.write("") }
+				File.open(tmp_filepath, 'a') { |file| file.write("") }
 			end
 
 			expect(repo_service).to_not receive(:update_comment)

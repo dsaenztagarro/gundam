@@ -55,7 +55,7 @@ module Gundam
 
           # @param repo [String]
           # @param number [Fixnum]
-          # @return [IssueCommentGateway]
+          # @return [Array<Gundam::IssueComment>]
           def issue_comments(repo, number)
             list = @client.issue_comments(repo, number)
             list.map { |item| IssueCommentMapper.load(item) }
@@ -64,7 +64,7 @@ module Gundam
 
           # @param repo [String]
           # @param number [Fixnum]
-          # @return [PullRequestGateway]
+          # @return [Gundam::PullRequest]
           def pull_request(repo, number)
             response = @client.pull_request(repo, number)
             PullRequestMapper.load(response)
@@ -74,19 +74,24 @@ module Gundam
 
           # @param repo [String]
           # @param number [Fixnum]
-          # @return [Gundam::PullRequest]
+          # @return [Array<Gundam::PullRequest>]
           def pull_requests(repo, options = {})
             list = @client.pull_requests(repo, options)
             list.map { |pull_request| PullRequestMapper.load(pull_request) }
           end
 
           # @param repo [String]
-          # @return [RepositoryGateway]
+          # @return [Gundam::RemoteRepository]
           def repository(repo)
             response = @client.repository(repo)
             RemoteRepositoryMapper.load(response)
           rescue Octokit::Unauthorized
             raise Gundam::Unauthorized.new(:github_api_v3)
+          end
+
+          def update_pull_request(repo, number, body)
+            response = @client.update_pull_request(repo, number, body: body)
+            PullRequestMapper.load(response)
           end
 
           # @param repo [String]
@@ -102,7 +107,7 @@ module Gundam
           # @param head [String] The branch (or git ref) where your changes are implemented
           # @param title [String] Title for the pull request
           # @param body [String] The body for the pull request
-          # @return [Saywer::Resource]
+          # @return [Gundam::PullRequest]
           def create_pull_request(repo:, base:, head:, title:, body:)
             response = @client.create_pull_request(repo, base, head, title, body)
             PullRequestMapper.load(response)

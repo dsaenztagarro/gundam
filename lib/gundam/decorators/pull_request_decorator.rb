@@ -14,6 +14,10 @@ module Gundam
       green(html_url)
     end
 
+    def string_on_update
+      green("#{html_url} (updated)")
+    end
+
     private
 
     # @param output [StringIO]

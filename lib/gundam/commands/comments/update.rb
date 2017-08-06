@@ -10,17 +10,14 @@ module Gundam
         commentable = commentable_finder.find
 
         comment = repo_service.issue_comment(repository, comment_id)
+        original_text = comment.body
 
-        filepath = create_file(new_comment_filename(commentable))
+        filepath = create_file(new_comment_filename(commentable), original_text)
 
-        write_file(filepath, comment.body)
+        new_text = edit_file(filepath)
+        return if new_text.eql?(original_text)
 
-        open_file(filepath)
-
-        text = File.read(filepath)
-        return if text.empty?
-
-        comment = repo_service.update_comment(repository, comment_id, text)
+        comment = repo_service.update_comment(repository, comment_id, new_text)
 
         puts Gundam::CommentDecorator.new(comment).string_on_create
       end
