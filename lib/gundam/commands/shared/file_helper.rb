@@ -22,6 +22,10 @@ module Gundam
         def file_timestamp
           Time.now.utc.strftime('%Y%m%d%H%M%S')
         end
+
+        def file_repo
+          repository.tr('/', '_')
+        end
       end
     end
   end
