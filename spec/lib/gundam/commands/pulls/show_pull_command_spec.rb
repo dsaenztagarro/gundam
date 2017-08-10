@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gundam::GetPullRequestCommand do
+describe Gundam::ShowPullCommand do
   describe '#run' do
     let(:repo_service) { Gundam::Github::API::V3::Gateway.new }
     let(:repo_options) { { without_local_repo: true, number: 1347 } }

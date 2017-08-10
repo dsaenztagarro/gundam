@@ -8,5 +8,9 @@ module Gundam
       add_comments(io)
       io.string
     end
+
+    def string_on_update
+      green("#{html_url} (updated)")
+    end
   end
 end

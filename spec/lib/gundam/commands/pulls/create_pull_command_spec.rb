@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gundam::CreatePullRequestCommand do
+describe Gundam::CreatePullCommand do
 	let(:repo_service) { double('Gundam::Github::API::V3::Gateway') }
   let(:local_repo) { double('Git::Repository') }
   let(:context) do
@@ -18,7 +18,7 @@ describe Gundam::CreatePullRequestCommand do
 
   describe '#run' do
 		before do
-			allow(Gundam::CreatePullRequestPlugin).to receive(:new).with(context)
+			allow(Gundam::CreatePullPlugin).to receive(:new).with(context)
 				.and_return(plugin)
 			allow(plugin).to receive(:pull_request_options).and_return(pr_options)
 

@@ -25,9 +25,5 @@ module Gundam
       repo = repository.tr('/', '_')
       "#{repo}_pulls_#{pull.number}_#{file_timestamp}.md"
     end
-
-    def pull_body_changed?(pull, text)
-
-    end
   end
 end

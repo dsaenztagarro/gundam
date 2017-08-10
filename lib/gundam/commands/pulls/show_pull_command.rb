@@ -1,5 +1,5 @@
 module Gundam
-  class GetPullRequestCommand < Command
+  class ShowPullCommand < Command
     def_delegators :context, :repo_service, :repository # context with repository
 
     def run

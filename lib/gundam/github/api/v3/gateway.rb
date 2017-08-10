@@ -55,6 +55,15 @@ module Gundam
 
           # @param repo [String]
           # @param number [Fixnum]
+          # @param text [String]
+          # @return [Gundam::Issue]
+          def update_issue(repo, number, body)
+            response = @client.update_issue(repo, number, body: body)
+            IssueMapper.load(response)
+          end
+
+          # @param repo [String]
+          # @param number [Fixnum]
           # @return [Array<Gundam::IssueComment>]
           def issue_comments(repo, number)
             list = @client.issue_comments(repo, number)

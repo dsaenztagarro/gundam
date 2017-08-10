@@ -1,5 +1,5 @@
 module Gundam
-  class CreatePullRequestCommand < Command
+  class CreatePullCommand < Command
     def_delegators :context, :repo_service, :local_repo # context with repository
 
     def run
@@ -17,7 +17,7 @@ module Gundam
     end
 
     def plugin
-      Gundam::CreatePullRequestPlugin.new(context)
+      Gundam::CreatePullPlugin.new(context)
     end
   end
 end
