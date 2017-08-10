@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gundam::CreatePullRequestPlugin do
+describe Gundam::CreatePullPlugin do
   let(:repo_service) { double('Gundam::Github::API::V3::Gateway') }
   let(:local_repo) do
     double('Git::Repository', current_branch: '1-new-feature',

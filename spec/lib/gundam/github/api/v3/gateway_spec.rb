@@ -60,6 +60,22 @@ describe Gundam::Github::API::V3::Gateway do
     end
   end
 
+  describe '#update_issue' do
+    it 'creates a pull request' do
+      allow(client).to receive(:update_issue)
+        .with('octocat/Hello-World', 1347, body: "I'm having a problem with this.")
+        .and_return(github_api_v3_response(:update_issue))
+
+      response = subject.update_issue(
+        'octocat/Hello-World', 1347, "I'm having a problem with this.")
+
+      expect(response).to be_a Gundam::Issue
+      expect(response.body).to eq("I'm having a problem with this.")
+      expect(response.number).to eq(1347)
+      expect(response.title).to eq('Found a bug')
+    end
+  end
+
   describe '#issue_comments' do
     it 'returns a list of comments' do
       allow(client).to \

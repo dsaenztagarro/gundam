@@ -34,7 +34,7 @@ module GundamCli
   class Pull < Thor
     desc 'create', 'Create pull'
     def create
-      Gundam::CommandRunner.new.run(command: Gundam::CreatePullRequestCommand)
+      Gundam::CommandRunner.new.run(command: Gundam::CreatePullCommand)
     end
 
     desc 'update', 'Update pull'
@@ -48,7 +48,7 @@ module GundamCli
     option :number, type: :numeric
     def show
       Gundam::CommandRunner.new.run(
-        command: Gundam::GetPullRequestCommand,
+        command: Gundam::ShowPullCommand,
         cli_options: options
       )
     end
@@ -86,6 +86,11 @@ module GundamCli
         command: Gundam::GetIssueCommand,
         cli_options: options
       )
+    end
+
+    desc 'update', 'Update issue'
+    def update
+      Gundam::CommandRunner.new.run(command: Gundam::UpdateIssueCommand)
     end
 
     desc 'comment', 'Add comment'

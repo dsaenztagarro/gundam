@@ -1,5 +1,5 @@
 module Gundam
-  class CreatePullRequestPlugin < Gundam::Plugin
+  class CreatePullPlugin < Gundam::Plugin
     def_delegators :context, :repo_service, :local_repo # context with repository
 
     # @return [Hash]
