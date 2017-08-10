@@ -22,9 +22,8 @@ module Gundam
       private
 
       def new_comment_filename(commentable)
-        repo = repository.tr('/', '_')
         number = commentable.number
-        "#{repo}_issue_#{number}_comment_#{file_timestamp}.md"
+        "#{file_repo}_issue_#{number}_comment_#{file_timestamp}.md"
       end
 
       def commentable_finder
