@@ -212,6 +212,25 @@ describe Gundam::Github::API::V3::Gateway do
     end
   end
 
+  describe '#update_pull_request' do
+    it 'creates a pull request' do
+      allow(client).to receive(:update_pull_request)
+        .with('octocat/Hello-World', 2, body: 'Please pull these awesome changes')
+        .and_return(github_api_v3_response(:update_pull_request))
+
+      response = subject.update_pull_request(
+        'octocat/Hello-World', 2, 'Please pull these awesome changes')
+
+      expect(response).to be_a Gundam::PullRequest
+      expect(response.body).to eq('Please pull these awesome changes')
+      expect(response.head_repo_full_name).to eq('octocat/Hello-World')
+      expect(response.head_sha).to eq('6dcb09b5b57875f334f61aebed695e2e4193db5e')
+      expect(response.html_url).to eq('https://github.com/octocat/Hello-World/pull/1347')
+      expect(response.source_branch).to eq('new-topic')
+      expect(response.target_branch).to eq('master')
+    end
+  end
+
   describe '#org_teams' do
     it 'returns the teams of an organization' do
       allow(client).to receive(:org_teams).with('myorg')

@@ -11,9 +11,7 @@ module Gundam
 
         filepath = create_file(new_comment_filename(commentable))
 
-        open_file(filepath)
-
-        text = File.read(filepath)
+        text = edit_file(filepath)
         return if text.empty?
 
         comment = repo_service.add_comment(repository, commentable.number, text)
