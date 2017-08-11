@@ -3,7 +3,7 @@ module Gundam
 
     private
 
-    def edit_issue_filename(pull)
+    def issue_filename(pull)
       "#{file_repo}_pulls_#{pull.number}_#{file_timestamp}.md"
     end
 

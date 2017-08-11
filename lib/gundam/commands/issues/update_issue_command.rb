@@ -9,7 +9,7 @@ module Gundam
       issue = find_issue
       original_text = issue.body
 
-      filepath = create_file(edit_issue_filename(issue), original_text)
+      filepath = create_file(issue_filename(issue), original_text)
 
       new_text = edit_file(filepath)
       return if new_text.eql?(original_text)
@@ -21,7 +21,7 @@ module Gundam
 
     private
 
-    def edit_issue_filename(issue)
+    def issue_filename(issue)
       "#{file_repo}_issues_#{issue.number}_#{file_timestamp}.md"
     end
 
