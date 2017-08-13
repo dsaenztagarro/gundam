@@ -57,6 +57,15 @@ module Gundam
           # @param number [Fixnum]
           # @param text [String]
           # @return [Gundam::Issue]
+          def create_issue(repo, title, body, options)
+            response = @client.create_issue(repo, title, body, options)
+            IssueMapper.load(response)
+          end
+
+          # @param repo [String]
+          # @param number [Fixnum]
+          # @param text [String]
+          # @return [Gundam::Issue]
           def update_issue(repo, number, body)
             response = @client.update_issue(repo, number, body: body)
             IssueMapper.load(response)

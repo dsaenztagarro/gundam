@@ -6,9 +6,6 @@ end
 require 'thor'
 require 'yaml'
 
-# load initializers
-Dir.glob(File.expand_path('../../config/initializers/*.rb', __FILE__)).each { |file| load file }
-
 require_relative '../lib/gundam'
 
 Dir.glob(File.expand_path('../../lib/**/*.rb', __FILE__)).each { |file| load file }
@@ -32,16 +29,6 @@ module GundamCli
   end
 
   class Pull < Thor
-    desc 'create', 'Create pull'
-    def create
-      Gundam::CommandRunner.new.run(command: Gundam::CreatePullCommand)
-    end
-
-    desc 'update', 'Update pull'
-    def update
-      Gundam::CommandRunner.new.run(command: Gundam::UpdatePullCommand)
-    end
-
     desc 'pull', 'Get pull request'
     option :without_local_repo, type: :boolean
     option :repository, type: :string
@@ -51,6 +38,16 @@ module GundamCli
         command: Gundam::ShowPullCommand,
         cli_options: options
       )
+    end
+
+    desc 'create', 'Create pull'
+    def create
+      Gundam::CommandRunner.new.run(command: Gundam::CreatePullCommand)
+    end
+
+    desc 'update', 'Update pull'
+    def update
+      Gundam::CommandRunner.new.run(command: Gundam::UpdatePullCommand)
     end
 
     desc 'comment', 'Add comment'
@@ -86,6 +83,11 @@ module GundamCli
         command: Gundam::GetIssueCommand,
         cli_options: options
       )
+    end
+
+    desc 'create', 'Create issue'
+    def create
+      Gundam::CommandRunner.new.run(command: Gundam::CreateIssueCommand)
     end
 
     desc 'update', 'Update issue'
