@@ -6,9 +6,6 @@ end
 require 'thor'
 require 'yaml'
 
-# load initializers
-Dir.glob(File.expand_path('../../config/initializers/*.rb', __FILE__)).each { |file| load file }
-
 require_relative '../lib/gundam'
 
 Dir.glob(File.expand_path('../../lib/**/*.rb', __FILE__)).each { |file| load file }

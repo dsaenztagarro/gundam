@@ -60,8 +60,24 @@ describe Gundam::Github::API::V3::Gateway do
     end
   end
 
+  describe '#create_issue' do
+    it 'creates an issue' do
+      allow(client).to receive(:create_issue)
+        .with('octocat/Hello-World', 'Found a bug', "I'm having a problem with this.", labels: 'board:products,bug')
+        .and_return(github_api_v3_response(:create_issue))
+
+      response = subject.create_issue(
+        'octocat/Hello-World', 'Found a bug', "I'm having a problem with this.", labels: 'board:products,bug')
+
+      expect(response).to be_a Gundam::Issue
+      expect(response.body).to eq("I'm having a problem with this.")
+      expect(response.number).to eq(1347)
+      expect(response.title).to eq('Found a bug')
+    end
+  end
+
   describe '#update_issue' do
-    it 'creates a pull request' do
+    it 'updates an issue' do
       allow(client).to receive(:update_issue)
         .with('octocat/Hello-World', 1347, body: "I'm having a problem with this.")
         .and_return(github_api_v3_response(:update_issue))

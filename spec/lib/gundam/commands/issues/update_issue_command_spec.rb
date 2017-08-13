@@ -41,7 +41,7 @@ describe Gundam::UpdateIssueCommand do
 				and_return(double('IssueComment', html_url: 'https://...'))
 
 			expected_output = <<~END
-				\e[32mhttps://... (updated)\e[0m
+				\e[32mhttps://...\e[0m
 			END
 
 			expect { subject.run }.to output(expected_output).to_stdout

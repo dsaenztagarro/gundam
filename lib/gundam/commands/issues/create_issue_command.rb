@@ -1,39 +1,55 @@
+require 'erb'
+require 'byebug'
+
 module Gundam
-  class CreateIssueCommand < Gundam::Command
-    include Gundam::Commands::Shared::FileHelper
+  class CreateIssueCommand < Command
+    include Commands::Shared::DecoratorHelper
+    include Commands::Shared::FileHelper
 
     def_delegators :context, :cli_options, :command_options # base context
     def_delegators :context, :repository, :repo_service # context with repository
 
     def run
-      filepath = create_file(issue_filename)
+      filepath = create_issue_file
 
-      raw_text = edit_file(filepath)
-      return if text.empty?
+      edit_file(filepath)
+      doc = Document.new(filepath)
+      doc.read
 
-      text, metadata = extract_file(raw_text)
-
-      issue = create_issue(issue, new_text)
+      issue = create_issue(doc)
 
       puts decorate(issue).string_on_create
     end
 
     private
 
+    def create_issue_file
+      create_file(issue_filename, load_issue_template)
+    end
+
     def issue_filename
       "#{file_repo}_issues_#{file_timestamp}.md"
     end
 
-    def create_issue(issue, text)
-      repo_service.create_issue(repository, title, body)
+    def create_issue(doc)
+      title   = doc.data['title']
+      body    = doc.content
+      options = doc.data.select { |key, _| key == 'labels' }
+      repo_service.create_issue(repository, title, body, options)
     end
 
-    def decorate(issue)
-      Gundam::IssueDecorator.new(issue)
+    def load_issue_template
+      renderer = ERB.new(get_template)
+      renderer.result()
     end
 
-    def extract_file(raw_text)
-      debugger
+    def get_template
+      <<~END
+        ---
+        title:
+        labels:
+        ---
+      END
     end
   end
 end

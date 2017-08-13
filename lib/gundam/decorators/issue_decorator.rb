@@ -2,15 +2,16 @@ module Gundam
   class IssueDecorator < Decorator
     include Gundam::IssueHelper
 
-    def show_cli
+    def string
       io = StringIO.new
       add_description(io)
       add_comments(io)
       io.string
     end
 
-    def string_on_update
-      green("#{html_url} (updated)")
+    def string_on_create
+      green("#{html_url}")
     end
+    alias :string_on_update :string_on_create
   end
 end
