@@ -63,11 +63,15 @@ module Gundam
           end
 
           # @param repo [String]
-          # @param number [Fixnum]
-          # @param text [String]
+          # @param [Gundam::Issue]
           # @return [Gundam::Issue]
-          def update_issue(repo, number, body)
-            response = @client.update_issue(repo, number, body: body)
+          def update_issue(repo, issue)
+            options = {
+              title: issue.title,
+              body: issue.body,
+              labels: issue.labels.map(&:name)
+            }
+            response = @client.update_issue(repo, issue.number, options)
             IssueMapper.load(response)
           end
 
@@ -107,8 +111,15 @@ module Gundam
             raise Gundam::Unauthorized.new(:github_api_v3)
           end
 
-          def update_pull_request(repo, number, body)
-            response = @client.update_pull_request(repo, number, body: body)
+          # @param repo [String]
+          # @param [Gundam::PullRequest]
+          # @return [Gundam::PullRequest]
+          def update_pull_request(repo, pull)
+            options = {
+              title: pull.title,
+              body: pull.body
+            }
+            response = @client.update_pull_request(repo, pull.number, options)
             PullRequestMapper.load(response)
           end
 

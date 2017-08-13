@@ -2,6 +2,15 @@ module Gundam
   class IssueDecorator < Decorator
     include Gundam::IssueHelper
 
+    # @param doc [Document]
+    def update_attributes_from(doc)
+      self.title  = doc.data['title']
+      self.body   = doc.content
+      self.labels = doc.data['labels'].to_s.split(',').map do |label|
+        Label.new(name: label.strip)
+      end
+    end
+
     def string
       io = StringIO.new
       add_description(io)

@@ -1,40 +1,42 @@
 module Gundam
-  class UpdateIssueCommand < Gundam::Command
-    include Gundam::Commands::Shared::FileHelper
+  class UpdateIssueCommand < Command
+    include Commands::Shared::DecoratorHelper
+    include Commands::Shared::FileHelper
+    include Commands::Shared::IssueTemplate
 
     def_delegators :context, :cli_options, :command_options # base context
     def_delegators :context, :repository, :repo_service # context with repository
 
     def run
       issue = find_issue
-      original_text = issue.body
 
-      filepath = create_file(issue_filename(issue), original_text)
+      filepath = load_file_for(issue)
 
-      new_text = edit_file(filepath)
-      return if new_text.eql?(original_text)
+      doc = edit_file(filepath)
+      decorate(issue).update_attributes_from(doc)
 
-      issue = update_issue(issue, new_text)
+      issue = update_issue(issue)
 
       puts decorate(issue).string_on_update
     end
 
     private
 
-    def issue_filename(issue)
-      "#{file_repo}_issues_#{issue.number}_#{file_timestamp}.md"
-    end
-
     def find_issue
       IssueFinder.new(context).find
     end
 
-    def update_issue(issue, text)
-      repo_service.update_issue(repository, issue.number, text)
+    def load_file_for(issue)
+      create_file(issue_filename(issue), load_template_from(issue))
     end
 
-    def decorate(issue)
-      Gundam::IssueDecorator.new(issue)
+    def issue_filename(issue)
+      class_name = issue.class.name.split('::').pop.downcase
+      "#{file_repo}_#{class_name}s_#{issue.number}_#{file_timestamp}.md"
+    end
+
+    def update_issue(issue)
+      repo_service.update_issue(repository, issue)
     end
   end
 end

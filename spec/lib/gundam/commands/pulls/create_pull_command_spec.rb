@@ -14,7 +14,7 @@ describe Gundam::CreatePullCommand do
   let(:subject) { described_class.new(context) }
 
 	let(:pr_options) { double('options') }
-	let(:pull_request) { create_pull_request }
+	let(:pull) { create_pull_request }
 
   describe '#run' do
 		before do
@@ -22,7 +22,7 @@ describe Gundam::CreatePullCommand do
 				.and_return(plugin)
 			allow(plugin).to receive(:pull_request_options).and_return(pr_options)
 
-			allow(Gundam::PullRequestDecorator).to receive(:new).with(pull_request)
+			allow(Gundam::PullRequestDecorator).to receive(:new).with(pull)
 				.and_return(decorator)
 		end
 
@@ -33,11 +33,11 @@ describe Gundam::CreatePullCommand do
 
       it 'creates the pull request' do
 				expect(repo_service).to receive(:create_pull_request).with(pr_options)
-					.and_return(pull_request)
+					.and_return(pull)
 
 				expect(subject).to receive(:`).with('echo https://github.com/octocat/Hello-World/pull/1347 | pbcopy')
 
-				expect(decorator).to receive(:show_pull_created)
+				expect(decorator).to receive(:string_on_create)
 
 				subject.run
 			end
@@ -80,11 +80,11 @@ describe Gundam::CreatePullCommand do
         expect(local_repo).to receive(:push_set_upstream)
 
         expect(repo_service).to receive(:create_pull_request).with(pr_options)
-          .and_return(pull_request)
+          .and_return(pull)
 
         expect(subject).to receive(:`).with('echo https://github.com/octocat/Hello-World/pull/1347 | pbcopy')
 
-        expect(decorator).to receive(:show_pull_created)
+        expect(decorator).to receive(:string_on_create)
 
         subject.run
       end

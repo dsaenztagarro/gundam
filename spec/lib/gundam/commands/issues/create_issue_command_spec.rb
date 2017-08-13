@@ -28,14 +28,6 @@ describe Gundam::CreateIssueCommand do
 			expect(subject).to receive(:system) do |arg|
 				expect(arg).to eq("$EDITOR #{tmp_filepath}")
 
-        template_content = <<~END
-        ---
-        title:
-        labels:
-        ---
-        END
-        expect(File.read(tmp_filepath)).to eq(template_content)
-
         user_content = <<~END
         ---
         title: Found a bug

@@ -42,7 +42,7 @@ describe Gundam::CreatePullPlugin do
         body: 'This PR implements #1',
         head: '1-new-feature',
         repo: 'octocat/Hello-World',
-        title: 'The title'
+        title: 'Found a bug'
       )
     end
   end

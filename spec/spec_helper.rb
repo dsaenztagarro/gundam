@@ -27,6 +27,9 @@ Gundam.configure do |c|
 end
 
 RSpec.configure do |config|
+  # Enables the --only-failures option
+  config.example_status_persistence_file_path = 'examples.txt'
+
   config.after(:suite) do
     FileUtils.remove_entry(tmpdir)
   end

@@ -14,10 +14,10 @@ module Gundam
 
         filepath = create_file(new_comment_filename(commentable), original_text)
 
-        new_text = edit_file(filepath)
-        return if new_text.eql?(original_text)
+        doc = edit_file(filepath)
+        return if doc.content.eql?(original_text)
 
-        comment = repo_service.update_comment(repository, comment_id, new_text)
+        comment = repo_service.update_comment(repository, comment_id, doc.content)
 
         puts Gundam::CommentDecorator.new(comment).string_on_create
       end

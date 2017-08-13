@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Gundam::Github::API::V3::Gateway do
   let(:client)  { double('Octokit::Client') }
   let(:subject) { described_class.new(client) }
+  let(:issue)   { create_issue }
+  let(:pull)    { create_pull_request }
 
   before do
     allow(described_class).to receive(:new_client).and_return(client)
@@ -79,11 +81,10 @@ describe Gundam::Github::API::V3::Gateway do
   describe '#update_issue' do
     it 'updates an issue' do
       allow(client).to receive(:update_issue)
-        .with('octocat/Hello-World', 1347, body: "I'm having a problem with this.")
+        .with('octocat/Hello-World', 1347, title: 'Found a bug', body: "I'm having a problem with this.", labels: %w(bug support))
         .and_return(github_api_v3_response(:update_issue))
 
-      response = subject.update_issue(
-        'octocat/Hello-World', 1347, "I'm having a problem with this.")
+      response = subject.update_issue('octocat/Hello-World', issue)
 
       expect(response).to be_a Gundam::Issue
       expect(response.body).to eq("I'm having a problem with this.")
@@ -247,11 +248,10 @@ describe Gundam::Github::API::V3::Gateway do
   describe '#update_pull_request' do
     it 'creates a pull request' do
       allow(client).to receive(:update_pull_request)
-        .with('octocat/Hello-World', 2, body: 'Please pull these awesome changes')
+        .with('octocat/Hello-World', 1347, title: 'new-feature', body: 'Please pull these awesome changes')
         .and_return(github_api_v3_response(:update_pull_request))
 
-      response = subject.update_pull_request(
-        'octocat/Hello-World', 2, 'Please pull these awesome changes')
+      response = subject.update_pull_request('octocat/Hello-World', pull)
 
       expect(response).to be_a Gundam::PullRequest
       expect(response.body).to eq('Please pull these awesome changes')

@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe Gundam::UpdatePullCommand do
   let(:repo_service) { double('RepoService') }
-  let(:comment) { double('comment') }
-  let(:subject) { described_class.new(context) }
-  let(:pull_finder) { double(find: pull) }
-  let(:pull) { double('Gundam::Pull', number: 2, body: 'My PR.') }
+  let(:comment)      { double('comment') }
+  let(:subject)      { described_class.new(context) }
+  let(:pull_finder)  { double(find: pull) }
+  let(:pull)         { create_pull_request }
 
   let(:context) do
     double('FakeContext', command_options: { commentable: 'Pull' },
@@ -14,7 +14,7 @@ describe Gundam::UpdatePullCommand do
   end
 
 	let(:tmp_filepath) do
-		"#{Gundam.base_dir}/files/octocat_Hello-World_pulls_2_20101115131020.md"
+		"#{Gundam.base_dir}/files/octocat_Hello-World_pullrequests_1347_20101115131020.md"
 	end
 
 	describe '#run' do
@@ -29,32 +29,39 @@ describe Gundam::UpdatePullCommand do
       allow(pull_finder).to receive(:find).and_return(pull)
 		end
 
-		it 'adds a comment to the pull when the user saves the file with text' do
+		it 'update the pull' do
 			expect(subject).to receive(:system) do |arg|
 				expect(arg).to eq("$EDITOR #{tmp_filepath}")
-				# User saves the file with changes
-        File.open(tmp_filepath, 'a') { |file| file.write(" Stop.") }
+
+				# EDITOR loaded with pull
+
+        content_before_update = <<~END
+        ---
+        title: new-feature
+        ---
+        Please pull these awesome changes
+        END
+        expect(File.read(tmp_filepath)).to eq(content_before_update)
+
+				# EDITOR updated with user changes
+
+        content_after_update = <<~END
+        ---
+        title: new-modified-feature
+        ---
+        Please pull these awesome changes. Thanks.
+        END
+        File.open(tmp_filepath, 'w') { |file| file.write(content_after_update) }
 			end
 
-			expect(repo_service).to receive(:update_pull_request).
-        with('octocat/Hello-World', 2, 'My PR. Stop.').
-				and_return(double('PullComment', html_url: 'https://...'))
+      expect(repo_service).to receive(:update_pull_request)
+        .with('octocat/Hello-World', pull).and_return(pull)
 
 			expected_output = <<~END
-				\e[32mhttps://... (updated)\e[0m
+				\e[32mhttps://github.com/octocat/Hello-World/pull/1347\e[0m
 			END
 
 			expect { subject.run }.to output(expected_output).to_stdout
-		end
-
-		it 'does not add a comment when the user saves the file empty' do
-			expect(subject).to receive(:system) do |arg|
-				expect(arg).to eq("$EDITOR #{tmp_filepath}")
-			end
-
-			expect(repo_service).to_not receive(:update_pull_request)
-
-			subject.run
 		end
 	end
 end

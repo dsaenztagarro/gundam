@@ -11,10 +11,10 @@ module Gundam
 
         filepath = create_file(new_comment_filename(commentable))
 
-        text = edit_file(filepath)
-        return if text.empty?
+        doc = edit_file(filepath)
+        return if doc.content.empty?
 
-        comment = repo_service.add_comment(repository, commentable.number, text)
+        comment = repo_service.add_comment(repository, commentable.number, doc.content)
 
         puts Gundam::CommentDecorator.new(comment).string_on_create
       end

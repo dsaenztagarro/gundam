@@ -3,20 +3,28 @@ module Gundam
 
     private
 
-    def issue_filename(pull)
-      "#{file_repo}_pulls_#{pull.number}_#{file_timestamp}.md"
-    end
-
     def find_issue
       PullFinder.new(context).find
     end
 
-    def decorate(pull)
-      Gundam::PullRequestDecorator.new(pull)
+    def update_issue(issue)
+      repo_service.update_pull_request(repository, issue)
     end
 
-    def update_issue(issue, text)
-      repo_service.update_pull_request(repository, issue.number, text)
+    def load_template_from(pull)
+      title  = pull.title
+      body   = pull.body
+      renderer = ERB.new(get_template)
+      renderer.result(binding)
+    end
+
+    def get_template
+      <<~END
+        ---
+        title: <%= title %>
+        ---
+        <%= body %>
+      END
     end
   end
 end
