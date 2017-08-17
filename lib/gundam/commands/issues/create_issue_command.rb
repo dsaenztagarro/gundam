@@ -11,8 +11,9 @@ module Gundam
       filepath = create_issue_file
 
       doc = edit_file(filepath)
+      issue = decorate(Issue.new).update_attributes_from(doc)
 
-      issue = create_issue_from(doc)
+      issue = repo_service.create_issue(repository, issue)
 
       puts decorate(issue).string_on_create
     end
@@ -25,13 +26,6 @@ module Gundam
 
     def issue_filename
       "#{file_repo}_issues_#{file_timestamp}.md"
-    end
-
-    def create_issue_from(doc)
-      title   = doc.data['title']
-      body    = doc.content
-      options = doc.data.select { |key, _| key == 'labels' }
-      repo_service.create_issue(repository, title, body, options)
     end
   end
 end

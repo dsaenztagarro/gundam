@@ -63,8 +63,7 @@ describe Gundam::UpdateIssueCommand do
 				\e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
 			END
 
-      subject.run
-			# expect { subject.run }.to output(expected_output).to_stdout
+			expect { subject.run }.to output(expected_output).to_stdout
 		end
 	end
 end

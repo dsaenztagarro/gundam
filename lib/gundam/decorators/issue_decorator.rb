@@ -3,12 +3,14 @@ module Gundam
     include Gundam::IssueHelper
 
     # @param doc [Document]
+    # @return [Gundam::Issue]
     def update_attributes_from(doc)
       self.title  = doc.data['title']
       self.body   = doc.content
       self.labels = doc.data['labels'].to_s.split(',').map do |label|
         Label.new(name: label.strip)
       end
+      self
     end
 
     def string
