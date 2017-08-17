@@ -1,6 +1,6 @@
 module Gundam
   class PullRequest
-    attr_reader :body, :comments, :created_at, :created_by, :head_repo_full_name,
+    attr_accessor :body, :comments, :created_at, :created_by, :head_repo_full_name,
                 :head_sha, :html_url, :number, :repository, :source_branch,
                 :statuses, :target_branch, :title, :updated_at
 

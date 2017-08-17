@@ -2,3 +2,6 @@
 coverage/
 doc/
 .yardoc
+
+# RSpec example status persistence file path. See spec/spec_helper.rb
+examples.txt

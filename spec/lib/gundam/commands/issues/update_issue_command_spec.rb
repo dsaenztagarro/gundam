@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe Gundam::UpdateIssueCommand do
   let(:repo_service) { double('RepoService') }
-  let(:comment) { double('comment') }
-  let(:subject) { described_class.new(context) }
-  let(:issue_finder) { double(find: issue) }
-  let(:issue) { double('Gundam::Issue', number: 2, body: 'My PR.') }
+  let(:comment)      { double('Comment') }
+  let(:subject)      { described_class.new(context) }
+  let(:issue_finder) { double('IssueFinder', find: issue) }
+  let(:issue)        { create_issue }
 
   let(:context) do
     double('FakeContext', command_options: { commentable: 'Issue' },
@@ -14,7 +14,7 @@ describe Gundam::UpdateIssueCommand do
   end
 
 	let(:tmp_filepath) do
-		"#{Gundam.base_dir}/files/octocat_Hello-World_issues_2_20101115131020.md"
+		"#{Gundam.base_dir}/files/octocat_Hello-World_issues_1347_20101115131020.md"
 	end
 
 	describe '#run' do
@@ -29,32 +29,42 @@ describe Gundam::UpdateIssueCommand do
       allow(issue_finder).to receive(:find).and_return(issue)
 		end
 
-		it 'adds a comment to the issue when the user saves the file with text' do
+		it 'updates the issue' do
 			expect(subject).to receive(:system) do |arg|
 				expect(arg).to eq("$EDITOR #{tmp_filepath}")
-				# User saves the file with changes
-        File.open(tmp_filepath, 'a') { |file| file.write(" Stop.") }
+
+				# EDITOR loaded with issue
+
+        content_before_update = <<~END
+          ---
+          title: Found a bug
+          labels: bug, support
+          ---
+          I'm having a problem with this.
+        END
+        expect(File.read(tmp_filepath)).to eq(content_before_update)
+
+				# EDITOR updated with user changes
+
+        content_after_update = <<~END
+          ---
+          title: Found an urgent bug
+          labels: board:projects,urgent
+          ---
+          This is a recurrent error
+        END
+        File.open(tmp_filepath, 'w') { |file| file.write(content_after_update) }
 			end
 
 			expect(repo_service).to receive(:update_issue).
-        with('octocat/Hello-World', 2, 'My PR. Stop.').
-				and_return(double('IssueComment', html_url: 'https://...'))
+        with('octocat/Hello-World', issue).and_return(issue)
 
 			expected_output = <<~END
-				\e[32mhttps://...\e[0m
+				\e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
 			END
 
-			expect { subject.run }.to output(expected_output).to_stdout
-		end
-
-		it 'does not add a comment when the user saves the file empty' do
-			expect(subject).to receive(:system) do |arg|
-				expect(arg).to eq("$EDITOR #{tmp_filepath}")
-			end
-
-			expect(repo_service).to_not receive(:update_issue_request)
-
-			subject.run
+      subject.run
+			# expect { subject.run }.to output(expected_output).to_stdout
 		end
 	end
 end

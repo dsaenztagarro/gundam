@@ -14,9 +14,10 @@ module Gundam
           end
         end
 
+        # @return [Gundam::Document] The document associated to the edited file
         def edit_file(filepath)
           system("$EDITOR #{filepath}")
-          File.read(filepath)
+          Document.new(filepath).tap { |doc| doc.read }
         end
 
         def file_timestamp

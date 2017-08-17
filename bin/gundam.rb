@@ -80,7 +80,7 @@ module GundamCli
     option :number, type: :numeric
     def show
       Gundam::CommandRunner.new.run(
-        command: Gundam::GetIssueCommand,
+        command: Gundam::ShowIssueCommand,
         cli_options: options
       )
     end

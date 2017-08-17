@@ -2,7 +2,13 @@ module Gundam
   class PullRequestDecorator < Decorator
     include Gundam::IssueHelper
 
-    def show_pull
+    # @param doc [Document]
+    def update_attributes_from(doc)
+      self.title  = doc.data['title']
+      self.body   = doc.content
+    end
+
+    def string
       io = StringIO.new
       add_description(io)
       add_comments(io)
@@ -10,13 +16,10 @@ module Gundam
       io.string
     end
 
-    def show_pull_created
+    def string_on_create
       green(html_url)
     end
-
-    def string_on_update
-      green("#{html_url} (updated)")
-    end
+    alias :string_on_update :string_on_create
 
     private
 

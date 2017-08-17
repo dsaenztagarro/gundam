@@ -9,7 +9,8 @@ module Gundam
 							html_url: resource[:html_url],
               body:     resource[:body],
               number:   resource[:number],
-              title:    resource[:title]
+              title:    resource[:title],
+              labels:   resource[:labels].map { |lab| LabelMapper.load(lab) }
             )
           end
         end

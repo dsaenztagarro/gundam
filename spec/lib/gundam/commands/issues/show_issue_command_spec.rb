@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gundam::GetIssueCommand do
+describe Gundam::ShowIssueCommand do
   describe '#run' do
     let(:repo_options) do
       { without_local_repo: true, number: 1347 }

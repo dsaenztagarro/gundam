@@ -7,7 +7,7 @@ module Gundam
       pull.comments = repo_service.issue_comments(repository, pull.number)
       pull.statuses = repo_service.statuses(repository, pull.head_sha)
 
-      puts Gundam::PullRequestDecorator.new(pull).show_pull
+      puts Gundam::PullRequestDecorator.new(pull).string
     rescue Gundam::LocalRepoNotFound,
            Gundam::PullRequestNotFound,
            Gundam::PullRequestForBranchNotFound => error
