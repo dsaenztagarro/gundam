@@ -10,14 +10,23 @@ describe Gundam::IssueFinder do
       let(:local_repo) { double('Gundam::LocalRepository') }
 
       let(:context) do
-        double(
-          local_repo?: true,
-          local_repo: local_repo)
+        double('Context', local_repo?: true, local_repo: local_repo, cli_options: {})
       end
 
-      it 'returns the issue' do
+      it 'returns the issue from current branch' do
         allow(local_repo).to receive(:current_issue).and_return(issue)
         expect(subject.find).to eq(issue)
+      end
+
+      context 'and option number' do
+        before do
+          allow(context).to receive(:cli_options).and_return(number: 1347)
+        end
+
+        it 'returns the issue with number provided' do
+          allow(local_repo).to receive(:issue).with(1347).and_return(issue)
+          expect(subject.find).to eq(issue)
+        end
       end
     end
 
