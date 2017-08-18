@@ -1,5 +1,3 @@
-require 'byebug'
-
 module Gundam
   class IssueFinder
     extend Forwardable
@@ -13,10 +11,24 @@ module Gundam
 
     def find
       if local_repo?
-        local_repo.current_issue
+        find_with_local_repo
       else
         repo_service.issue(repository, cli_options[:number])
       end
+    end
+
+    private
+
+    def find_with_local_repo
+      if issue_number
+        local_repo.issue(issue_number)
+      else
+        local_repo.current_issue
+      end
+    end
+
+    def issue_number
+      cli_options[:number]
     end
   end
 end
