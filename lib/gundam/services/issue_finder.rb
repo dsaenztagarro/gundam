@@ -1,3 +1,5 @@
+require 'byebug'
+
 module Gundam
   class IssueFinder
     extend Forwardable

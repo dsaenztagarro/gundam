@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LocalRepository do
+describe Gundam::LocalRepository do
   let(:repository) do
     double('Git::Repository', owner: 'octocat',
                               full_name: 'octocat/Hello-World',

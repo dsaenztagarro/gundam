@@ -15,9 +15,13 @@ describe Gundam::IssueFinder do
           local_repo: local_repo)
       end
 
-      it 'returns the issue' do
+      it 'returns the issue from current branch' do
         allow(local_repo).to receive(:current_issue).and_return(issue)
         expect(subject.find).to eq(issue)
+      end
+
+      context 'and option number' do
+
       end
     end
 

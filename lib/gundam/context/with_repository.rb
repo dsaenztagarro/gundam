@@ -20,7 +20,7 @@ module Gundam
 
       def repo_service
         if local_repo?
-          local_repo.service
+          local_repo.repo_service
         else
           platform_constant_name = cli_option_or_error(:platform_constant_name)
           RepoServiceFactory.with_platform(platform_constant_name).build
