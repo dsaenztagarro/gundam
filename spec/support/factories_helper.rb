@@ -2,6 +2,7 @@ module Gundam
   module FactoriesHelper
     def create_issue
       Issue.new(
+        assignee: 'octocat',
         body: "I'm having a problem with this.",
         html_url: 'https://github.com/octocat/Hello-World/issues/1347',
         labels: [ create_label, create_label(id: 208045947, name: 'support') ],

@@ -27,9 +27,7 @@ describe Gundam::UpdateIssueCommand do
         .and_return(issue_finder)
 
       allow(issue_finder).to receive(:find).and_return(issue)
-		end
 
-		it 'updates the issue' do
 			expect(subject).to receive(:system) do |arg|
 				expect(arg).to eq("$EDITOR #{tmp_filepath}")
 
@@ -38,6 +36,7 @@ describe Gundam::UpdateIssueCommand do
         content_before_update = <<~END
           ---
           title: Found a bug
+          assignee: octocat
           labels: bug, support
           ---
           I'm having a problem with this.
@@ -49,13 +48,16 @@ describe Gundam::UpdateIssueCommand do
         content_after_update = <<~END
           ---
           title: Found an urgent bug
+          assignee: octocat
           labels: board:projects,urgent
           ---
           This is a recurrent error
         END
         File.open(tmp_filepath, 'w') { |file| file.write(content_after_update) }
 			end
+		end
 
+		it 'updates the issue' do
 			expect(repo_service).to receive(:update_issue).
         with('octocat/Hello-World', issue).and_return(issue)
 
@@ -63,8 +65,21 @@ describe Gundam::UpdateIssueCommand do
 				\e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
 			END
 
-      subject.run
-			# expect { subject.run }.to output(expected_output).to_stdout
+			expect { subject.run }.to output(expected_output).to_stdout
 		end
+
+    context 'when metadata contains errors' do
+      before do
+        cause_error = double('OriginalError', message: 'Error reason')
+        error = Gundam::UnprocessableEntity.new
+        allow(error).to receive(:cause).and_return(cause_error)
+        allow(repo_service).to receive(:update_issue).and_raise(error)
+      end
+
+      it 'prints the error' do
+        expected_output = "\e[31mError reason\e[0m\n"
+        expect { subject.run }.to output(expected_output).to_stdout
+      end
+    end
 	end
 end

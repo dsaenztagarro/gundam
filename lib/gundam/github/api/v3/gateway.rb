@@ -54,11 +54,14 @@ module Gundam
           end
 
           # @param repo [String]
-          # @param number [Fixnum]
-          # @param text [String]
+          # @param [Gundam::Issue]
           # @return [Gundam::Issue]
-          def create_issue(repo, title, body, options)
-            response = @client.create_issue(repo, title, body, options)
+          def create_issue(repo, issue)
+            options = {
+              assignee: issue.assignee,
+              labels: issue.labels.map(&:name)
+            }
+            response = @client.create_issue(repo, issue.title, issue.body, options)
             IssueMapper.load(response)
           end
 
@@ -67,12 +70,15 @@ module Gundam
           # @return [Gundam::Issue]
           def update_issue(repo, issue)
             options = {
-              title: issue.title,
-              body: issue.body,
-              labels: issue.labels.map(&:name)
+              assignee: issue.assignee,
+              body:     issue.body,
+              labels:   issue.labels.map(&:name),
+              title:    issue.title
             }
             response = @client.update_issue(repo, issue.number, options)
             IssueMapper.load(response)
+          rescue Octokit::UnprocessableEntity
+            raise Gundam::UnprocessableEntity
           end
 
           # @param repo [String]

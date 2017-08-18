@@ -31,6 +31,7 @@ describe Gundam::CreateIssueCommand do
         user_content = <<~END
         ---
         title: Found a bug
+        assignee: dsaenztagarro
         labels: board:products, bug
         ---
         I'm having a problem with this
@@ -38,12 +39,15 @@ describe Gundam::CreateIssueCommand do
         File.open(tmp_filepath, 'w') { |file| file.write(user_content) }
 			end
 
-			expect(repo_service).to receive(:create_issue).
-        with('octocat/Hello-World', 'Found a bug', "I'm having a problem with this\n", 'labels' => 'board:products, bug').
-        and_return(Gundam::Issue.new(html_url: 'https://octocat/hello-world/issues/1'))
+			expect(repo_service).to receive(:create_issue) do |repository, issue|
+        expect(repository).to eq('octocat/Hello-World')
+        expect(issue.title).to eq('Found a bug')
+        expect(issue.body).to eq("I'm having a problem with this\n")
+        create_issue
+      end
 
 			expected_output = <<~END
-        \e[32mhttps://octocat/hello-world/issues/1\e[0m
+        \e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
 			END
 
 			expect { subject.run }.to output(expected_output).to_stdout

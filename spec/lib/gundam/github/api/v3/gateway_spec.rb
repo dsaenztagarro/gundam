@@ -65,11 +65,10 @@ describe Gundam::Github::API::V3::Gateway do
   describe '#create_issue' do
     it 'creates an issue' do
       allow(client).to receive(:create_issue)
-        .with('octocat/Hello-World', 'Found a bug', "I'm having a problem with this.", labels: 'board:products,bug')
+        .with('octocat/Hello-World', 'Found a bug', "I'm having a problem with this.", assignee: 'octocat', labels: %w(bug support))
         .and_return(github_api_v3_response(:create_issue))
 
-      response = subject.create_issue(
-        'octocat/Hello-World', 'Found a bug', "I'm having a problem with this.", labels: 'board:products,bug')
+      response = subject.create_issue('octocat/Hello-World', issue)
 
       expect(response).to be_a Gundam::Issue
       expect(response.body).to eq("I'm having a problem with this.")
@@ -79,9 +78,16 @@ describe Gundam::Github::API::V3::Gateway do
   end
 
   describe '#update_issue' do
+    let(:options) do
+      { assignee: 'octocat',
+        body: "I'm having a problem with this.",
+        labels: %w(bug support),
+        title: 'Found a bug' }
+    end
+
     it 'updates an issue' do
       allow(client).to receive(:update_issue)
-        .with('octocat/Hello-World', 1347, title: 'Found a bug', body: "I'm having a problem with this.", labels: %w(bug support))
+        .with('octocat/Hello-World', 1347, options)
         .and_return(github_api_v3_response(:update_issue))
 
       response = subject.update_issue('octocat/Hello-World', issue)
@@ -90,6 +96,16 @@ describe Gundam::Github::API::V3::Gateway do
       expect(response.body).to eq("I'm having a problem with this.")
       expect(response.number).to eq(1347)
       expect(response.title).to eq('Found a bug')
+    end
+
+    it 'raises an error when invalid options' do
+      allow(client).to receive(:update_issue)
+        .with('octocat/Hello-World', 1347, options)
+        .and_raise(Octokit::UnprocessableEntity)
+
+      expect {
+        subject.update_issue('octocat/Hello-World', issue)
+      }.to raise_error(Gundam::UnprocessableEntity)
     end
   end
 
