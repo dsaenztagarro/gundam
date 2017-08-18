@@ -31,6 +31,7 @@ describe Gundam::CreateIssueCommand do
         user_content = <<~END
         ---
         title: Found a bug
+        assignee: dsaenztagarro
         labels: board:products, bug
         ---
         I'm having a problem with this
@@ -46,11 +47,10 @@ describe Gundam::CreateIssueCommand do
       end
 
 			expected_output = <<~END
-        \e[32mhttps://octocat/hello-world/issues/1\e[0m
+        \e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
 			END
 
-      subject.run
-			# expect { subject.run }.to output(expected_output).to_stdout
+			expect { subject.run }.to output(expected_output).to_stdout
 		end
 	end
 end

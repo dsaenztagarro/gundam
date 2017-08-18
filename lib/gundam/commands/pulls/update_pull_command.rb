@@ -12,8 +12,8 @@ module Gundam
     end
 
     def load_template_from(pull)
-      title  = pull.title
       body   = pull.body
+      title  = pull.title
       renderer = ERB.new(get_template)
       renderer.result(binding)
     end

@@ -52,7 +52,6 @@ describe Gundam::CreatePullCommand do
 
         it 'prints the error' do
           expected_output = "\e[31mError reason\e[0m\n"
-
           expect { subject.run }.to output(expected_output).to_stdout
         end
       end

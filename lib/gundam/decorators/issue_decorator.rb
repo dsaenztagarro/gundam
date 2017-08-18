@@ -5,12 +5,14 @@ module Gundam
     # @param doc [Document]
     # @return [Gundam::Issue]
     def update_attributes_from(doc)
-      self.title  = doc.data['title']
-      self.body   = doc.content
-      self.labels = doc.data['labels'].to_s.split(',').map do |label|
-        Label.new(name: label.strip)
+      self.tap do |issue|
+        issue.assignee = doc.data['assignee']
+        issue.body     = doc.content
+        issue.title    = doc.data['title']
+        issue.labels   = doc.data['labels'].to_s.split(',').map do |label|
+          Label.new(name: label.strip)
+        end
       end
-      self
     end
 
     def string

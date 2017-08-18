@@ -18,6 +18,8 @@ module Gundam
       issue = update_issue(issue)
 
       puts decorate(issue).string_on_update
+    rescue Gundam::UnprocessableEntity => error
+      Gundam::ErrorHandler.handle(error)
     end
 
     private
