@@ -2,9 +2,9 @@ module Gundam
   class PullRequest
     attr_accessor :body, :comments, :created_at, :created_by, :head_repo_full_name,
                 :head_sha, :html_url, :number, :repository, :source_branch,
-                :statuses, :target_branch, :title, :updated_at
+                :combined_status, :target_branch, :title, :updated_at
 
-    attr_accessor :comments, :statuses
+    attr_accessor :comments
 
     def initialize(options = {})
       self.class.keys.each do |key|
@@ -25,7 +25,7 @@ module Gundam
           :number,
           :repository,
           :source_branch,
-          :statuses,
+          :combined_status,
           :target_branch,
           :title,
           :updated_at

@@ -131,10 +131,10 @@ module Gundam
 
           # @param repo [String]
           # @param sha [String]
-          # @return [CommitStatus]
-          def statuses(repo, sha)
-            response = @client.statuses(repo, sha)
-            response.map { |status| CommitStatusMapper.load(status) }
+          # @return [CombinedStatusRef]
+          def combined_status(repo, sha)
+            response = @client.combined_status(repo, sha)
+            CombinedStatusRefMapper.load(response)
           end
 
           # @param repo [String] A GitHub repository
