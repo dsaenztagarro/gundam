@@ -204,20 +204,21 @@ describe Gundam::Github::API::V3::Gateway do
     end
   end
 
-  describe '#statuses' do
+  describe '#combined_status' do
     it 'returns the last' do
       head_sha = '6dcb09b5b57875f334f61aebed695e2e4193db5e'
 
-      allow(client).to receive(:statuses)
+      allow(client).to receive(:combined_status)
         .with('octocat/Hello-World', head_sha)
-        .and_return(github_api_v3_response(:get_commit_statuses))
+        .and_return(github_api_v3_response(:get_combined_status))
 
-      response = subject.statuses('octocat/Hello-World', head_sha)
+      response = subject.combined_status('octocat/Hello-World', head_sha)
 
-      expect(response).to be_a(Array)
-      obj = response.first
-      expect(obj).to be_a(Gundam::CommitStatus)
-      expect(obj.state).to eq('success')
+      expect(response).to be_a(Gundam::CombinedStatusRef)
+      expect(response.state).to eq('success')
+      statuses = response.statuses
+      expect(statuses).to be_a(Array)
+      expect(statuses.size).to eq(2)
     end
   end
 

@@ -27,9 +27,36 @@ module Gundam
         title: 'new-feature',
         body: 'Please pull these awesome changes',
         state: 'open',
-        html_url: 'https://github.com/octocat/Hello-World/pull/1347',
-        comments: [create_comment]
+        html_url: 'https://github.com/octocat/Hello-World/pull/1347'
       )
+    end
+
+    def create_pull_request_expanded
+      create_pull_request.tap do |pull|
+        pull.comments = [create_comment]
+        pull.combined_status = create_combined_status
+      end
+    end
+
+    def create_combined_status
+      statuses = [
+        create_commit_status,
+        create_commit_status(
+          context: 'security/brakeman',
+          description: 'Testing has completed successfully',
+          target_url: 'https://ci.example.com/2000/output'
+        )
+      ]
+      CombinedStatusRef.new(state: 'success', statuses: statuses)
+    end
+
+    def create_commit_status(options = {})
+      CommitStatus.new(
+        context: options[:context] || 'continuous-integration/jenkins',
+        description: options[:description] || 'Build has completed successfully',
+        state: 'success',
+        updated_at: '2012-07-20T01:19:13Z',
+        target_url: options[:target_url] || 'https://ci.example.com/1000/output')
     end
 
     def create_comment

@@ -5,7 +5,7 @@ module Gundam
     def run
       pull = PullFinder.new(context).find
       pull.comments = repo_service.issue_comments(repository, pull.number)
-      pull.statuses = repo_service.statuses(repository, pull.head_sha)
+      pull.combined_status = repo_service.combined_status(repository, pull.head_sha)
 
       puts Gundam::PullRequestDecorator.new(pull).string
     rescue Gundam::LocalRepoNotFound,

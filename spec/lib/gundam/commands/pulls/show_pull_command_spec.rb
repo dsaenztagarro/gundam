@@ -28,17 +28,9 @@ describe Gundam::ShowPullCommand do
       allow(repo_service).to receive(:issue_comments)
         .with('octocat/Hello-World', 1347).and_return([create_comment])
 
-      statuses = [
-        Gundam::CommitStatus.new(
-          context: 'continuous-integration/jenkins',
-          description: 'Build has completed successfully',
-          state: 'success',
-          updated_at: '2012-07-20T01:19:13Z')
-      ]
-
-      allow(repo_service).to receive(:statuses)
+      allow(repo_service).to receive(:combined_status)
         .with('octocat/Hello-World', '6dcb09b5b57875f334f61aebed695e2e4193db5e')
-        .and_return(statuses)
+        .and_return(create_combined_status)
     end
 
     context 'without local repo' do
@@ -49,6 +41,7 @@ describe Gundam::ShowPullCommand do
           \e[36moctokit\e[0m \e[34m2011-04-14 16:00:49 UTC\e[0m 318212279
           Me too
           \e[32msuccess\e[0m \e[36mcontinuous-integration/jenkins\e[0m Build has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
+          \e[32msuccess\e[0m \e[36msecurity/brakeman\e[0m Testing has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
         END
 
         expect { subject.run }.to output(expected_output).to_stdout
@@ -96,6 +89,7 @@ describe Gundam::ShowPullCommand do
           \e[36moctokit\e[0m \e[34m2011-04-14 16:00:49 UTC\e[0m 318212279
           Me too
           \e[32msuccess\e[0m \e[36mcontinuous-integration/jenkins\e[0m Build has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
+          \e[32msuccess\e[0m \e[36msecurity/brakeman\e[0m Testing has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
         END
 
         expect { subject.run }.to output(expected_output).to_stdout
