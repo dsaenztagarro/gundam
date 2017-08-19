@@ -11,9 +11,7 @@ module Gundam
     end
 
     def issue(number)
-      repo_service.issue(full_name, number).tap do |issue|
-        issue.repository = full_name
-      end
+      repo_service.issue(full_name, number)
     end
 
     def repo_service
