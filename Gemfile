@@ -19,3 +19,7 @@ end
 group :documentation do
   gem 'yard'
 end
+
+group :tasks do
+  gem 'rake'
+end

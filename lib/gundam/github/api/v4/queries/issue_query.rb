@@ -1,5 +1,3 @@
-require_relative 'query'
-
 module Gundam
   module Github
     module API
@@ -30,7 +28,7 @@ module Gundam
                       author {
                         login
                       }
-                      comments (last: 10) {
+                      comments (last: 100) {
                        nodes {
                          id
                          author {
