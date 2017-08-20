@@ -32,6 +32,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     public_suffix (2.0.5)
+    rake (12.0.0)
     rspec (3.6.0)
       rspec-core (~> 3.6.0)
       rspec-expectations (~> 3.6.0)
@@ -75,6 +76,7 @@ DEPENDENCIES
   octokit
   pastel
   pry
+  rake
   rspec
   simplecov
   thor
@@ -82,4 +84,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   1.14.6
+   1.15.3

@@ -1,5 +1,11 @@
 require 'json'
+
 require_relative 'query_cache'
+require_relative 'queries/query'
+require_relative 'queries/issue_query'
+require_relative 'queries/organization_issue_query'
+require_relative 'mappers/issue_mapper'
+require_relative 'mappers/issue_comment_mapper'
 
 module Gundam
   module Github
@@ -17,6 +23,12 @@ module Gundam
           def issue(repo, number)
             response = run_issue_query(repo, number)
             IssueMapper.load(response)
+          end
+
+          def organization_issue(organization, repo, number)
+            response = run_query(OrganizationIssueQuery.new('bebanjo', 'movida', 6520))
+            debugger
+            response
           end
 
           # @param repo [String]

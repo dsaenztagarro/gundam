@@ -1,7 +1,7 @@
 language: ruby
 rvm:
   - 2.4.0
-bundler_args: --without=development --without=documentation
+bundler_args: --without=development --without=documentation --without=tasks
 before_script:
   - git config --global user.email "you@example.com"
   - git config --global user.name "Your Name"
