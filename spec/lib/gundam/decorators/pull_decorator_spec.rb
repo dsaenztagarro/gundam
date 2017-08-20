@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Gundam::PullRequestDecorator do
-  let(:pull)    { create_pull_request_expanded }
+describe Gundam::PullDecorator do
+  let(:pull)    { create_pull_expanded }
   let(:subject) { described_class.new(pull) }
 
   describe '#string' do

@@ -2,7 +2,7 @@ module Gundam
   module Context
     module WithRepository
       def local_repo?
-        !cli_options.include?(:without_local_repo)
+        !cli_options.include?(:repository)
       end
 
       def local_repo
@@ -14,7 +14,7 @@ module Gundam
         if local_repo?
           local_repo.full_name
         else
-          cli_option_or_error(:repository)
+          cli_options[:repository]
         end
       end
 
@@ -30,7 +30,7 @@ module Gundam
       private
 
       def cli_option_or_error(key)
-        cli_options[key] or raise Gundam::CliOptionError.new(key)
+        cli_options[key] or raise ArgumentError.new("Missing cli option #{key}")
       end
     end
   end

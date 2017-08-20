@@ -12,7 +12,7 @@ describe Gundam::ContextProvider do
 
             expect(context).to be_a(Gundam::CommandContext)
             expect(context.repository).to eq('github/octocat')
-            expect(context.repo_service).to be_a(Gundam::Github::API::V3::Gateway)
+            expect(context.repo_service).to be_a(Gundam::Github::Gateway)
           end
         end
 
@@ -20,7 +20,7 @@ describe Gundam::ContextProvider do
           let(:client) { double('Octokit::Client') }
 
           before do
-            allow(Gundam::Github::API::V3::Gateway).to receive(:new_client)
+            allow(Gundam::Github::Gateway).to receive(:new_client)
               .and_return(client)
           end
 
@@ -39,7 +39,7 @@ describe Gundam::ContextProvider do
 
                 expect(context).to be_a(Gundam::CommandContext)
                 expect(context.repository).to eq('github/octocat')
-                expect(context.repo_service).to be_a(Gundam::Github::API::V3::Gateway)
+                expect(context.repo_service).to be_a(Gundam::Github::Gateway)
               end
             end
           end

@@ -4,8 +4,6 @@ describe Gundam::CreateIssueCommand do
   let(:repo_service) { double('RepoService') }
   let(:comment)      { double('comment') }
   let(:subject)      { described_class.new(context) }
-  let(:issue_finder) { double(find: issue) }
-  let(:issue)        { Gundam::Issue.new(number: 2, body: 'My PR.') }
 
   let(:context) do
     double('FakeContext', command_options: { commentable: 'Issue' },

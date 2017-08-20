@@ -1,5 +1,7 @@
 module Gundam
   class CreatePullCommand < Command
+    include Commands::Shared::DecoratorHelper
+
     def_delegators :context, :repo_service, :local_repo # context with repository
 
     def run
@@ -7,11 +9,11 @@ module Gundam
 
       options = plugin.pull_request_options
 
-      pull_request = repo_service.create_pull_request(options)
+      pull = repo_service.create_pull_request(options)
 
-      `echo #{pull_request.html_url} | pbcopy`
+      `echo #{pull.html_url} | pbcopy`
 
-      puts Gundam::PullRequestDecorator.new(pull_request).string_on_create
+      puts decorate(pull).string_on_create
     rescue Gundam::Unauthorized, Gundam::CreatePullRequestError => error
       Gundam::ErrorHandler.handle(error)
     end

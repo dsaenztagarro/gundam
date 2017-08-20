@@ -1,12 +1,22 @@
 require 'octokit'
 
+require_relative 'mappers/combined_status_ref_mapper'
+require_relative 'mappers/commit_status_mapper'
+require_relative 'mappers/issue_comment_mapper'
+require_relative 'mappers/issue_mapper'
+require_relative 'mappers/label_mapper'
+require_relative 'mappers/pull_request_mapper'
+require_relative 'mappers/remote_repository_mapper'
+require_relative 'mappers/team_mapper'
+require_relative 'mappers/team_member_mapper'
+
 module Gundam
   module Github
     module API
       module V3
-        # Rest API V3 Gateway
-        class Gateway
-          def initialize(client = Gateway.new_client)
+        # Rest API V3 Connector
+        class Connector
+          def initialize(client = Connector.new_client)
             @client = client
           end
 
@@ -44,21 +54,11 @@ module Gundam
           end
 
           # @param repo [String]
-          # @param number [Fixnum]
-          # @return [Gundam::Issue]
-          def issue(repo, number)
-            response = @client.issue(repo, number)
-            IssueMapper.load(response)
-          rescue Octokit::NotFound
-            raise Gundam::IssueNotFound.new(repo, number)
-          end
-
-          # @param repo [String]
           # @param [Gundam::Issue]
           # @return [Gundam::Issue]
           def create_issue(repo, issue)
             options = {
-              assignee: issue.assignee,
+              assignee: issue.assignees.first,
               labels: issue.labels.map(&:name)
             }
             response = @client.create_issue(repo, issue.title, issue.body, options)
@@ -70,7 +70,7 @@ module Gundam
           # @return [Gundam::Issue]
           def update_issue(repo, issue)
             options = {
-              assignee: issue.assignee,
+              assignee: issue.assignees.first,
               body:     issue.body,
               labels:   issue.labels.map(&:name),
               title:    issue.title
@@ -87,25 +87,6 @@ module Gundam
           def issue_comments(repo, number)
             list = @client.issue_comments(repo, number)
             list.map { |item| IssueCommentMapper.load(item) }
-          end
-
-
-          # @param repo [String]
-          # @param number [Fixnum]
-          # @return [Gundam::PullRequest]
-          def pull_request(repo, number)
-            response = @client.pull_request(repo, number)
-            PullRequestMapper.load(response)
-          rescue Octokit::NotFound
-            raise Gundam::PullRequestNotFound.new(repo, number)
-          end
-
-          # @param repo [String]
-          # @param number [Fixnum]
-          # @return [Array<Gundam::PullRequest>]
-          def pull_requests(repo, options = {})
-            list = @client.pull_requests(repo, options)
-            list.map { |pull_request| PullRequestMapper.load(pull_request) }
           end
 
           # @param repo [String]

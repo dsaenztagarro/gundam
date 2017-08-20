@@ -1,5 +1,5 @@
-unless RUBY_VERSION == '2.4.0'
-  puts "Run first 'rvm wrapper ruby-2.4.0'"
+unless RUBY_VERSION == '2.4.1'
+  puts "Run first 'rvm wrapper ruby-2.4.1'"
   exit
 end
 
@@ -8,7 +8,7 @@ require 'yaml'
 
 require_relative '../lib/gundam'
 
-Dir.glob(File.expand_path('../../lib/**/*.rb', __FILE__)).each { |file| load file }
+require 'benchmark'
 
 config = YAML.load_file(File.expand_path('~/.gundam.yml'))
 

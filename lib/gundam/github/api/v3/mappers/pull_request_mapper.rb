@@ -5,7 +5,7 @@ module Gundam
         class PullRequestMapper
           # @param resource [Sawyer::Resource]
           def self.load(resource)
-            Gundam::PullRequest.new(
+            Gundam::Pull.new(
               body:                resource[:body],
               created_at:          resource[:created_at],
               created_by:          resource[:user][:login],

@@ -10,12 +10,10 @@ SimpleCov.start do
   add_filter 'spec/'
 end
 
-require_relative '../lib/gundam'
-
-Dir.glob(File.expand_path '../../lib/**/*.rb', __FILE__).each { |file| load file }
-
 require 'webmock/rspec'
-require 'json'
+
+require_relative '../lib/gundam'
+require_relative '../lib/gundam/github/gateway'
 
 Dir.glob(File.expand_path '../support/**/*.rb', __FILE__).each { |file| load file }
 

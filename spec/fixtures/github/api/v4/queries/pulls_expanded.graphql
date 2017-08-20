@@ -1,0 +1,36 @@
+query {
+  repository(owner: "octocat", name: "Hello-World") {
+    pullRequests(headRefName: "1347-new-feature", first: 10) {
+      edges {
+        node  {
+          title
+          body
+          comments (last: 100) {
+            nodes {
+              id
+              author {
+                login
+              }
+              body
+              publishedAt
+            }
+          }
+          commits(last: 1) {
+            nodes {
+              commit {
+                status {
+                  state
+                  contexts {
+                    targetUrl
+                    state
+                    description
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

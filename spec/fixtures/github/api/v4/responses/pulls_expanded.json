@@ -1,0 +1,54 @@
+{
+  "data": {
+    "repository": {
+      "pullRequests": {
+        "edges": [
+          {
+            "node": {
+              "title": "new-feature",
+              "body": "Please pull these awesome changes",
+              "comments": {
+                "nodes": [
+                  {
+                    "id": "MDEyOklzc3VlQ29tbWVudDMyNjU0ODY5NA==",
+                    "author": {
+                      "login": "dhh"
+                    },
+                    "body": "releasing!",
+                    "publishedAt": "2017-09-01T10:35:54Z"
+                  },
+                  {
+                    "id": "MDEyOklzc3VlQ29tbWVudDMyNjU1MjAxOQ==",
+                    "author": {
+                      "login": "matz"
+                    },
+                    "body": "Thanks @dhh!",
+                    "publishedAt": "2017-09-01T10:55:30Z"
+                  }
+                ]
+              },
+              "commits": {
+                "nodes": [
+                  {
+                    "commit": {
+                      "status": {
+                        "state": "PENDING",
+                        "contexts": [
+                          {
+                            "targetUrl": "https://vexor-web.company.net/ui/builds/6f265724-fddc-440d-af54-45ed313af830",
+                            "state": "PENDING",
+                            "description": "Vexor CI: build #24500 started and still running"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

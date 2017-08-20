@@ -1,11 +1,4 @@
-begin
-  require 'yard'
+require_relative 'lib/tasks/documentation.rb'
+require_relative 'lib/tasks/github_graphql.rb'
 
-  YARD::Rake::YardocTask.new do |t|
-    t.files   = ['lib/**/*.rb'] # optional
-    t.options = ['--any', '--extra', '--opts'] # optional
-    t.stats_options = ['--list-undoc']         # optional
-  end
-rescue Load::Error
-  puts 'Yard task not loaded'
-end
+task default: ['github:graphql:rate_limit']
