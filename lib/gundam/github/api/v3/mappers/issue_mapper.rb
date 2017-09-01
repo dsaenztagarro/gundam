@@ -5,9 +5,12 @@ module Gundam
         class IssueMapper
           # @param resource [Sawyer::Resource]
           def self.load(resource)
-            Gundam::Issue.new(
+            assignee = (resource[:assignee] || {})[:login]
+            assignees = assignee ? [assignee] : []
+
+            Issue.new(
 							html_url: resource[:html_url],
-              assignee: (resource[:assignee] || {})[:login],
+              assignees: assignees,
               body:     resource[:body],
               labels:   resource[:labels].map { |lab| LabelMapper.load(lab) },
               number:   resource[:number],

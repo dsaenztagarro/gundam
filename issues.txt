@@ -1,0 +1,1 @@
+Enable flat with rate limit for all github graphql queries on commands

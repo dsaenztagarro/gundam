@@ -2,7 +2,7 @@ module Gundam
   module FactoriesHelper
     def create_issue
       Issue.new(
-        assignee: 'octocat',
+        assignees: %w(octocat),
         body: "I'm having a problem with this.",
         html_url: 'https://github.com/octocat/Hello-World/issues/1347',
         labels: [ create_label, create_label(id: 208045947, name: 'support') ],
@@ -21,8 +21,8 @@ module Gundam
       end
     end
 
-    def create_pull_request
-      PullRequest.new(
+    def create_pull
+      Pull.new(
         number: 1347,
         title: 'new-feature',
         body: 'Please pull these awesome changes',
@@ -31,8 +31,8 @@ module Gundam
       )
     end
 
-    def create_pull_request_expanded
-      create_pull_request.tap do |pull|
+    def create_pull_expanded
+      create_pull.tap do |pull|
         pull.comments = [create_comment]
         pull.combined_status = create_combined_status
       end

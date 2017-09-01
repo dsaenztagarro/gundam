@@ -1,5 +1,5 @@
 module Gundam
-  class PullRequestDecorator < Decorator
+  class PullDecorator < Decorator
     include Gundam::IssueHelper
 
     # @param doc [Document]
@@ -25,6 +25,7 @@ module Gundam
 
     # @param output [StringIO]
     def add_statuses(output)
+      return unless combined_status
       combined_status.statuses.to_a.each do |status|
         output.puts CommitStatusDecorator.new(status)
       end

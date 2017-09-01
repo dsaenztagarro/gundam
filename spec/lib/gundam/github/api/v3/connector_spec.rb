@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Gundam::Github::API::V3::Gateway do
+describe Gundam::Github::API::V3::Connector do
   let(:client)  { double('Octokit::Client') }
   let(:subject) { described_class.new(client) }
   let(:issue)   { create_issue }
-  let(:pull)    { create_pull_request }
+  let(:pull)    { create_pull }
 
   before do
     allow(described_class).to receive(:new_client).and_return(client)
@@ -43,22 +43,6 @@ describe Gundam::Github::API::V3::Gateway do
       expect(response.html_url).to eq('https://github.com/octocat/Hello-World/issues/1347#issuecomment-1')
       expect(response.id).to eq(1)
       expect(response.updated_at).to eq('2011-04-14T16:00:49Z')
-    end
-  end
-
-  describe '#issue' do
-    it 'returns the Issue' do
-      allow(client).to \
-        receive(:issue)
-        .with('octocat/Hello-World', 1347)
-        .and_return(github_api_v3_response(:get_issue))
-
-      response = subject.issue('octocat/Hello-World', 1347)
-
-      expect(response).to be_a(Gundam::Issue)
-      expect(response.body).to eq("I'm having a problem with this.")
-      expect(response.number).to eq(1347)
-      expect(response.title).to eq('Found a bug')
     end
   end
 
@@ -140,46 +124,6 @@ describe Gundam::Github::API::V3::Gateway do
     end
   end
 
-  describe '#pull_request' do
-    it 'returns a pull request' do
-      allow(client).to receive(:pull_request).with('octocat/Hello-World', 1)
-        .and_return(github_api_v3_response(:get_pull_request))
-
-      response = subject.pull_request('octocat/Hello-World', 1)
-
-      expect(response).to be_a(Gundam::PullRequest)
-      expect(response.title).to eq('new-feature')
-      expect(response.body).to eq('Please pull these awesome changes')
-    end
-
-    it 'raises an error when the pull is not found' do
-      allow(client).to receive(:pull_request).with('octocat/Hello-World', 1)
-        .and_raise(Octokit::NotFound)
-
-      expect do
-        subject.pull_request('octocat/Hello-World', 1)
-      end.to raise_error(Gundam::PullRequestNotFound)
-    end
-  end
-
-  describe '#pull_requests' do
-    it 'returns the Issue' do
-      allow(client).to receive(:pull_requests)
-        .with('octocat/Hello-World', anything)
-        .and_return(github_api_v3_response(:get_pull_requests))
-
-      response = subject.pull_requests('octocat/Hello-World', anything)
-
-      expect(response).to be_a(Array)
-      expect(response.size).to eq(1)
-
-      pull = response.first
-      expect(pull).to be_a(Gundam::PullRequest)
-      expect(pull.title).to eq('new-feature')
-      expect(pull.body).to eq('Please pull these awesome changes')
-    end
-  end
-
   describe '#repository' do
     it 'returns a single repository' do
       allow(client).to receive(:repository).with('octocat/Hello-World')
@@ -235,7 +179,7 @@ describe Gundam::Github::API::V3::Gateway do
         title: 'new-feature',
         body: 'Please pull these awesome changes')
 
-      expect(response).to be_a Gundam::PullRequest
+      expect(response).to be_a Gundam::Pull
       expect(response.body).to eq('Please pull these awesome changes')
       expect(response.head_repo_full_name).to eq('octocat/Hello-World')
       expect(response.head_sha).to eq('6dcb09b5b57875f334f61aebed695e2e4193db5e')
@@ -270,7 +214,7 @@ describe Gundam::Github::API::V3::Gateway do
 
       response = subject.update_pull_request('octocat/Hello-World', pull)
 
-      expect(response).to be_a Gundam::PullRequest
+      expect(response).to be_a Gundam::Pull
       expect(response.body).to eq('Please pull these awesome changes')
       expect(response.head_repo_full_name).to eq('octocat/Hello-World')
       expect(response.head_sha).to eq('6dcb09b5b57875f334f61aebed695e2e4193db5e')

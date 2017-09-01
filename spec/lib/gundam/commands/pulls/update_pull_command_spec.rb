@@ -5,7 +5,7 @@ describe Gundam::UpdatePullCommand do
   let(:comment)      { double('comment') }
   let(:subject)      { described_class.new(context) }
   let(:pull_finder)  { double(find: pull) }
-  let(:pull)         { create_pull_request }
+  let(:pull)         { create_pull }
 
   let(:context) do
     double('FakeContext', command_options: { commentable: 'Pull' },
@@ -14,7 +14,7 @@ describe Gundam::UpdatePullCommand do
   end
 
 	let(:tmp_filepath) do
-		"#{Gundam.base_dir}/files/octocat_Hello-World_pullrequests_1347_20101115131020.md"
+		"#{Gundam.base_dir}/files/octocat_Hello-World_pulls_1347_20101115131020.md"
 	end
 
 	describe '#run' do

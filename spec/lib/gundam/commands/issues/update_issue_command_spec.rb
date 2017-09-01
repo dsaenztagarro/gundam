@@ -36,7 +36,7 @@ describe Gundam::UpdateIssueCommand do
         content_before_update = <<~END
           ---
           title: Found a bug
-          assignee: octocat
+          assignees: octocat
           labels: bug, support
           ---
           I'm having a problem with this.
@@ -48,7 +48,7 @@ describe Gundam::UpdateIssueCommand do
         content_after_update = <<~END
           ---
           title: Found an urgent bug
-          assignee: octocat
+          assignees: octocat
           labels: board:projects,urgent
           ---
           This is a recurrent error

@@ -4,6 +4,8 @@ module Gundam
 
     def load_context
       CommandContext.new(base_dir, cli_options, command_options).tap do |context|
+        require_relative 'context/with_repository'
+        require_relative 'models/local_repository'
         context.extend(Context::WithRepository)
       end
     end

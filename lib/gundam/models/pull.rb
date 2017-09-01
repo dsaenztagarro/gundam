@@ -1,5 +1,5 @@
 module Gundam
-  class PullRequest
+  class Pull
     attr_accessor :body, :comments, :created_at, :created_by, :head_repo_full_name,
                 :head_sha, :html_url, :number, :repository, :source_branch,
                 :combined_status, :target_branch, :title, :updated_at

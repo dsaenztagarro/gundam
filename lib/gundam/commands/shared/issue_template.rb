@@ -3,10 +3,10 @@ module Gundam
     module Shared
       module IssueTemplate
         def load_template_from(issue)
-          assignee = issue.assignee
-          body     = issue.body
-          labels   = issue.labels.map(&:name).join(', ')
-          title    = issue.title
+          assignees = issue.assignees.join(', ')
+          body      = issue.body
+          labels    = issue.labels.map(&:name).join(', ')
+          title     = issue.title
           renderer = ERB.new(get_template)
           renderer.result(binding)
         end
@@ -15,7 +15,7 @@ module Gundam
           <<~END
             ---
             title: <%= title %>
-            assignee: <%= assignee %>
+            assignees: <%= assignees %>
             labels: <%= labels %>
             ---
             <%= body %>

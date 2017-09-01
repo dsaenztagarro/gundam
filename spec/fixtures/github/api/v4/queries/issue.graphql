@@ -1,25 +1,29 @@
 query {
-  repositoryOwner(login: "octocat") {
-    repository(name: "Hello-World") {
-      issue(number: 1347) {
-        databaseId
-        title
-        bodyText
-        repository {
-          nameWithOwner
+  repository(owner: "octocat", name: "Hello-World") {
+    issue(number: 1347) {
+      number
+      title
+      body
+      repository {
+        nameWithOwner
+      }
+      author {
+        login
+      }
+      assignees (first: 10) {
+        edges {
+          node {
+            login
+          }
         }
-        author {
-          login
-        }
-        comments (last: 10) {
-         nodes {
-           id
-           author {
-             login
-           }
-           bodyText
-           publishedAt
-         }
+      }
+      labels(first: 10) {
+        edges {
+          node {
+            id
+            name
+            color
+          }
         }
       }
     }

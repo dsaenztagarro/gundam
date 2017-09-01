@@ -1,5 +1,5 @@
 module Gundam
-  class PullRequestNotFound < StandardError
+  class PullNotFound < StandardError
     def initialize(repo, number)
       @repo = repo
       @number = number

@@ -1,50 +1,63 @@
-require_relative 'query'
-
 module Gundam
   module Github
     module API
       module V4
-        class IssueQuery < Gundam::Github::API::V4::Query
-          def initialize(login, repo, number)
-            @login  = login
-            @repo   = repo
-            @number = number
-          end
-
-          def key
-            "issue-#{@login}-#{@repo}-#{@number}"
+        class IssueQuery < Query
+          def initialize(login, repo, number, options = {})
+            @login   = login
+            @repo    = repo
+            @number  = number
+            @options = options
           end
 
           def query
-            <<~END
+            template = <<~GRAPHQL
               query {
-                repositoryOwner(login: "#{@login}") {
-                  repository(name: "#{@repo}") {
-                    issue(number: #{@number}) {
-                      databaseId
-                      title
-                      bodyText
-                      repository {
-                        nameWithOwner
-                      }
-                      author {
-                        login
-                      }
-                      comments (last: 10) {
-                       nodes {
-                         id
-                         author {
-                           login
-                         }
-                         bodyText
-                         publishedAt
-                       }
+                repository(owner: "#{@login}", name: "#{@repo}") {
+                  issue(number: #{@number}) {
+                    number
+                    title
+                    body
+                    repository {
+                      nameWithOwner
+                    }
+                    author {
+                      login
+                    }
+                    assignees (first: 10) {
+                      edges {
+                        node {
+                          login
+                        }
                       }
                     }
+                    labels(first: 10) {
+                      edges {
+                        node {
+                          id
+                          name
+                          color
+                        }
+                      }
+                    }
+                    <% if @options[:with_comments] %>
+                    comments (last: 100) {
+                      nodes {
+                        id
+                        author {
+                          login
+                        }
+                        body
+                        publishedAt
+                      }
+                    }
+                    <% end %>
                   }
                 }
               }
-            END
+            GRAPHQL
+
+            ERB.new(template, 0, '>').result(binding)
           end
         end
       end

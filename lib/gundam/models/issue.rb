@@ -1,9 +1,9 @@
 module Gundam
   class Issue
-    attr_accessor :assignee, :comments, :repository, :title, :body, :labels, :number, :html_url
+    attr_accessor :assignees, :comments, :repository, :title, :body, :labels, :number, :html_url
 
     def initialize(options = {})
-      @assignee   = options[:assignee]
+      @assignees  = options.fetch(:assignees, [])
       @body       = options[:body]
       @labels     = options.fetch(:labels, [])
       @html_url   = options[:html_url]

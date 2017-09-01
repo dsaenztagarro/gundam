@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Gundam::LocalRepository do
   let(:repository) do
     double('Git::Repository', owner: 'octocat',
+                              name: 'Hello-World',
                               full_name: 'octocat/Hello-World',
                               current_branch: '1347-new-feature',
                               platform_constant_name: 'Github')
@@ -18,38 +19,52 @@ describe Gundam::LocalRepository do
       allow(factory).to receive(:build).and_return(service)
     end
 
-    it 'returns the pull' do
-      pull = double('Pull')
+    context 'when exists a pull for the current branch' do
+      let(:pull) { double('Pull') }
 
-      expect(service).to receive(:pull_requests)
-        .with('octocat/Hello-World', status: 'open', head: 'octocat:1347-new-feature')
-        .and_return([pull])
+      before do
+        expect(service).to receive(:pulls)
+          .with('octocat', 'Hello-World', '1347-new-feature', {})
+          .and_return([pull])
+      end
 
-      expect(subject.current_pull).to eq(pull)
+      it 'returns the pull' do
+        expect(subject.current_pull).to eq(pull)
+      end
+    end
+
+    context 'when does not exist a pull for the current branch' do
+      before do
+        expect(service).to receive(:pulls)
+          .with('octocat', 'Hello-World', '1347-new-feature', {}).and_return([])
+      end
+
+      it 'raises an error' do
+        expect { subject.current_pull }.to raise_error do |error|
+          expect(error).to be_a(Gundam::PullRequestForBranchNotFound)
+          expect(error.user_message).to eq('Not found PR for branch 1347-new-feature')
+        end
+      end
     end
   end
 
   describe '#current_issue' do
+    let(:issue) { double }
+
     context 'when Github remote repository' do
-      context 'and REST API v3' do
-        let(:client) { double('Octokit::Client') }
-        let(:service) { Gundam::Github::API::V3::Gateway.new }
+      let(:service) { Gundam::Github::Gateway.new }
 
-        before do
-          allow(client).to receive(:issue).with('octocat/Hello-World', 1347)
-            .and_return(github_api_v3_response :get_issue)
+      before do
+        allow(Gundam::RepoServiceFactory).to receive(:with_platform)
+          .with('Github').and_return(factory)
+        allow(factory).to receive(:build).and_return(service)
 
-          allow(Gundam::Github::API::V3::Gateway).to receive(:new_client)
-            .and_return(client)
-        end
+        allow(service).to receive(:issue)
+          .with('octocat', 'Hello-World', 1347, {}).and_return(issue)
+      end
 
-        it 'returns the issue' do
-          issue = subject.current_issue
-          expect(issue).to be_a(Gundam::Issue)
-          expect(issue.number).to eq(1347)
-          expect(issue.title).to eq('Found a bug')
-          expect(issue.body).to eq("I'm having a problem with this.")
-        end
+      it 'returns the issue' do
+        expect(subject.current_issue).to eq(issue)
       end
     end
   end

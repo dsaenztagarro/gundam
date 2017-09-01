@@ -4,32 +4,12 @@
       "issue": {
         "number": 1347,
         "title": "Found a bug",
-        "body": "I'm having a problem with this.",
+        "bodyText": "I'm having a problem with this.",
         "repository": {
           "nameWithOwner": "octocat/Hello-World"
         },
         "author": {
           "login": "octocat"
-        },
-        "assignees": {
-          "edges": [
-            {
-              "node": {
-                "login": "dsaenztagarro"
-              }
-            }
-          ]
-        },
-        "labels": {
-          "edges": [
-            {
-              "node": {
-                "id": "MDU6TGFiZWwyMDI3NDE4NzA=",
-                "name": "bug",
-                "color": "d10000"
-              }
-            }
-          ]
         },
         "comments": {
           "nodes": [
@@ -54,4 +34,5 @@
       }
     }
   }
+}
 }

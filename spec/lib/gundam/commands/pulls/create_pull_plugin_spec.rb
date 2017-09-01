@@ -32,7 +32,7 @@ describe Gundam::CreatePullPlugin do
       allow(repo_service).to receive(:repository).with('octocat/Hello-World')
         .and_return(remote_repository)
 
-      allow(repo_service).to receive(:issue).with('octocat/Hello-World', 1)
+      allow(repo_service).to receive(:issue).with('octocat', 'Hello-World', 1)
         .and_return(issue)
     end
 

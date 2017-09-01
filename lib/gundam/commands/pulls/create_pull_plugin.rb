@@ -9,7 +9,7 @@ module Gundam
 
       remote_repo = repo_service.repository(local_repo.full_name)
 
-      issue = repo_service.issue(remote_repo.full_name, issue_id)
+      issue = repo_service.issue(remote_repo.owner, remote_repo.name, issue_id)
 
       { repo: remote_repo.full_name,
         base: remote_repo.default_branch,

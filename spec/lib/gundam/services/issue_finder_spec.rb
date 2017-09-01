@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe Gundam::IssueFinder do
   let(:issue) { double('Gundam::Issue') }
-
   let(:subject) { described_class.new(context) }
 
   describe '#find' do
@@ -24,8 +23,17 @@ describe Gundam::IssueFinder do
         end
 
         it 'returns the issue with number provided' do
-          allow(local_repo).to receive(:issue).with(1347).and_return(issue)
+          allow(local_repo).to receive(:issue).with(1347, {}).and_return(issue)
           expect(subject.find).to eq(issue)
+        end
+
+        context 'and issue response options' do
+          let(:options) { double }
+
+          it 'returns the issue with number provided' do
+            allow(local_repo).to receive(:issue).with(1347, options).and_return(issue)
+            expect(subject.find(options)).to eq(issue)
+          end
         end
       end
     end
@@ -43,7 +51,7 @@ describe Gundam::IssueFinder do
       end
 
       it 'returns the issue' do
-        allow(repo_service).to receive(:issue).with('octocat/Hello-World', 1347)
+        allow(repo_service).to receive(:issue).with('octocat/Hello-World', 1347, {})
           .and_return(issue)
 
         expect(subject.find).to eq(issue)
