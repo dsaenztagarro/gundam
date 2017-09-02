@@ -1,3 +1,5 @@
+GC.disable
+
 require_relative 'dependencies'
 
 module Gundam

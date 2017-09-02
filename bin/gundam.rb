@@ -3,10 +3,10 @@ unless RUBY_VERSION == '2.4.1'
   exit
 end
 
+require_relative '../lib/gundam'
+
 require 'thor'
 require 'yaml'
-
-require_relative '../lib/gundam'
 
 require 'benchmark'
 
