@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GitHelper
   def change_to_git_repo
     repo_dir = create_git_repo

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class CreatePullPlugin < Gundam::Plugin
     def_delegators :context, :repo_service, :local_repo # context with repository

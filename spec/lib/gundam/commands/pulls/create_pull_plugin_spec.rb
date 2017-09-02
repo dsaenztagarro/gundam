@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gundam::CreatePullPlugin do
@@ -30,10 +32,10 @@ describe Gundam::CreatePullPlugin do
   describe '#pull_request_options' do
     before do
       allow(repo_service).to receive(:repository).with('octocat/Hello-World')
-        .and_return(remote_repository)
+                                                 .and_return(remote_repository)
 
       allow(repo_service).to receive(:issue).with('octocat', 'Hello-World', 1)
-        .and_return(issue)
+                                            .and_return(issue)
     end
 
     it 'returns the expected options' do

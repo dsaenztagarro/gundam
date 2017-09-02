@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   module Context
     module WithRepository
@@ -7,7 +9,7 @@ module Gundam
 
       def local_repo
         @local_repo ||= LocalRepository.at(base_dir) ||
-                          raise(Gundam::LocalRepoNotFound.new(base_dir))
+                        raise(LocalRepoNotFound, base_dir)
       end
 
       def repository
@@ -30,7 +32,7 @@ module Gundam
       private
 
       def cli_option_or_error(key)
-        cli_options[key] or raise ArgumentError.new("Missing cli option #{key}")
+        cli_options[key] || raise(ArgumentError, "Missing cli option #{key}")
       end
     end
   end

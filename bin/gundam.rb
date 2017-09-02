@@ -1,5 +1,7 @@
-unless RUBY_VERSION == '2.4.0'
-  puts "Required RUBY VERSION >= 2.4.0"
+# frozen_string_literal: true
+
+unless RUBY_VERSION >= '2.4.0'
+  puts 'Required RUBY VERSION >= 2.4.0'
   exit
 end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   module Github
     module API
@@ -9,9 +11,9 @@ module Gundam
               CommentMapper.map(comment)
             end
 
-            combined_status = node.dig('commits', 'nodes').to_a.map { |node|
+            combined_status = node.dig('commits', 'nodes').to_a.map do |node|
               CombinedStatusRefMapper.map(node)
-            }.first
+            end.first
 
             Pull.new(
               number:   node['number'],
@@ -24,7 +26,7 @@ module Gundam
 
           def self.wrap(response)
             pulls = response.dig('data', 'repository', 'pullRequests', 'edges')
-            pulls.map { |pull| self.map(pull['node']) }
+            pulls.map { |pull| map(pull['node']) }
           end
         end
       end

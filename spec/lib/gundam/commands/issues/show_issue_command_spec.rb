@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gundam::ShowIssueCommand do
@@ -11,15 +13,15 @@ describe Gundam::ShowIssueCommand do
     describe '#run' do
       before do
         allow(Gundam::IssueFinder).to receive(:new).with(context)
-          .and_return(issue_finder)
+                                                   .and_return(issue_finder)
       end
 
       it 'outputs the issue' do
         expect(issue_finder).to receive(:find).with(with_comments: true)
-          .and_return(issue)
+                                              .and_return(issue)
 
         expect(Gundam::IssueDecorator).to receive(:new).with(issue)
-          .and_return(issue_decorated)
+                                                       .and_return(issue_decorated)
 
         expect { subject.run }.to output("ISSUE\n").to_stdout
       end

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Gundam
   class IssueFinder
     extend Forwardable
 
     def_delegators :@context, :cli_options # base context
     def_delegators :@context, :local_repo?, :local_repo, :repo_service,
-      :repository # context with repository
+                   :repository # context with repository
 
     def initialize(context)
       @context = context

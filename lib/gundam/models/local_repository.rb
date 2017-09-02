@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 module Gundam
   class LocalRepository < SimpleDelegator
     # @param options [Hash] issue search options
     # @option option [Boolean] :expanded returns in addition comments and
     #   combined status
     def current_pull(options = {})
-      head = "#{owner}:#{current_branch}"
       repo_service.pulls(owner, name, current_branch, options).last ||
-        raise(PullRequestForBranchNotFound.new(current_branch))
+        raise(PullRequestForBranchNotFound, current_branch)
     end
 
     # @param options [Hash] issue search options
@@ -29,7 +30,7 @@ module Gundam
       def at(dir)
         Dir.chdir(dir) do
           `git rev-parse --git-dir`
-          return unless $CHILD_STATUS.exitstatus == 0
+          return unless $CHILD_STATUS.exitstatus.zero?
           require_relative '../git/repository'
           git_repo = Git::Repository.new(dir)
           new(git_repo)

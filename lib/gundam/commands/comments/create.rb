@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   module Commands
     class CreateComment < Gundam::Command

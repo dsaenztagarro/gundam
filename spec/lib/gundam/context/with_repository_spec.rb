@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gundam::Context::WithRepository do
@@ -59,7 +61,7 @@ describe Gundam::Context::WithRepository do
           local_repository = double(full_name: 'octocat/Hello-World')
 
           allow(Gundam::LocalRepository).to receive(:at).with(base_dir)
-            .and_return(local_repository)
+                                                        .and_return(local_repository)
         end
 
         it 'returns the local repo full name' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TimeHelper
   def with_utc_time_zone
     prev_tz = ENV['TZ']

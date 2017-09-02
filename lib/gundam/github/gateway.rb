@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'api/v3/connector'
 require_relative 'api/v4/connector'
 
@@ -7,18 +9,18 @@ module Gundam
       extend Forwardable
 
       def_delegators :@rest_connector,
-        :org_teams,
-        :team_members,
-        :issue_comment,
-        :add_comment,
-        :update_comment,
-        :create_issue,
-        :update_issue,
-        :issue_comments,
-        :repository,
-        :update_pull_request,
-        :combined_status,
-        :create_pull_request
+                     :org_teams,
+                     :team_members,
+                     :issue_comment,
+                     :add_comment,
+                     :update_comment,
+                     :create_issue,
+                     :update_issue,
+                     :issue_comments,
+                     :repository,
+                     :update_pull_request,
+                     :combined_status,
+                     :create_pull_request
 
       def_delegators :@graphql_connector, :issue, :pulls
 

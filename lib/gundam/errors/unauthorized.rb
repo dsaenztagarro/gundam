@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class Unauthorized < StandardError
     def initialize(resource, options = {})

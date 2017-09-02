@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gundam::UpdateIssueCommand do
@@ -13,25 +15,25 @@ describe Gundam::UpdateIssueCommand do
                           repo_service: repo_service)
   end
 
-	let(:tmp_filepath) do
-		"#{Gundam.base_dir}/files/octocat_Hello-World_issues_1347_20101115131020.md"
-	end
+  let(:tmp_filepath) do
+    "#{Gundam.base_dir}/files/octocat_Hello-World_issues_1347_20101115131020.md"
+  end
 
-	describe '#run' do
-		before do
-			time_now = with_utc_time_zone { Time.parse('2010-11-15 13:10:20').to_time }
-			allow(Time).to receive(:now).and_return(time_now)
-			File.delete(tmp_filepath) if File.exist?(tmp_filepath)
+  describe '#run' do
+    before do
+      time_now = with_utc_time_zone { Time.parse('2010-11-15 13:10:20').to_time }
+      allow(Time).to receive(:now).and_return(time_now)
+      File.delete(tmp_filepath) if File.exist?(tmp_filepath)
 
       allow(Gundam::IssueFinder).to receive(:new).with(context)
-        .and_return(issue_finder)
+                                                 .and_return(issue_finder)
 
       allow(issue_finder).to receive(:find).and_return(issue)
 
-			expect(subject).to receive(:system) do |arg|
-				expect(arg).to eq("$EDITOR #{tmp_filepath}")
+      expect(subject).to receive(:system) do |arg|
+        expect(arg).to eq("$EDITOR #{tmp_filepath}")
 
-				# EDITOR loaded with issue
+        # EDITOR loaded with issue
 
         content_before_update = <<~END
           ---
@@ -43,7 +45,7 @@ describe Gundam::UpdateIssueCommand do
         END
         expect(File.read(tmp_filepath)).to eq(content_before_update)
 
-				# EDITOR updated with user changes
+        # EDITOR updated with user changes
 
         content_after_update = <<~END
           ---
@@ -54,19 +56,19 @@ describe Gundam::UpdateIssueCommand do
           This is a recurrent error
         END
         File.open(tmp_filepath, 'w') { |file| file.write(content_after_update) }
-			end
-		end
+      end
+    end
 
-		it 'updates the issue' do
-			expect(repo_service).to receive(:update_issue).
-        with('octocat/Hello-World', issue).and_return(issue)
+    it 'updates the issue' do
+      expect(repo_service).to receive(:update_issue)
+        .with('octocat/Hello-World', issue).and_return(issue)
 
-			expected_output = <<~END
-				\e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
+      expected_output = <<~END
+        \e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
 			END
 
-			expect { subject.run }.to output(expected_output).to_stdout
-		end
+      expect { subject.run }.to output(expected_output).to_stdout
+    end
 
     context 'when metadata contains errors' do
       before do
@@ -81,5 +83,5 @@ describe Gundam::UpdateIssueCommand do
         expect { subject.run }.to output(expected_output).to_stdout
       end
     end
-	end
+  end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class RemoteRepository
     attr_reader :name, :owner, :full_name, :default_branch

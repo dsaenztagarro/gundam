@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gundam::IssueFinder do
@@ -47,12 +49,13 @@ describe Gundam::IssueFinder do
           local_repo?: false,
           repository: 'octocat/Hello-World',
           number: 1347,
-          repo_service: repo_service)
+          repo_service: repo_service
+        )
       end
 
       it 'returns the issue' do
         allow(repo_service).to receive(:issue).with('octocat/Hello-World', 1347, {})
-          .and_return(issue)
+                                              .and_return(issue)
 
         expect(subject.find).to eq(issue)
       end

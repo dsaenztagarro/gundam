@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 module Gundam
   module FactoriesHelper
     def create_issue
       Issue.new(
-        assignees: %w(octocat),
+        assignees: %w[octocat],
         body: "I'm having a problem with this.",
         html_url: 'https://github.com/octocat/Hello-World/issues/1347',
-        labels: [ create_label, create_label(id: 208045947, name: 'support') ],
+        labels: [create_label, create_label(id: 208_045_947, name: 'support')],
         number: 1347,
         title: 'Found a bug'
       )
     end
 
     def create_label(id: nil, name: nil)
-      Label.new(id: id || 208045946, color: 'f29513', name: name || 'bug')
+      Label.new(id: id || 208_045_946, color: 'f29513', name: name || 'bug')
     end
 
     def create_issue_with_comments
@@ -56,12 +58,13 @@ module Gundam
         description: options[:description] || 'Build has completed successfully',
         state: 'success',
         updated_at: '2012-07-20T01:19:13Z',
-        target_url: options[:target_url] || 'https://ci.example.com/1000/output')
+        target_url: options[:target_url] || 'https://ci.example.com/1000/output'
+      )
     end
 
     def create_comment
       Comment.new(
-        id: 318212279,
+        id: 318_212_279,
         author: 'octokit',
         created_at: Time.parse('2011-04-14T12:30:24Z'),
         updated_at: Time.parse('2011-04-14T16:00:49Z'),

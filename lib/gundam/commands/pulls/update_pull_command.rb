@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module Gundam
   class UpdatePullCommand < UpdateIssueCommand
-
     private
 
     def find_issue

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'octokit'
 
 require_relative 'mappers/combined_status_ref_mapper'
@@ -95,7 +97,7 @@ module Gundam
             response = @client.repository(repo)
             RemoteRepositoryMapper.load(response)
           rescue Octokit::Unauthorized
-            raise Gundam::Unauthorized.new(:github_api_v3)
+            raise Gundam::Unauthorized, :github_api_v3
           end
 
           # @param repo [String]

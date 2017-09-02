@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   module Github
     module API
@@ -9,7 +11,7 @@ module Gundam
             assignees = assignee ? [assignee] : []
 
             Issue.new(
-							html_url: resource[:html_url],
+              html_url: resource[:html_url],
               assignees: assignees,
               body:     resource[:body],
               labels:   resource[:labels].map { |lab| LabelMapper.load(lab) },

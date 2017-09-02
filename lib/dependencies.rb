@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'English' # needed by $CHILD_STATUS
 require 'erb'
 require 'forwardable'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gundam::PullFinder do
@@ -12,7 +14,8 @@ describe Gundam::PullFinder do
       let(:context) do
         double(
           local_repo?: true,
-          local_repo: local_repo)
+          local_repo: local_repo
+        )
       end
 
       it 'returns the pull' do
@@ -30,7 +33,8 @@ describe Gundam::PullFinder do
           local_repo?: false,
           repository: 'octocat/Hello-World',
           number: 1347,
-          repo_service: repo_service)
+          repo_service: repo_service
+        )
       end
 
       it 'returns the pull' do

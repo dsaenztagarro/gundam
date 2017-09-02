@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 module Gundam
   class CommentDecorator < Decorator
     include TextHelper
 
     def string
       <<~END
-      #{cyan(author)} #{blue(updated_at)} #{id}
-      #{reformat_wrapped(body)}
+        #{cyan(author)} #{blue(updated_at)} #{id}
+        #{reformat_wrapped(body)}
       END
     end
 
