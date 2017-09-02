@@ -1,6 +1,7 @@
 module Gundam
   class PullDecorator < Decorator
-    include Gundam::IssueHelper
+    include TextHelper
+    include IssueHelper
 
     # @param doc [Document]
     def update_attributes_from(doc)

@@ -1,9 +1,11 @@
 module Gundam
   class CommentDecorator < Decorator
+    include TextHelper
+
     def string
       <<~END
       #{cyan(author)} #{blue(updated_at)} #{id}
-      #{body}
+      #{reformat_wrapped(body)}
       END
     end
 

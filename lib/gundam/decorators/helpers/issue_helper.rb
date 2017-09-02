@@ -1,17 +1,19 @@
 module Gundam
   module IssueHelper
+
     # @param output [StringIO]
     def add_description(output)
       output.puts <<~END
         #{red(title)}
-        #{body}
+        #{reformat_wrapped(body)}
       END
     end
 
     # @param output [StringIO]
     def add_comments(output)
       comments.each do |comment|
-        output.puts Gundam::CommentDecorator.new(comment).string
+        output.puts CommentDecorator.new(comment).string
+        output.puts unless comment == comments.last
       end
     end
   end

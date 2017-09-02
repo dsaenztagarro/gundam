@@ -5,6 +5,7 @@ require 'stringio'
 require 'byebug'
 
 require_relative 'gundam/helpers/colorize_helper'
+require_relative 'gundam/helpers/text_helper'
 require_relative 'gundam/errors'
 require_relative 'gundam/error_handler'
 require_relative 'gundam/configurable'
