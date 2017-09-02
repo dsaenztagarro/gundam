@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 require 'net/http'
 
@@ -7,7 +9,6 @@ require_relative '../gundam/github/api/v4/rate_limit'
 require_relative '../gundam/github/api/v4/queries/rate_limit_query'
 
 namespace :github do
-
   desc 'Setup Gundam GitHub credentials'
   task :setup do
     config = YAML.load_file(File.expand_path('~/.gundam.yml'))

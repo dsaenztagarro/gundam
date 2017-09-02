@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class SetupVimWordsCommand < Command
     def_delegators :context, :base_dir, :cli_options # context

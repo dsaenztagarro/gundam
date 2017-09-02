@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 GC.disable
 
 require_relative 'dependencies'

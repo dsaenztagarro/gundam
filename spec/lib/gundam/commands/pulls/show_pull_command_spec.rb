@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gundam::ShowPullCommand do
@@ -11,14 +13,14 @@ describe Gundam::ShowPullCommand do
     describe '#run' do
       before do
         allow(Gundam::PullFinder).to receive(:new).with(context)
-          .and_return(pull_finder)
+                                                  .and_return(pull_finder)
       end
 
       it 'outputs the pull' do
         expect(pull_finder).to receive(:find).and_return(pull)
 
         expect(Gundam::PullDecorator).to receive(:new).with(pull)
-          .and_return(pull_decorated)
+                                                      .and_return(pull_decorated)
 
         expect { subject.run }.to output("PULL\n").to_stdout
       end

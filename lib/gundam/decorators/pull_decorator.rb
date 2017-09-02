@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class PullDecorator < Decorator
     include TextHelper
@@ -20,7 +22,7 @@ module Gundam
     def string_on_create
       green(html_url)
     end
-    alias :string_on_update :string_on_create
+    alias string_on_update string_on_create
 
     private
 

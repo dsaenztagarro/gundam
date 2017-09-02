@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class CommandRunner
     attr_writer :context_provider

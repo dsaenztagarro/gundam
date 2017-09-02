@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gundam::LocalRepository do
@@ -15,7 +17,7 @@ describe Gundam::LocalRepository do
   describe '#current_pull' do
     before do
       allow(Gundam::RepoServiceFactory).to receive(:with_platform).with('Github')
-        .and_return(factory)
+                                                                  .and_return(factory)
       allow(factory).to receive(:build).and_return(service)
     end
 

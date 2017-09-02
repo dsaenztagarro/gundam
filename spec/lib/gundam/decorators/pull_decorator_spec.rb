@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gundam::PullDecorator do
@@ -22,7 +24,8 @@ describe Gundam::PullDecorator do
   describe '#string_on_create' do
     it 'returns the expected string' do
       expect(subject.string_on_create).to eq(
-        "\e[32mhttps://github.com/octocat/Hello-World/pull/1347\e[0m")
+        "\e[32mhttps://github.com/octocat/Hello-World/pull/1347\e[0m"
+      )
     end
   end
 end

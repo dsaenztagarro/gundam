@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class CommandContext
     attr_reader :base_dir, :cli_options, :command_options

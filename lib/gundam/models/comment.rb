@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class Comment
     attr_accessor :body, :created_at, :html_url, :id, :updated_at, :author
@@ -10,13 +12,13 @@ module Gundam
 
     class << self
       def keys
-        @keys ||= [
-          :body,
-          :created_at,
-          :html_url,
-          :id,
-          :updated_at,
-          :author
+        @keys ||= %i[
+          body
+          created_at
+          html_url
+          id
+          updated_at
+          author
         ]
       end
     end

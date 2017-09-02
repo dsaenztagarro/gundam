@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Gundam::Github::API::V3::Connector do
@@ -49,7 +51,7 @@ describe Gundam::Github::API::V3::Connector do
   describe '#create_issue' do
     it 'creates an issue' do
       allow(client).to receive(:create_issue)
-        .with('octocat/Hello-World', 'Found a bug', "I'm having a problem with this.", assignee: 'octocat', labels: %w(bug support))
+        .with('octocat/Hello-World', 'Found a bug', "I'm having a problem with this.", assignee: 'octocat', labels: %w[bug support])
         .and_return(github_api_v3_response(:create_issue))
 
       response = subject.create_issue('octocat/Hello-World', issue)
@@ -65,7 +67,7 @@ describe Gundam::Github::API::V3::Connector do
     let(:options) do
       { assignee: 'octocat',
         body: "I'm having a problem with this.",
-        labels: %w(bug support),
+        labels: %w[bug support],
         title: 'Found a bug' }
     end
 
@@ -87,9 +89,9 @@ describe Gundam::Github::API::V3::Connector do
         .with('octocat/Hello-World', 1347, options)
         .and_raise(Octokit::UnprocessableEntity)
 
-      expect {
+      expect do
         subject.update_issue('octocat/Hello-World', issue)
-      }.to raise_error(Gundam::UnprocessableEntity)
+      end.to raise_error(Gundam::UnprocessableEntity)
     end
   end
 
@@ -127,7 +129,7 @@ describe Gundam::Github::API::V3::Connector do
   describe '#repository' do
     it 'returns a single repository' do
       allow(client).to receive(:repository).with('octocat/Hello-World')
-        .and_return(github_api_v3_response(:get_repository))
+                                           .and_return(github_api_v3_response(:get_repository))
 
       response = subject.repository('octocat/Hello-World')
 
@@ -140,7 +142,7 @@ describe Gundam::Github::API::V3::Connector do
 
     it 'raises an error with invalid credentials' do
       allow(client).to receive(:repository).with('octocat/Hello-World')
-        .and_raise(Octokit::Unauthorized)
+                                           .and_raise(Octokit::Unauthorized)
 
       expect do
         subject.repository('octocat/Hello-World')
@@ -177,7 +179,8 @@ describe Gundam::Github::API::V3::Connector do
         base: 'master',
         head: 'new-topic',
         title: 'new-feature',
-        body: 'Please pull these awesome changes')
+        body: 'Please pull these awesome changes'
+      )
 
       expect(response).to be_a Gundam::Pull
       expect(response.body).to eq('Please pull these awesome changes')
@@ -200,7 +203,8 @@ describe Gundam::Github::API::V3::Connector do
             base: 'master',
             head: 'new-topic',
             title: 'new-feature',
-            body: 'Please pull these awesome changes')
+            body: 'Please pull these awesome changes'
+          )
         end.to raise_error(Gundam::CreatePullRequestError)
       end
     end
@@ -227,19 +231,19 @@ describe Gundam::Github::API::V3::Connector do
   describe '#org_teams' do
     it 'returns the teams of an organization' do
       allow(client).to receive(:org_teams).with('myorg')
-        .and_return(github_api_v3_response(:get_teams))
+                                          .and_return(github_api_v3_response(:get_teams))
 
       result = subject.org_teams('myorg')
 
-			expected_teams = [{id: 1, name: 'Justice League'}, {id: 2, name: 'ATeam'}]
+      expected_teams = [{ id: 1, name: 'Justice League' }, { id: 2, name: 'ATeam' }]
 
       expect(result).to be_a(Array)
 
-			result.zip(expected_teams).each do |team, expected_team|
-				expect(team).to be_a(Gundam::Team)
-				expect(team.id).to eq(expected_team[:id])
-				expect(team.name).to eq(expected_team[:name])
-			end
+      result.zip(expected_teams).each do |team, expected_team|
+        expect(team).to be_a(Gundam::Team)
+        expect(team.id).to eq(expected_team[:id])
+        expect(team.name).to eq(expected_team[:name])
+      end
     end
   end
 
@@ -249,19 +253,19 @@ describe Gundam::Github::API::V3::Connector do
         .and_return(github_api_v3_response(:get_teams))
 
       allow(client).to receive(:team_members).with(2)
-        .and_return(github_api_v3_response(:get_team_members))
+                                             .and_return(github_api_v3_response(:get_team_members))
 
       result = subject.team_members(2)
 
-			expected_team_members = [{id: 1, login: 'octocat'}, {id: 2, login: 'zuma'}]
+      expected_team_members = [{ id: 1, login: 'octocat' }, { id: 2, login: 'zuma' }]
 
       expect(result).to be_a(Array)
 
-			result.zip(expected_team_members).each do |member, expected_member|
-				expect(member).to be_a(Gundam::TeamMember)
-				expect(member.id).to eq(expected_member[:id])
-				expect(member.login).to eq(expected_member[:login])
-			end
+      result.zip(expected_team_members).each do |member, expected_member|
+        expect(member).to be_a(Gundam::TeamMember)
+        expect(member.id).to eq(expected_member[:id])
+        expect(member.login).to eq(expected_member[:login])
+      end
     end
   end
 end

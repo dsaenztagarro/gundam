@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class ContextProvider
     attr_writer :cli_options, :command_options
@@ -18,7 +20,7 @@ module Gundam
       return Dir.pwd unless cli_base_dir
 
       unless Dir.exist?(cli_base_dir)
-        raise Gundam::BaseDirNotFound.new(cli_base_dir)
+        raise Gundam::BaseDirNotFound, cli_base_dir
       end
 
       cli_base_dir

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class Team
     attr_reader :id, :name

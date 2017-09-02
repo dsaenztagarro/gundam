@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class ShowIssueCommand < Command
     include Commands::Shared::DecoratorHelper

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class LocalRepoNotFound < StandardError
     def initialize(base_dir)

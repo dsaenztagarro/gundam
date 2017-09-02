@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   module Configurable
     attr_accessor :github_access_token, :default_locale

@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 require 'simplecov'
 require 'coveralls'
 require 'byebug'
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter])
+                                                                 SimpleCov::Formatter::HTMLFormatter,
+                                                                 Coveralls::SimpleCov::Formatter
+                                                               ])
 
 SimpleCov.start do
   add_filter 'spec/'
@@ -15,7 +18,7 @@ require 'webmock/rspec'
 require_relative '../lib/gundam'
 require_relative '../lib/gundam/github/gateway'
 
-Dir.glob(File.expand_path '../support/**/*.rb', __FILE__).each { |file| load file }
+Dir.glob(File.expand_path('../support/**/*.rb', __FILE__)).each { |file| load file }
 
 tmpdir = Dir.mktmpdir
 

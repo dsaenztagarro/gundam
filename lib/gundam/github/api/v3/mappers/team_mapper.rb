@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   module Github
     module API
@@ -15,4 +17,3 @@ module Gundam
     end
   end
 end
-

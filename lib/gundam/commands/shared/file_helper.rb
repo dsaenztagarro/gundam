@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   module Commands
     module Shared
@@ -17,7 +19,7 @@ module Gundam
         # @return [Gundam::Document] The document associated to the edited file
         def edit_file(filepath)
           system("$EDITOR #{filepath}")
-          Document.new(filepath).tap { |doc| doc.read }
+          Document.new(filepath).tap(&:read)
         end
 
         def file_timestamp

@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module Gundam
   module IssueHelper
-
     # @param output [StringIO]
     def add_description(output)
       output.puts <<~END

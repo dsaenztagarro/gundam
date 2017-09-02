@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Gundam
   module TextHelper
-    def reformat_wrapped(s, width=80)
+    def reformat_wrapped(s, width = 80)
       lines = []
-      line = ""
+      line = ''
       s.split(/\s+/).each do |word|
         if line.size + word.size >= width
           lines << line
@@ -10,11 +12,11 @@ module Gundam
         elsif line.empty?
           line = word
         else
-          line << " " << word
+          line << ' ' << word
         end
       end
       lines << line if line
-      return lines.join "\n"
+      lines.join "\n"
     end
   end
 end

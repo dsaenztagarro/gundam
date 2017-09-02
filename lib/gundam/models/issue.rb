@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gundam
   class Issue
     attr_accessor :assignees, :comments, :repository, :title, :body, :labels, :number, :html_url
