@@ -60,7 +60,7 @@ module Gundam
     end
 
     def create_comment
-      IssueComment.new(
+      Comment.new(
         id: 318212279,
         author: 'octokit',
         created_at: Time.parse('2011-04-14T12:30:24Z'),

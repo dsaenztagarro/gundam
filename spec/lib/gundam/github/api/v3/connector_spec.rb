@@ -19,7 +19,7 @@ describe Gundam::Github::API::V3::Connector do
 
       response = subject.add_comment('octocat/Hello-World', 1, 'Me too')
 
-      expect(response).to be_a(Gundam::IssueComment)
+      expect(response).to be_a(Gundam::Comment)
       expect(response.body).to eq('Me too')
       expect(response.created_at).to eq('2011-04-14T16:00:49Z')
       expect(response.html_url).to eq('https://github.com/octocat/Hello-World/issues/1347#issuecomment-1')
@@ -37,7 +37,7 @@ describe Gundam::Github::API::V3::Connector do
 
       response = subject.update_comment('octocat/Hello-World', 1, 'Me too')
 
-      expect(response).to be_a(Gundam::IssueComment)
+      expect(response).to be_a(Gundam::Comment)
       expect(response.body).to eq('Me too')
       expect(response.created_at).to eq('2011-04-14T16:00:49Z')
       expect(response.html_url).to eq('https://github.com/octocat/Hello-World/issues/1347#issuecomment-1')
@@ -119,7 +119,7 @@ describe Gundam::Github::API::V3::Connector do
 
       response = subject.issue_comment('octocat/Hello-World', 1_296_269)
 
-      expect(response).to be_a(Gundam::IssueComment)
+      expect(response).to be_a(Gundam::Comment)
       expect(response.body).to eq('Me too')
     end
   end

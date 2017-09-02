@@ -2,7 +2,7 @@ require 'octokit'
 
 require_relative 'mappers/combined_status_ref_mapper'
 require_relative 'mappers/commit_status_mapper'
-require_relative 'mappers/issue_comment_mapper'
+require_relative 'mappers/comment_mapper'
 require_relative 'mappers/issue_mapper'
 require_relative 'mappers/label_mapper'
 require_relative 'mappers/pull_request_mapper'
@@ -32,25 +32,25 @@ module Gundam
 
           def issue_comment(repo, number)
             response = @client.issue_comment(repo, number)
-            IssueCommentMapper.load(response)
+            CommentMapper.load(response)
           end
 
           # @param repo [String]
           # @param number [Fixnum]
           # @param comment [String]
-          # @return [Gundam::IssueComment]
+          # @return [Gundam::Comment]
           def add_comment(repo, number, comment)
             response = @client.add_comment(repo, number, comment)
-            IssueCommentMapper.load(response)
+            CommentMapper.load(response)
           end
 
           # @param repo [String] A GitHub repository
           # @param number [Fixnum] Comment number
           # @param comment [String] Body of the comment which will replace the existing body
-          # @return [Gundam::IssueComment]
+          # @return [Gundam::Comment]
           def update_comment(repo, number, comment)
             response = @client.update_comment(repo, number, comment)
-            IssueCommentMapper.load(response)
+            CommentMapper.load(response)
           end
 
           # @param repo [String]
@@ -83,10 +83,10 @@ module Gundam
 
           # @param repo [String]
           # @param number [Fixnum]
-          # @return [Array<Gundam::IssueComment>]
+          # @return [Array<Gundam::Comment>]
           def issue_comments(repo, number)
             list = @client.issue_comments(repo, number)
-            list.map { |item| IssueCommentMapper.load(item) }
+            list.map { |item| CommentMapper.load(item) }
           end
 
           # @param repo [String]

@@ -1,5 +1,5 @@
 module Gundam
-  class IssueComment
+  class Comment
     attr_reader :body, :created_at, :html_url, :id, :updated_at, :author
 
     def initialize(options = {})

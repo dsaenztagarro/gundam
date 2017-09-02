@@ -61,14 +61,14 @@ describe Gundam::Github::API::V4::Connector do
         expect(pull.comments.size).to eq(2)
 
         comment1 = pull.comments.first
-        expect(comment1).to be_a(Gundam::IssueComment)
+        expect(comment1).to be_a(Gundam::Comment)
         expect(comment1.id).to eq("MDEyOklzc3VlQ29tbWVudDMyNjU0ODY5NA==")
         expect(comment1.body).to eq('releasing!')
         expect(comment1.created_at).to eq(Time.parse("2017-09-01T10:35:54Z"))
         expect(comment1.author).to eq('dhh')
 
         comment2 = pull.comments.last
-        expect(comment2).to be_a(Gundam::IssueComment)
+        expect(comment2).to be_a(Gundam::Comment)
         expect(comment2.id).to eq("MDEyOklzc3VlQ29tbWVudDMyNjU1MjAxOQ==")
         expect(comment2.body).to eq('Thanks @dhh!')
         expect(comment2.created_at).to eq(Time.parse("2017-09-01T10:55:30Z"))
