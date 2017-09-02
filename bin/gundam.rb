@@ -1,12 +1,12 @@
-unless RUBY_VERSION == '2.4.1'
-  puts "Run first 'rvm wrapper ruby-2.4.1'"
+unless RUBY_VERSION == '2.4.0'
+  puts "Required RUBY VERSION >= 2.4.0"
   exit
 end
 
+require_relative '../lib/gundam'
+
 require 'thor'
 require 'yaml'
-
-require_relative '../lib/gundam'
 
 require 'benchmark'
 

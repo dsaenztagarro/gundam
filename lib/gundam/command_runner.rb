@@ -9,6 +9,8 @@ module Gundam
       context_provider.command_options = command_options
       context = context_provider.load_context
       command.new(context).run
+    ensure
+      GC.enable
     end
 
     def context_provider

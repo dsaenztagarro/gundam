@@ -1,6 +1,7 @@
 module Gundam
   class IssueDecorator < Decorator
-    include Gundam::IssueHelper
+    include TextHelper
+    include IssueHelper
 
     # @param doc [Document]
     # @return [Gundam::Issue]
@@ -18,6 +19,7 @@ module Gundam
     def string
       io = StringIO.new
       add_description(io)
+      io.puts
       add_comments(io)
       io.string
     end

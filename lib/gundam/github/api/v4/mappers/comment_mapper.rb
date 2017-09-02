@@ -5,7 +5,7 @@ module Gundam
         class CommentMapper
           # @param resource [Hash]
           def self.map(resource)
-            IssueComment.new(
+            Comment.new(
               id:         resource['id'],
               body:       resource['body'],
               created_at: Time.parse(resource['publishedAt']),

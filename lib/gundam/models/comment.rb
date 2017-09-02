@@ -1,6 +1,6 @@
 module Gundam
-  class IssueComment
-    attr_reader :body, :created_at, :html_url, :id, :updated_at, :author
+  class Comment
+    attr_accessor :body, :created_at, :html_url, :id, :updated_at, :author
 
     def initialize(options = {})
       self.class.keys.each do |key|
