@@ -8,7 +8,7 @@ module Gundam
           # @param resource [Hash]
           def self.map(resource)
             Comment.new(
-              id:         resource['id'],
+              id:         resource['databaseId'],
               body:       resource['body'],
               created_at: Time.parse(resource['publishedAt']),
               updated_at: Time.parse(resource['publishedAt']),

@@ -49,10 +49,6 @@ module Gundam
             RateLimitMapper.map(response)
           end
 
-          private
-
-          attr_reader :cache
-
           def run_query(query)
             uri    = URI(GRAPHQL_API_ENDPOINT)
             data   = { query: query.to_s }.to_json
@@ -70,6 +66,10 @@ module Gundam
             when Net::HTTPUnauthorized then raise_unauthorized(response)
             end
           end
+
+          private
+
+          attr_reader :cache
 
           # @param response [Net::HTTPOK]
           def parse_response(response)

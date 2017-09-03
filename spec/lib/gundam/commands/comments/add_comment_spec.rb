@@ -40,7 +40,7 @@ describe Gundam::Commands::CreateComment do
 
       expect(repo_service).to receive(:add_comment)
         .with('octocat/Hello-World', 1, 'This is a comment')
-        .and_return(double('IssueComment', html_url: 'https://...'))
+        .and_return(Gundam::Comment.new(html_url: 'https://...'))
 
       expected_output = <<~END
         \e[32mhttps://...\e[0m

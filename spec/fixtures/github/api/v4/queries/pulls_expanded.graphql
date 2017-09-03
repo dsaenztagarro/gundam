@@ -7,7 +7,7 @@ query {
           body
           comments (last: 100) {
             nodes {
-              id
+              databaseId
               author {
                 login
               }

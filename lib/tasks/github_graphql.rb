@@ -2,6 +2,7 @@
 
 require 'yaml'
 require 'net/http'
+require 'pp' # A pretty-printer for Ruby objects
 
 require_relative '../gundam'
 require_relative '../gundam/github/api/v4/connector'
@@ -29,6 +30,54 @@ namespace :github do
       puts "Cost: #{rate_limit.cost}"
       puts "Remaining: #{rate_limit.remaining}"
       puts "Reset At: #{rate_limit.reset_at}"
+    end
+
+    # Example
+    # rake github:graphql:introspect[Comment]
+    desc 'Query a GraphQL schema for details about it'
+    task :introspect_schema, [:type] => ['github:setup'] do |_task, _args|
+      query = <<~QUERY
+        query {
+          __schema {
+            types {
+              name
+              kind
+              description
+              fields {
+                name
+              }
+            }
+          }
+        }
+      QUERY
+
+      graphql_connector = Gundam::Github::API::V4::Connector.new
+
+      pp graphql_connector.run_query(query)
+    end
+
+    # Example
+    #
+    # rake github:graphql:introspect_type[Comment]
+
+    desc 'Query a GraphQL schema for details about it'
+    task :introspect_type, [:type] => ['github:setup'] do |_task, args|
+      query = <<~QUERY
+        query {
+          __type(name: "#{args.type}") {
+            name
+            kind
+            description
+            fields {
+              name
+            }
+          }
+        }
+      QUERY
+
+      graphql_connector = Gundam::Github::API::V4::Connector.new
+
+      pp graphql_connector.run_query(query)
     end
   end
 end
