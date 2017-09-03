@@ -12,3 +12,6 @@ Ruby toolkit for my daily workflow.
 
 ![](gundam.jpg)
 
+# References
+
+- [GitHub Platform Forum](https://platform.github.community)
