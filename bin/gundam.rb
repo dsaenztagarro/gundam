@@ -113,7 +113,7 @@ module GundamCli
     option :comment_id, type: :numeric
     def update_comment
       Gundam::CommandRunner.new.run(
-        command: Gundam::Commands::Comments::Update,
+        command: Gundam::Commands::UpdateComment,
         command_options: { commentable: 'Issue' },
         cli_options: options
       )
