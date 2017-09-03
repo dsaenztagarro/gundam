@@ -17,13 +17,6 @@ describe Gundam::Context::WithRepository do
     end
   end
 
-  let(:cli_options_with_local_repo) { {} }
-
-  let(:cli_options_without_local_repo) do
-    { platform_constant_name: 'Github',
-      repository: 'octocat/Hello-World' }
-  end
-
   let(:subject) { context_class.new(base_dir, cli_options) }
 
   describe '#local_repo?' do
@@ -86,7 +79,10 @@ describe Gundam::Context::WithRepository do
 
   describe '#repo_service' do
     context 'without local repo' do
-      let(:cli_options) { cli_options_without_local_repo }
+      let(:cli_options) do
+        { platform_constant_name: 'Github',
+          repository: 'octocat/Hello-World' }
+      end
 
       it 'returns the service' do
         service = double('Gundam::Github::Gateway')
