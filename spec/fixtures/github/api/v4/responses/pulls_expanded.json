@@ -10,7 +10,7 @@
               "comments": {
                 "nodes": [
                   {
-                    "id": "MDEyOklzc3VlQ29tbWVudDMyNjU0ODY5NA==",
+                    "databaseId": 318212279,
                     "author": {
                       "login": "dhh"
                     },
@@ -18,7 +18,7 @@
                     "publishedAt": "2017-09-01T10:35:54Z"
                   },
                   {
-                    "id": "MDEyOklzc3VlQ29tbWVudDMyNjU1MjAxOQ==",
+                    "databaseId": 318212280,
                     "author": {
                       "login": "matz"
                     },

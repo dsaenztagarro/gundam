@@ -38,7 +38,7 @@ describe Gundam::Commands::UpdateComment do
 
       allow(repo_service).to receive(:update_comment)
         .with('octocat/Hello-World', 319_887_731, 'Hello world. Good bye')
-        .and_return(double('Comment', html_url: 'https://...'))
+        .and_return(Gundam::Comment.new(html_url: 'https://...'))
     end
 
     it 'updates the comment when the user saves the file with text' do

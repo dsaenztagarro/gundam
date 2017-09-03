@@ -32,11 +32,10 @@ namespace :github do
       puts "Reset At: #{rate_limit.reset_at}"
     end
 
-
     # Example
     # rake github:graphql:introspect[Comment]
     desc 'Query a GraphQL schema for details about it'
-    task :introspect_schema, [:type] => ['github:setup'] do |_task, args|
+    task :introspect_schema, [:type] => ['github:setup'] do |_task, _args|
       query = <<~QUERY
         query {
           __schema {

@@ -3,6 +3,7 @@
 module Gundam
   module Commands
     class UpdateComment < Gundam::Command
+      include Commands::Shared::DecoratorHelper
       include Gundam::Commands::Shared::FileHelper
 
       def_delegators :context, :cli_options, :command_options # base context
@@ -21,7 +22,7 @@ module Gundam
 
         comment = repo_service.update_comment(repository, comment_id, doc.content)
 
-        puts Gundam::CommentDecorator.new(comment).string_on_create
+        puts decorate(comment).string_on_create
       end
 
       private

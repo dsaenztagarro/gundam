@@ -24,7 +24,7 @@ module Gundam
                         <% if @options[:expanded] %>
                         comments (last: 100) {
                           nodes {
-                            id
+                            databaseId
                             author {
                               login
                             }
