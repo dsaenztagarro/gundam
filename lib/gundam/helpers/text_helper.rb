@@ -2,12 +2,24 @@
 
 module Gundam
   module TextHelper
-    def reformat_wrapped(s, width = 80)
+    def reformat_wrapped(text, width = 80)
+      lines = []
+      paragraphs = text.split(/\n/)
+      paragraphs.each do |paragraph|
+        lines += reformat_wrapped_paragraph(paragraph, width)
+      end
+      lines.join("\n") + (text.end_with?("\n") ? "\n" : '')
+    end
+
+    private
+
+    def reformat_wrapped_paragraph(text, width)
       lines = []
       line = ''
-      s.split(/\s+/).each do |word|
-        if line.size + word.size >= width
-          lines << line
+      indentation = text[/\A */].size
+      text.split(/\s+/).each do |word|
+        if line.size + word.size >= (width - indentation)
+          lines << (' ' * indentation) + line
           line = word
         elsif line.empty?
           line = word
@@ -15,8 +27,8 @@ module Gundam
           line << ' ' << word
         end
       end
-      lines << line if line
-      lines.join "\n"
+      lines << (' ' * indentation) + line if line
+      lines
     end
   end
 end

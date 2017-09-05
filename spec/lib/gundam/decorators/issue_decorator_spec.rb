@@ -21,17 +21,14 @@ describe Gundam::IssueDecorator do
 
     context 'when content is too long' do
       before do
-        issue.body = <<~TEXT
-          This is a very very long text that it should be wrapped to be
-          displayed properly on a terminal emulator, so the developer can read
-          this quickly.
-        TEXT
+        issue.body = 'This is a very very long text that it should be ' \
+                     'wrapped to be displayed properly on a terminal ' \
+                     'emulator, so the developer can read this quickly.'
 
-        issue.comments.first.body = <<~TEXT
-          This is a very very long comment that it should be wrapped to be
-          displayed properly on a terminal emulator, so the developer can read
-          this quickly.
-        TEXT
+        issue.comments.first.body = \
+          'This is a very very long comment that it should be ' \
+          'wrapped to be displayed properly on a terminal ' \
+          'emulator, so the developer can read this quickly.'
       end
 
       it 'wraps content to default number of columns' do
