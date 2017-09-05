@@ -68,6 +68,20 @@ describe Gundam::LocalRepository do
       it 'returns the issue' do
         expect(subject.current_issue).to eq(issue)
       end
+
+      context 'and the topic branch is not issue related' do
+        let(:repository) do
+          double('Git::Repository', current_branch: 'master',
+                                    platform_constant_name: 'Github')
+        end
+
+        it 'raises an error' do
+          expect { subject.current_issue }.to raise_error do |error|
+            expect(error).to be_a(Gundam::IssueNotFound)
+            expect(error.message).to eq('Not found issue for branch master')
+          end
+        end
+      end
     end
   end
 end

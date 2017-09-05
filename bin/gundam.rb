@@ -93,8 +93,12 @@ module GundamCli
     end
 
     desc 'update', 'Update issue'
+    option :number, type: :numeric
     def update
-      Gundam::CommandRunner.new.run(command: Gundam::UpdateIssueCommand)
+      Gundam::CommandRunner.new.run(
+        command: Gundam::UpdateIssueCommand,
+        cli_options: options
+      )
     end
 
     desc 'comment', 'Add comment'

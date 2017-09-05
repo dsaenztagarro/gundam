@@ -13,7 +13,11 @@ module Gundam
     # @param options [Hash] issue search options
     # @option option [Boolean] :with_comments
     def current_issue(options = {})
-      issue(current_branch.to_i, options)
+      issue_id = current_branch.to_i
+      unless issue_id.positive?
+        raise IssueNotFound, "Not found issue for branch #{current_branch}"
+      end
+      issue(issue_id, options)
     end
 
     # @param options [Hash] issue search options

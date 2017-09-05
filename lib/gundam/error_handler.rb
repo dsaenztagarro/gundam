@@ -11,6 +11,8 @@ module Gundam
                     error.user_message
                   elsif error.cause
                     error.cause.message
+                  else
+                    error.message
                   end
 
         puts red(message) if message

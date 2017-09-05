@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Gundam::CreatePullPlugin do
-  let(:repo_service) { double('Gundam::Github::API::V3::Gateway') }
+  let(:repo_service) { double('Gundam::Github::Gateway') }
   let(:local_repo) do
     double('Git::Repository', current_branch: '1-new-feature',
                               full_name: 'octocat/Hello-World')
@@ -13,12 +13,10 @@ describe Gundam::CreatePullPlugin do
                               repo_service: repo_service)
   end
 
-  let(:plugin) { double('Gundam::Plugin') }
-  let(:decorator) { double('Gundam::PullRequestDecorator') }
-
   let(:subject) { described_class.new(context) }
 
   let(:issue) { create_issue }
+  let(:issue_finder) { double(find: issue) }
 
   let(:remote_repository) do
     Gundam::RemoteRepository.new(
@@ -34,14 +32,13 @@ describe Gundam::CreatePullPlugin do
       allow(repo_service).to receive(:repository).with('octocat/Hello-World')
                                                  .and_return(remote_repository)
 
-      allow(repo_service).to receive(:issue).with('octocat', 'Hello-World', 1)
-                                            .and_return(issue)
+      allow(Gundam::IssueFinder).to receive(:new).with(context).and_return(issue_finder)
     end
 
     it 'returns the expected options' do
       expect(subject.pull_request_options).to eq(
         base: 'stable',
-        body: 'This PR implements #1',
+        body: 'This PR implements #1347',
         head: '1-new-feature',
         repo: 'octocat/Hello-World',
         title: 'Found a bug'
