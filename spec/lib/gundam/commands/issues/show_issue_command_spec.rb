@@ -28,7 +28,7 @@ describe Gundam::ShowIssueCommand do
 
       context 'when the issue is not found' do
         it 'returns an error' do
-          error = Gundam::IssueNotFound.new('owner/repo', 12)
+          error = Gundam::IssueNotFound.new('reason')
 
           expect(issue_finder).to receive(:find).and_raise(error)
 
