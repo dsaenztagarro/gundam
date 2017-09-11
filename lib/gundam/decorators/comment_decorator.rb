@@ -2,17 +2,12 @@
 
 module Gundam
   class CommentDecorator < Decorator
-    include TextHelper
+    extend Forwardable
 
-    def string
-      <<~END
-        #{cyan(author)} #{blue(updated_at)} #{id}
-        #{reformat_wrapped(body)}
-      END
-    end
+    def_delegators 'Gundam.theme', :as_uri
 
     def string_on_create
-      green(html_url)
+      as_uri html_url
     end
   end
 end

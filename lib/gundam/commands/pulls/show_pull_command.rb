@@ -6,11 +6,7 @@ module Gundam
 
     def run
       pull = PullFinder.new(context).find(expanded: true)
-      puts decorate(pull).string
-    rescue Gundam::LocalRepoNotFound,
-           Gundam::PullNotFound,
-           Gundam::PullRequestForBranchNotFound => error
-      Gundam::ErrorHandler.handle(error)
+      puts decorate(pull).to_stdout
     end
   end
 end

@@ -15,3 +15,9 @@ Ruby toolkit for my daily workflow.
 # References
 
 - [GitHub Platform Forum](https://platform.github.community)
+
+# TODO
+
+- [ ] Use a template for printing all content Issue / Pull
+- [ ] Template makes use of Theme
+- [ ] http://www.rubyguides.com

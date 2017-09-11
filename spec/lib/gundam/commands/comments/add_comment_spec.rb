@@ -43,7 +43,7 @@ describe Gundam::Commands::CreateComment do
         .and_return(Gundam::Comment.new(html_url: 'https://...'))
 
       expected_output = <<~END
-        \e[32mhttps://...\e[0m
+        <uri>https://...</uri>
 			END
 
       expect { subject.run }.to output(expected_output).to_stdout

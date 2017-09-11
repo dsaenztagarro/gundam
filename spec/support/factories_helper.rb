@@ -57,7 +57,7 @@ module Gundam
         context: options[:context] || 'continuous-integration/jenkins',
         description: options[:description] || 'Build has completed successfully',
         state: 'success',
-        updated_at: '2012-07-20T01:19:13Z',
+        updated_at: Time.parse('2012-07-20T01:19:13Z UTC'),
         target_url: options[:target_url] || 'https://ci.example.com/1000/output'
       )
     end
@@ -66,8 +66,8 @@ module Gundam
       Comment.new(
         id: 318_212_279,
         author: 'octokit',
-        created_at: Time.parse('2011-04-14T12:30:24Z'),
-        updated_at: Time.parse('2011-04-14T16:00:49Z'),
+        created_at: Time.parse('2011-04-14T12:30:24Z UTC'),
+        updated_at: Time.parse('2011-04-14T16:00:49Z UTC'),
         body: 'Me too'
       )
     end

@@ -7,7 +7,7 @@ describe Gundam::ShowIssueCommand do
     let(:context)         { double }
     let(:issue_finder)    { double }
     let(:issue)           { create_issue }
-    let(:issue_decorated) { double(string: 'ISSUE') }
+    let(:issue_decorated) { double(to_stdout: 'Issue stdout') }
     let(:subject)         { described_class.new(context) }
 
     describe '#run' do
@@ -23,7 +23,7 @@ describe Gundam::ShowIssueCommand do
         expect(Gundam::IssueDecorator).to receive(:new).with(issue)
                                                        .and_return(issue_decorated)
 
-        expect { subject.run }.to output("ISSUE\n").to_stdout
+        expect { subject.run }.to output("Issue stdout\n").to_stdout
       end
 
       context 'when the issue is not found' do
@@ -32,9 +32,7 @@ describe Gundam::ShowIssueCommand do
 
           expect(issue_finder).to receive(:find).and_raise(error)
 
-          expect(Gundam::ErrorHandler).to receive(:handle).with(error)
-
-          subject.run
+          expect { subject.run }.to raise_error(error)
         end
       end
     end

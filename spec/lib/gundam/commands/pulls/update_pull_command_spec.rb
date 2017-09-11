@@ -60,7 +60,7 @@ describe Gundam::UpdatePullCommand do
         .with('octocat/Hello-World', pull).and_return(pull)
 
       expected_output = <<~END
-        \e[32mhttps://github.com/octocat/Hello-World/pull/1347\e[0m
+        <uri>https://github.com/octocat/Hello-World/pull/1347</uri>
 			END
 
       expect { subject.run }.to output(expected_output).to_stdout

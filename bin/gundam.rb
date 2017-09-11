@@ -6,6 +6,8 @@ unless RUBY_VERSION >= '2.4.0'
 end
 
 require_relative '../lib/gundam'
+require_relative '../lib/gundam/themes/solarized_theme'
+require_relative '../lib/gundam/themes/test_theme'
 
 require 'thor'
 require 'yaml'
@@ -17,6 +19,8 @@ config = YAML.load_file(File.expand_path('~/.gundam.yml'))
 Gundam.configure do |c|
   c.github_access_token = config['github']['personal_access_token']
   c.base_dir = '~/.gundam'
+  c.theme = Gundam::SolarizedTheme.new
+  # c.theme = Gundam::TestTheme.new
 end
 
 module GundamCli

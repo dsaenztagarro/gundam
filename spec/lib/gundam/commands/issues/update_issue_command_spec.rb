@@ -64,7 +64,7 @@ describe Gundam::UpdateIssueCommand do
         .with('octocat/Hello-World', issue).and_return(issue)
 
       expected_output = <<~END
-        \e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
+        <uri>https://github.com/octocat/Hello-World/issues/1347</uri>
 			END
 
       expect { subject.run }.to output(expected_output).to_stdout
@@ -78,9 +78,8 @@ describe Gundam::UpdateIssueCommand do
         allow(repo_service).to receive(:update_issue).and_raise(error)
       end
 
-      it 'prints the error' do
-        expected_output = "\e[31mError reason\e[0m\n"
-        expect { subject.run }.to output(expected_output).to_stdout
+      it 'raises an error' do
+        expect { subject.run }.to raise_error(Gundam::UnprocessableEntity)
       end
     end
   end

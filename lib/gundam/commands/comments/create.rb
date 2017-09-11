@@ -4,9 +4,9 @@ module Gundam
   module Commands
     class CreateComment < Gundam::Command
       include Commands::Shared::DecoratorHelper
-      include Gundam::Commands::Shared::FileHelper
+      include Commands::Shared::FileHelper
 
-      def_delegators :context, :cli_options, :command_options # base context
+      def_delegators :context, :command_options # base context
       def_delegators :context, :repository, :repo_service # context with repository
 
       def run

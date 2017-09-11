@@ -47,7 +47,7 @@ describe Gundam::CreateIssueCommand do
       end
 
       expected_output = <<~END
-        \e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
+        <uri>https://github.com/octocat/Hello-World/issues/1347</uri>
 			END
 
       expect { subject.run }.to output(expected_output).to_stdout

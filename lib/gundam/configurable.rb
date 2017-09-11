@@ -2,7 +2,7 @@
 
 module Gundam
   module Configurable
-    attr_accessor :github_access_token, :default_locale
+    attr_accessor :github_access_token, :default_locale, :stdout, :theme, :zone
 
     attr_writer :base_dir
 

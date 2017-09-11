@@ -2,8 +2,24 @@
 
 module Gundam
   class IssueDecorator < Decorator
+    extend Forwardable
     include TextHelper
-    include IssueHelper
+
+    def_delegators 'Gundam.theme', :as_title, :as_user, :as_date, :as_id, :as_uri, :as_content
+
+    STDOUT_TEMPLATE = <<~TEMPLATE
+      <%= as_title title %>\n
+      <%= as_content body %>\n
+      <% comments.each do |comment| %>
+      <%= as_user comment.author %> <%= as_date comment.updated_at %> <%= as_id comment.id %>\n
+      <%= as_content comment.body %>\n
+      <% end %>
+    TEMPLATE
+
+    def to_stdout
+      renderer = ERB.new(STDOUT_TEMPLATE, 0, '>')
+      renderer.result(binding)
+    end
 
     # @param doc [Document]
     # @return [Gundam::Issue]
@@ -18,16 +34,8 @@ module Gundam
       end
     end
 
-    def string
-      io = StringIO.new
-      add_description(io)
-      io.puts
-      add_comments(io)
-      io.string
-    end
-
     def string_on_create
-      green(html_url.to_s)
+      as_uri html_url.to_s
     end
     alias string_on_update string_on_create
   end

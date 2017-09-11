@@ -49,7 +49,7 @@ describe Gundam::Commands::UpdateComment do
       end
 
       expected_output = <<~END
-        \e[32mhttps://...\e[0m
+        <uri>https://...</uri>
 			END
 
       expect { subject.run }.to output(expected_output).to_stdout

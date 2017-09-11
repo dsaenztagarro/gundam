@@ -42,28 +42,12 @@ describe Gundam::CreatePullCommand do
 
       context 'and there is an error creating PR' do
         before do
-          cause_error = double('OriginalError', message: 'Error reason')
-          error = Gundam::CreatePullRequestError.new
-          allow(error).to receive(:cause).and_return(cause_error)
-          allow(repo_service).to receive(:create_pull_request).and_raise(error)
+          @error = Gundam::CreatePullRequestError.new
+          allow(repo_service).to receive(:create_pull_request).and_raise(@error)
         end
 
-        it 'prints the error' do
-          expected_output = "\e[31mError reason\e[0m\n"
-          expect { subject.run }.to output(expected_output).to_stdout
-        end
-      end
-
-      context 'and status 401 on first GET operation' do
-        before do
-          allow(plugin).to receive(:pull_request_options)
-            .and_raise(Gundam::Unauthorized.new(:github_api_v3))
-        end
-
-        it 'prints the error' do
-          expected_output = "\e[31mUnauthorized access to Github REST API V3\e[0m\n"
-
-          expect { subject.run }.to output(expected_output).to_stdout
+        it 'raises an error' do
+          expect { subject.run }.to raise_error(@error)
         end
       end
     end

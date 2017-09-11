@@ -3,8 +3,6 @@
 module Gundam
   class ErrorHandler
     class << self
-      include ColorizeHelper
-
       # @params error [StandardError]
       def handle(error)
         message = if error.respond_to?(:user_message)
@@ -15,7 +13,7 @@ module Gundam
                     error.message
                   end
 
-        puts red(message) if message
+        puts Gundam.theme.as_error("ERROR:\n#{message}\n\nBACKTRACE:\n#{error.backtrace && error.backtrace.join("\n")}") if message
       end
     end
   end

@@ -16,8 +16,6 @@ module Gundam
       `echo #{pull.html_url} | pbcopy`
 
       puts decorate(pull).string_on_create
-    rescue Gundam::Unauthorized, Gundam::CreatePullRequestError => error
-      Gundam::ErrorHandler.handle(error)
     end
 
     def plugin
