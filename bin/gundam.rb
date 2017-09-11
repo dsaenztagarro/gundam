@@ -20,7 +20,6 @@ Gundam.configure do |c|
   c.github_access_token = config['github']['personal_access_token']
   c.base_dir = '~/.gundam'
   c.theme = Gundam::SolarizedTheme.new
-  # c.theme = Gundam::TestTheme.new
 end
 
 module GundamCli

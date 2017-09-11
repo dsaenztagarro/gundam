@@ -5,15 +5,13 @@ module Gundam
     class << self
       # @params error [StandardError]
       def handle(error)
-        message = if error.respond_to?(:user_message)
-                    error.user_message
-                  elsif error.cause
-                    error.cause.message
+        message = if error.is_a?(Gundam::Error)
+                    "ERROR:\n#{error.message}\n"
                   else
-                    error.message
+                    "ERROR:\n#{error.message}\n\nBACKTRACE:\n#{error.backtrace&.join("\n")}"
                   end
 
-        puts Gundam.theme.as_error("ERROR:\n#{message}\n\nBACKTRACE:\n#{error.backtrace && error.backtrace.join("\n")}") if message
+        puts Gundam.theme.as_error(message)
       end
     end
   end

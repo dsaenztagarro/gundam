@@ -6,8 +6,6 @@ module Gundam
                   :head_sha, :html_url, :number, :repository, :source_branch,
                   :combined_status, :target_branch, :title, :updated_at
 
-    attr_accessor :comments
-
     def initialize(options = {})
       self.class.keys.each do |key|
         instance_variable_set(:"@#{key}", options[key])

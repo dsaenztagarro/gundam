@@ -13,8 +13,6 @@ module Gundam
       command.new(context).run
     rescue StandardError => error
       Gundam::ErrorHandler.handle(error)
-    ensure
-      GC.enable
     end
 
     def context_provider

@@ -2,41 +2,19 @@
 
 module Gundam
   # We support terminals only with 256 colors
-  # TODO: Rename to AnsiColors
   module ColorizeHelper
+    BLUE   = 33
+    CYAN   = 37
+    GREEN  = 64
+    ORANGE = 166
+    RED    = 124
+    VIOLET = 61
+    YELLOW = 136
 
-    # TODO: define constants
-    # ORANGE = 166
-    # ...
-
-    # TODO: define methods based on existing constants
-
-    def orange(text)
-      ansi_color(166, text)
-    end
-
-    def violet(text)
-      ansi_color(61, text)
-    end
-
-    def yellow(text)
-      ansi_color(136, text)
-    end
-
-    def cyan(text)
-      ansi_color(37, text)
-    end
-
-    def blue(text)
-      ansi_color(33, text)
-    end
-
-    def green(text)
-      ansi_color(64, text)
-    end
-
-    def red(text)
-      ansi_color(124, text)
+    constants.each do |constant|
+      define_method constant.downcase do |text|
+        ansi_color(self.class.const_get(constant), text)
+      end
     end
 
     private
