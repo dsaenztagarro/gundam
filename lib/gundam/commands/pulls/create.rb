@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+require_relative 'create_plugin'
+
+module Gundam
+  module Commands
+    class CreatePullCommand < Command
+      include Commands::Shared::DecoratorHelper
+
+      def_delegators :context, :repo_service, :local_repo # context with repository
+
+      def run
+        local_repo.push_set_upstream unless local_repo.exist_remote_branch?
+
+        options = plugin.pull_request_options
+
+        pull = repo_service.create_pull_request(options)
+
+        `echo #{pull.html_url} | pbcopy`
+
+        puts decorate(pull).string_on_create
+      end
+
+      def plugin
+        CreatePullPlugin.new(context)
+      end
+    end
+  end
+end

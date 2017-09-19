@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'api/v3/connector'
-require_relative 'api/v4/connector'
-
 module Gundam
   module Github
     class Gateway
       extend Forwardable
 
-      def_delegators :@rest_connector,
+      def_delegators :rest_connector,
                      :org_teams,
                      :team_members,
                      :issue_comment,
@@ -22,11 +19,20 @@ module Gundam
                      :combined_status,
                      :create_pull_request
 
-      def_delegators :@graphql_connector, :issue, :pulls
+      def_delegators :graphql_connector, :issue, :pulls
 
-      def initialize(rest_connector: nil, graphql_connector: nil)
-        @rest_connector    = rest_connector    || API::V3::Connector.new
-        @graphql_connector = graphql_connector || API::V4::Connector.new
+      def rest_connector
+        @rest_connector ||= begin
+                              require_relative 'api/v3/connector'
+                              API::V3::Connector.new
+                            end
+      end
+
+      def graphql_connector
+        @graphql_connector ||= begin
+                                 require_relative 'api/v4/connector'
+                                 API::V4::Connector.new
+                               end
       end
     end
   end
