@@ -2,10 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem 'octokit'
-gem 'pastel'
-gem 'thor'
-
 group :test do
   gem 'coveralls', require: false
   gem 'rspec'

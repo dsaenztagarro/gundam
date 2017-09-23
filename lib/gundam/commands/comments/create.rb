@@ -2,9 +2,9 @@
 
 module Gundam
   module Commands
-    class CreateComment < Gundam::Command
-      include Commands::Shared::DecoratorHelper
-      include Gundam::Commands::Shared::FileHelper
+    class CreateCommentCommand < Gundam::Command
+      include Shared::DecoratorHelper
+      include Shared::FileHelper
 
       def_delegators :context, :cli_options, :command_options # base context
       def_delegators :context, :repository, :repo_service # context with repository
@@ -17,7 +17,7 @@ module Gundam
         doc = edit_file(filepath)
         return if doc.content.empty?
 
-        comment = repo_service.add_comment(repository, commentable.number, doc.content)
+        comment = add_comment(commentable, doc)
 
         puts decorate(comment).string_on_create
       end
@@ -33,6 +33,10 @@ module Gundam
         finder_klass_name = "#{command_options[:commentable]}Finder"
         finder_klass = Gundam.const_get(finder_klass_name)
         finder_klass.new(context)
+      end
+
+      def add_comment(commentable, doc)
+        repo_service.add_comment(repository, commentable.number, doc.content)
       end
     end
   end

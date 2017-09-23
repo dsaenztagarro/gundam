@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'json'
+require 'uri'
+require 'net/http'
 
 require_relative 'rate_limit'
 require_relative 'mappers/issue_mapper'
@@ -56,7 +58,9 @@ module Gundam
               'Authorization'   => "bearer #{Gundam.github_access_token}",
               'Content-type'    => 'application/json',
               'Accept-Encoding' => 'gzip',
-              'User-Agent'      => 'Gundam GitHub GraphQL Connector'
+              'User-Agent'      => 'Gundam GitHub GraphQL Connector',
+              # TODO: experimental. Check wether it takes effect
+              'Time-Zone'       => 'Europe/Amsterdam'
             }
 
             response = Net::HTTP.post(uri, data, header)

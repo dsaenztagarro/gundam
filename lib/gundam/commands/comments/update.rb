@@ -2,7 +2,7 @@
 
 module Gundam
   module Commands
-    class UpdateComment < Gundam::Command
+    class UpdateCommentCommand < Gundam::Command
       include Commands::Shared::DecoratorHelper
       include Gundam::Commands::Shared::FileHelper
 
@@ -20,7 +20,7 @@ module Gundam
         doc = edit_file(filepath)
         return if doc.content.eql?(original_text)
 
-        comment = repo_service.update_comment(repository, comment_id, doc.content)
+        comment = update_comment(commentable, doc)
 
         puts decorate(comment).string_on_create
       end
@@ -40,6 +40,10 @@ module Gundam
 
       def	comment_id
         cli_options[:comment_id]
+      end
+
+      def update_comment(commentable, doc)
+        repo_service.update_comment(repository, comment_id, doc.content)
       end
     end
   end
