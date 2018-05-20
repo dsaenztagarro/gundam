@@ -28,14 +28,14 @@ describe Gundam::CreateIssueCommand do
       expect(subject).to receive(:system) do |arg|
         expect(arg).to eq("$EDITOR #{tmp_filepath}")
 
-        user_content = <<~END
+        user_content = <<~OUT
           ---
           title: Found a bug
           assignee: dsaenztagarro
           labels: board:products, bug
           ---
           I'm having a problem with this
-        END
+        OUT
         File.open(tmp_filepath, 'w') { |file| file.write(user_content) }
       end
 
@@ -46,9 +46,9 @@ describe Gundam::CreateIssueCommand do
         create_issue
       end
 
-      expected_output = <<~END
+      expected_output = <<~OUT
         \e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
-			END
+			OUT
 
       expect { subject.run }.to output(expected_output).to_stdout
     end

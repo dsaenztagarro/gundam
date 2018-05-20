@@ -20,12 +20,12 @@ module Gundam
     end
 
     def get_template
-      <<~END
+      <<~TEMPLATE
         ---
         title: <%= title %>
         ---
         <%= body %>
-      END
+      TEMPLATE
     end
   end
 end

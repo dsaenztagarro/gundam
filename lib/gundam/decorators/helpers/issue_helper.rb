@@ -4,10 +4,10 @@ module Gundam
   module IssueHelper
     # @param output [StringIO]
     def add_description(output)
-      output.puts <<~END
+      output.puts <<~OUT
         #{red(title)}
         #{reformat_wrapped(body)}
-      END
+      OUT
     end
 
     # @param output [StringIO]

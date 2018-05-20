@@ -38,7 +38,7 @@ module Gundam
         finder_klass.new(context)
       end
 
-      def	comment_id
+      def comment_id
         cli_options[:comment_id]
       end
     end

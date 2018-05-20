@@ -5,10 +5,10 @@ module Gundam
     include TextHelper
 
     def string
-      <<~END
+      <<~OUT
         #{cyan(author)} #{blue(updated_at)} #{id}
         #{reformat_wrapped(body)}
-      END
+      OUT
     end
 
     def string_on_create

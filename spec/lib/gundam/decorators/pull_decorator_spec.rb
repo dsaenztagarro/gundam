@@ -9,14 +9,14 @@ describe Gundam::PullDecorator do
   describe '#string' do
     it 'returns the pull description' do
       expect(subject.string).to eq(
-        <<~END
+        <<~OUT
           \e[31mnew-feature\e[0m
           Please pull these awesome changes
           \e[36moctokit\e[0m \e[34m2011-04-14 16:00:49 UTC\e[0m 318212279
           Me too
           \e[32msuccess\e[0m \e[36mcontinuous-integration/jenkins\e[0m Build has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
           \e[32msuccess\e[0m \e[36msecurity/brakeman\e[0m Testing has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
-        END
+        OUT
       )
     end
   end

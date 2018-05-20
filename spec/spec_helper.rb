@@ -18,7 +18,7 @@ require 'webmock/rspec'
 require_relative '../lib/gundam'
 require_relative '../lib/gundam/github/gateway'
 
-Dir.glob(File.expand_path('../support/**/*.rb', __FILE__)).each { |file| load file }
+Dir.glob(File.expand_path('support/**/*.rb', __dir__)).each { |file| load file }
 
 tmpdir = Dir.mktmpdir
 

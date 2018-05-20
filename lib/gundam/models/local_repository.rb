@@ -14,9 +14,7 @@ module Gundam
     # @option option [Boolean] :with_comments
     def current_issue(options = {})
       issue_id = current_branch.to_i
-      unless issue_id.positive?
-        raise IssueNotFound, "Not found issue for branch #{current_branch}"
-      end
+      raise IssueNotFound, "Not found issue for branch #{current_branch}" unless issue_id.positive?
       issue(issue_id, options)
     end
 

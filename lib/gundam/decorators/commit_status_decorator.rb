@@ -2,9 +2,9 @@
 
 class CommitStatusDecorator < Decorator
   def to_s
-    <<~END
+    <<~STR
       #{success? ? green(state) : red(state)} #{cyan(context)} #{description} #{blue(updated_at)}
-    END
+    STR
   end
 
   def success?
