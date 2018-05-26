@@ -37,31 +37,31 @@ describe Gundam::UpdatePullCommand do
 
         # EDITOR loaded with pull
 
-        content_before_update = <<~OUT
+        content_before_update = <<~OUTPUT
           ---
           title: new-feature
           ---
           Please pull these awesome changes
-        OUT
+        OUTPUT
         expect(File.read(tmp_filepath)).to eq(content_before_update)
 
         # EDITOR updated with user changes
 
-        content_after_update = <<~OUT
+        content_after_update = <<~OUTPUT
           ---
           title: new-modified-feature
           ---
           Please pull these awesome changes. Thanks.
-        OUT
+        OUTPUT
         File.open(tmp_filepath, 'w') { |file| file.write(content_after_update) }
       end
 
       expect(repo_service).to receive(:update_pull_request)
         .with('octocat/Hello-World', pull).and_return(pull)
 
-      expected_output = <<~END
+      expected_output = <<~OUTPUT
         <uri>https://github.com/octocat/Hello-World/pull/1347</uri>
-			END
+			OUTPUT
 
       expect { subject.run }.to output(expected_output).to_stdout
     end

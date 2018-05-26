@@ -9,14 +9,14 @@ describe Gundam::PullDecorator do
   describe '#to_stdout' do
     it 'returns the pull description' do
       expect(subject.to_stdout).to eq(
-        <<~END
+        <<~OUTPUT
           <title>new-feature</title>
           <content>Please pull these awesome changes</content>
           <user>octokit</user> <date>14/04/2011 16:00</date> <id>318212279</id>
           <content>Me too</content>
           <success>success</success> continuous-integration/jenkins Build has completed successfully <date>20/07/2012 01:19</date>
           <success>success</success> security/brakeman Testing has completed successfully <date>20/07/2012 01:19</date>
-        END
+        OUTPUT
       )
     end
   end
@@ -24,7 +24,7 @@ describe Gundam::PullDecorator do
   describe '#string_on_create' do
     it 'returns the expected string' do
       expect(subject.string_on_create).to eq(
-        "<uri>https://github.com/octocat/Hello-World/pull/1347</uri>"
+        '<uri>https://github.com/octocat/Hello-World/pull/1347</uri>'
       )
     end
   end

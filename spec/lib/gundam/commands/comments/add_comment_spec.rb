@@ -42,9 +42,9 @@ describe Gundam::Commands::CreateComment do
         .with('octocat/Hello-World', 1, 'This is a comment')
         .and_return(Gundam::Comment.new(html_url: 'https://...'))
 
-      expected_output = <<~END
+      expected_output = <<~OUTPUT
         <uri>https://...</uri>
-			END
+			OUTPUT
 
       expect { subject.run }.to output(expected_output).to_stdout
     end
