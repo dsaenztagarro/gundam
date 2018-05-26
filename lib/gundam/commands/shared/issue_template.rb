@@ -14,14 +14,14 @@ module Gundam
         end
 
         def get_template
-          <<~END
+          <<~TEMPLATE
             ---
             title: <%= title %>
             assignees: <%= assignees %>
             labels: <%= labels %>
             ---
             <%= body %>
-          END
+          TEMPLATE
         end
 
         def load_empty_template

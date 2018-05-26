@@ -19,9 +19,7 @@ module Gundam
 
       return Dir.pwd unless cli_base_dir
 
-      unless Dir.exist?(cli_base_dir)
-        raise Gundam::BaseDirNotFound, cli_base_dir
-      end
+      raise Gundam::BaseDirNotFound, cli_base_dir unless Dir.exist?(cli_base_dir)
 
       cli_base_dir
     end

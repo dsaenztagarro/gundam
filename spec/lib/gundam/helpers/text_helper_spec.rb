@@ -13,11 +13,11 @@ describe Gundam::TextHelper do
 
   describe '#reformat_wrapped' do
     it 'keeps existing break lines' do
-      text = <<~END
+      text = <<~OUT
         There several points to be addressed:
           - [ ] Review comments from PR
           - [ ] Add release note
-      END
+      OUT
 
       expect(subject.reformat_wrapped(text)).to eq(text)
     end

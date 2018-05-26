@@ -37,22 +37,22 @@ describe Gundam::UpdatePullCommand do
 
         # EDITOR loaded with pull
 
-        content_before_update = <<~END
+        content_before_update = <<~OUT
           ---
           title: new-feature
           ---
           Please pull these awesome changes
-        END
+        OUT
         expect(File.read(tmp_filepath)).to eq(content_before_update)
 
         # EDITOR updated with user changes
 
-        content_after_update = <<~END
+        content_after_update = <<~OUT
           ---
           title: new-modified-feature
           ---
           Please pull these awesome changes. Thanks.
-        END
+        OUT
         File.open(tmp_filepath, 'w') { |file| file.write(content_after_update) }
       end
 

@@ -35,26 +35,26 @@ describe Gundam::UpdateIssueCommand do
 
         # EDITOR loaded with issue
 
-        content_before_update = <<~END
+        content_before_update = <<~OUT
           ---
           title: Found a bug
           assignees: octocat
           labels: bug, support
           ---
           I'm having a problem with this.
-        END
+        OUT
         expect(File.read(tmp_filepath)).to eq(content_before_update)
 
         # EDITOR updated with user changes
 
-        content_after_update = <<~END
+        content_after_update = <<~OUT
           ---
           title: Found an urgent bug
           assignees: octocat
           labels: board:projects,urgent
           ---
           This is a recurrent error
-        END
+        OUT
         File.open(tmp_filepath, 'w') { |file| file.write(content_after_update) }
       end
     end

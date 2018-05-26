@@ -36,13 +36,13 @@ describe Gundam::SetupVimWordsCommand do
 
       filename = File.join(base_dir, 'watson.txt')
 
-      expected_filecontent = <<~END
+      expected_filecontent = <<~OUT
         @john
         @mike
         @zuma
         @watson/devs
         @watson/operations
-      END
+      OUT
 
       expect(File.exist?(filename)).to eq(true)
       expect(File.read(filename)).to eq(expected_filecontent)
