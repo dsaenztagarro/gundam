@@ -6,4 +6,6 @@ module Gundam
   class << self
     include Configurable
   end
+
+  Error = Class.new(StandardError)
 end

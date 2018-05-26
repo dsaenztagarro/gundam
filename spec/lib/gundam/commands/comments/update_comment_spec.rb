@@ -48,9 +48,9 @@ describe Gundam::Commands::UpdateComment do
         File.open(tmp_filepath, 'a') { |file| file.write(' Good bye') }
       end
 
-      expected_output = <<~OUT
-        \e[32mhttps://...\e[0m
-			OUT
+      expected_output = <<~OUTPUT
+        <uri>https://...</uri>
+			OUTPUT
 
       expect { subject.run }.to output(expected_output).to_stdout
     end

@@ -6,9 +6,7 @@ module Gundam
 
     def run
       issue = IssueFinder.new(context).find(with_comments: true)
-      puts decorate(issue).string
-    rescue Gundam::Unauthorized, Gundam::IssueNotFound => error
-      Gundam::ErrorHandler.handle(error)
+      puts decorate(issue).to_stdout
     end
   end
 end

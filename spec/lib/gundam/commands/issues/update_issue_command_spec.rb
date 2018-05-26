@@ -35,26 +35,26 @@ describe Gundam::UpdateIssueCommand do
 
         # EDITOR loaded with issue
 
-        content_before_update = <<~OUT
+        content_before_update = <<~OUTPUT
           ---
           title: Found a bug
           assignees: octocat
           labels: bug, support
           ---
           I'm having a problem with this.
-        OUT
+        OUTPUT
         expect(File.read(tmp_filepath)).to eq(content_before_update)
 
         # EDITOR updated with user changes
 
-        content_after_update = <<~OUT
+        content_after_update = <<~OUTPUT
           ---
           title: Found an urgent bug
           assignees: octocat
           labels: board:projects,urgent
           ---
           This is a recurrent error
-        OUT
+        OUTPUT
         File.open(tmp_filepath, 'w') { |file| file.write(content_after_update) }
       end
     end
@@ -63,9 +63,9 @@ describe Gundam::UpdateIssueCommand do
       expect(repo_service).to receive(:update_issue)
         .with('octocat/Hello-World', issue).and_return(issue)
 
-      expected_output = <<~OUT
-        \e[32mhttps://github.com/octocat/Hello-World/issues/1347\e[0m
-			OUT
+      expected_output = <<~OUTPUT
+        <uri>https://github.com/octocat/Hello-World/issues/1347</uri>
+			OUTPUT
 
       expect { subject.run }.to output(expected_output).to_stdout
     end
@@ -78,9 +78,8 @@ describe Gundam::UpdateIssueCommand do
         allow(repo_service).to receive(:update_issue).and_raise(error)
       end
 
-      it 'prints the error' do
-        expected_output = "\e[31mError reason\e[0m\n"
-        expect { subject.run }.to output(expected_output).to_stdout
+      it 'raises an error' do
+        expect { subject.run }.to raise_error(Gundam::UnprocessableEntity)
       end
     end
   end

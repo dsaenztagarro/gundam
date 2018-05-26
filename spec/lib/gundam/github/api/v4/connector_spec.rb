@@ -38,10 +38,10 @@ describe Gundam::Github::API::V4::Connector do
                                            response: '{"message":"Bad credentials","documentation_url":"https://developer.github.com/v3"}')
       end
 
-      it 'raises an error' do
+      it 'raises a controlled error' do
         expect do
           subject.issue('octocat', 'Hello-World', 1347)
-        end.to raise_error(Gundam::Unauthorized)
+        end.to raise_error(Gundam::Error)
       end
     end
   end

@@ -11,6 +11,8 @@ module Gundam
       context_provider.command_options = command_options
       context = context_provider.load_context
       command.new(context).run
+    rescue StandardError => error
+      Gundam::ErrorHandler.handle(error)
     end
 
     def context_provider

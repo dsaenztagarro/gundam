@@ -6,44 +6,16 @@ describe Gundam::IssueDecorator do
   let(:issue)   { create_issue_with_comments }
   let(:subject) { described_class.new(issue) }
 
-  describe '#string' do
+  describe '#to_stdout' do
     it 'returns the issue formatted for console' do
-      expect(subject.string).to eq(
-        <<~OUT
-          \e[31mFound a bug\e[0m
-          I'm having a problem with this.
-
-          \e[36moctokit\e[0m \e[34m2011-04-14 16:00:49 UTC\e[0m 318212279
-          Me too
-        OUT
+      expect(subject.to_stdout).to eq(
+        <<~OUTPUT
+          <title>Found a bug</title>
+          <content>I'm having a problem with this.</content>
+          <user>octokit</user> <date>14/04/2011 16:00</date> <id>318212279</id>
+          <content>Me too</content>
+        OUTPUT
       )
-    end
-
-    context 'when content is too long' do
-      before do
-        issue.body = 'This is a very very long text that it should be ' \
-                     'wrapped to be displayed properly on a terminal ' \
-                     'emulator, so the developer can read this quickly.'
-
-        issue.comments.first.body = \
-          'This is a very very long comment that it should be ' \
-          'wrapped to be displayed properly on a terminal ' \
-          'emulator, so the developer can read this quickly.'
-      end
-
-      it 'wraps content to default number of columns' do
-        expect(subject.string).to eq(
-          <<~OUT
-            \e[31mFound a bug\e[0m
-            This is a very very long text that it should be wrapped to be displayed properly
-            on a terminal emulator, so the developer can read this quickly.
-
-            \e[36moctokit\e[0m \e[34m2011-04-14 16:00:49 UTC\e[0m 318212279
-            This is a very very long comment that it should be wrapped to be displayed
-            properly on a terminal emulator, so the developer can read this quickly.
-          OUT
-        )
-      end
     end
   end
 end

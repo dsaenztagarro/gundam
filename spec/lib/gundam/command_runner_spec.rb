@@ -23,5 +23,19 @@ describe Gundam::CommandRunner do
 
       subject.run(command: command_class)
     end
+
+    it 'handles errors raised by commands' do
+      expect(context_provider).to receive(:cli_options=).with({}).ordered
+      expect(context_provider).to receive(:command_options=).with({}).ordered
+      expect(context_provider).to receive(:load_context).and_return(context).ordered
+
+      error = StandardError.new('error')
+
+      expect(command_class).to receive(:new).with(context).and_return(command)
+      expect(command).to receive(:run).and_raise(error)
+      expect(Gundam::ErrorHandler).to receive(:handle).with(error)
+
+      subject.run(command: command_class)
+    end
   end
 end

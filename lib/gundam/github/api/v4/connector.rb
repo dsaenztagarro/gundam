@@ -87,7 +87,7 @@ module Gundam
 
           # @param response [Net::HTTPUnauthorized]
           def raise_unauthorized(response)
-            raise Gundam::Unauthorized.new(:github_api_v4, details: response.body)
+            raise Gundam::Error, "Unauthorized access to Github GraphQL API V4\n#{response.body}"
           end
         end
       end

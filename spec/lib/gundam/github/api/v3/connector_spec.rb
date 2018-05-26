@@ -84,7 +84,7 @@ describe Gundam::Github::API::V3::Connector do
       expect(response.title).to eq('Found a bug')
     end
 
-    it 'raises an error when invalid options' do
+    it 'raises a controlled error when invalid options' do
       allow(client).to receive(:update_issue)
         .with('octocat/Hello-World', 1347, options)
         .and_raise(Octokit::UnprocessableEntity)
@@ -146,7 +146,7 @@ describe Gundam::Github::API::V3::Connector do
 
       expect do
         subject.repository('octocat/Hello-World')
-      end.to raise_error(Gundam::Unauthorized)
+      end.to raise_error(Gundam::Error)
     end
   end
 

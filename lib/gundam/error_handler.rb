@@ -3,19 +3,15 @@
 module Gundam
   class ErrorHandler
     class << self
-      include ColorizeHelper
-
       # @params error [StandardError]
       def handle(error)
-        message = if error.respond_to?(:user_message)
-                    error.user_message
-                  elsif error.cause
-                    error.cause.message
+        message = if error.is_a?(Gundam::Error)
+                    "ERROR:\n#{error.message}\n"
                   else
-                    error.message
+                    "ERROR:\n#{error.message}\n\nBACKTRACE:\n#{error.backtrace&.join("\n")}"
                   end
 
-        puts red(message) if message
+        puts Gundam.theme.as_error(message)
       end
     end
   end

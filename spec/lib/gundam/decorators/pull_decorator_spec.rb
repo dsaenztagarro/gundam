@@ -6,17 +6,17 @@ describe Gundam::PullDecorator do
   let(:pull)    { create_pull_expanded }
   let(:subject) { described_class.new(pull) }
 
-  describe '#string' do
+  describe '#to_stdout' do
     it 'returns the pull description' do
-      expect(subject.string).to eq(
-        <<~OUT
-          \e[31mnew-feature\e[0m
-          Please pull these awesome changes
-          \e[36moctokit\e[0m \e[34m2011-04-14 16:00:49 UTC\e[0m 318212279
-          Me too
-          \e[32msuccess\e[0m \e[36mcontinuous-integration/jenkins\e[0m Build has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
-          \e[32msuccess\e[0m \e[36msecurity/brakeman\e[0m Testing has completed successfully \e[34m2012-07-20T01:19:13Z\e[0m
-        OUT
+      expect(subject.to_stdout).to eq(
+        <<~OUTPUT
+          <title>new-feature</title>
+          <content>Please pull these awesome changes</content>
+          <user>octokit</user> <date>14/04/2011 16:00</date> <id>318212279</id>
+          <content>Me too</content>
+          <success>success</success> continuous-integration/jenkins Build has completed successfully <date>20/07/2012 01:19</date>
+          <success>success</success> security/brakeman Testing has completed successfully <date>20/07/2012 01:19</date>
+        OUTPUT
       )
     end
   end
@@ -24,7 +24,7 @@ describe Gundam::PullDecorator do
   describe '#string_on_create' do
     it 'returns the expected string' do
       expect(subject.string_on_create).to eq(
-        "\e[32mhttps://github.com/octocat/Hello-World/pull/1347\e[0m"
+        '<uri>https://github.com/octocat/Hello-World/pull/1347</uri>'
       )
     end
   end

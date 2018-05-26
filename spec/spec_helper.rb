@@ -17,6 +17,8 @@ require 'webmock/rspec'
 
 require_relative '../lib/gundam'
 require_relative '../lib/gundam/github/gateway'
+require_relative '../lib/gundam/themes/solarized_theme'
+require_relative '../lib/gundam/themes/test_theme'
 
 Dir.glob(File.expand_path('support/**/*.rb', __dir__)).each { |file| load file }
 
@@ -25,6 +27,8 @@ tmpdir = Dir.mktmpdir
 Gundam.configure do |c|
   c.github_access_token = '0123456789'
   c.base_dir = tmpdir
+  c.zone = 'CEST'
+  c.theme = Gundam::TestTheme.new
 end
 
 RSpec.configure do |config|

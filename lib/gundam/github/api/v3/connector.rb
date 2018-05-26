@@ -97,7 +97,7 @@ module Gundam
             response = @client.repository(repo)
             RemoteRepositoryMapper.load(response)
           rescue Octokit::Unauthorized
-            raise Gundam::Unauthorized, :github_api_v3
+            raise Gundam::Error, 'Unauthorized access to Github REST API V3'
           end
 
           # @param repo [String]

@@ -19,6 +19,8 @@ namespace :github do
     end
   end
 
+  # TODO: task :connector
+
   namespace :graphql do
     desc 'Check GitHub GraphQL overall rate limits'
     task rate_limit: ['github:setup']  do
@@ -59,8 +61,7 @@ namespace :github do
     # Example
     #
     # rake github:graphql:introspect_type[Comment]
-
-    desc 'Query a GraphQL schema for details about it'
+    desc 'Query a GraphQL type for details about it'
     task :introspect_type, [:type] => ['github:setup'] do |_task, args|
       query = <<~QUERY
         query {
